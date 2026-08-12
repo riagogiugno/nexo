@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXO</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0d10;
+      color: #f2f2f2;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .logo {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: #15181d;
+      border: 1px solid #292d34;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      color: #aaa;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #0d0f12;
+      color: white;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .signal {
+      background: #0d0f12;
+      border: 1px solid #333;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .signal input {
+      width: auto;
+      margin-right: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 25px;
+      border: none;
+      border-radius: 9px;
+      background: #f2f2f2;
+      color: #0b0d10;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      background: #10151a;
+      border: 1px solid #444;
+    }
+
+    .score {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .small {
+      color: #888;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">NEXO</div>
+    <div class="subtitle">
+      O ponto entre a leitura e a entrada.
+    </div>
+
+    <div class="card">
+
+      <h2>CHECKPOINT</h2>
+
+      <label>Jogo</label>
+      <input id="game" type="text" placeholder="Ex.: PSG x Aston Villa">
+
+      <label>Minuto</label>
+      <input id="minute" type="number" placeholder="Ex.: 55">
+
+      <label>Placar</label>
+      <input id="score" type="text" placeholder="Ex.: 1 x 1">
+
+      <label>Tese</label>
+      <textarea id="thesis" placeholder="O que você está enxergando no jogo?"></textarea>
+
+      <label>Mercado</label>
+      <input id="market" type="text" placeholder="Ex.: Lay Under 3.5">
+
+      <label>Sinais presentes</label>
+
+      <div class="signals">
+
+        <label class="signal">
+          <input type="checkbox" class="signalCheck">
+          Pressão
+        </label>
+
+        <label class="signal">
+          <input type="checkbox" class="signalCheck">
+          Ritmo
+        </label>
+
+        <label class="signal">
+          <input type="checkbox" class="signalCheck">
+          Transições
+        </label>
+
+        <label class="signal">
+          <input type="checkbox" class="signalCheck">
+          Finalizações
+        </label>
+
+        <label class="signal">
+          <input type="checkbox" class="signalCheck">
+          Bolas na área
+        </label>
+
+      </div>
+
+      <button onclick="analisar()">
+        ANALISAR CHECKPOINT
+      </button>
+
+      <div class="result" id="result">
+
+        <div class="small">COMPATIBILIDADE INICIAL</div>
+
+        <div class="score" id="scoreResult"></div>
+
+        <div id="message"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+
+function analisar() {
+
+  const checks = document.querySelectorAll(".signalCheck");
+
+  let total = 0;
+
+  checks.forEach(check => {
+    if (check.checked) {
+      total++;
+    }
+  });
+
+  const result = document.getElementById("result");
+  const scoreResult = document.getElementById("scoreResult");
+  const message = document.getElementById("message");
+
+  result.style.display = "block";
+
+  const percentage = Math.round((total / checks.length) * 100);
+
+  scoreResult.innerText = percentage + "%";
+
+  if (percentage >= 80) {
+
+    message.innerText =
+      "LEITURA FORTE — os critérios selecionados apresentam alta compatibilidade.";
+
+  } else if (percentage >= 60) {
+
+    message.innerText =
+      "LEITURA PARCIAL — existem sinais relevantes, mas ainda há critérios ausentes.";
+
+  } else {
+
+    message.innerText =
+      "AGUARDE — os sinais registrados ainda não sustentam uma leitura forte.";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
