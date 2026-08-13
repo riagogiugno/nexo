@@ -346,17 +346,25 @@ function chooseMarket(value) {
 
 function registerCheckpoint(decision) {
 
-  const gameTitle = selectedGame.querySelector(".selected-title");
+  const gameTitle =
+    selectedGame.querySelector(".selected-title");
 
-  const gameInfo = selectedGame.querySelector(".selected-info");
+  const gameInfo =
+    selectedGame.querySelector(".selected-info");
 
   const newCheckpoint = {
 
     id: Date.now(),
 
-    game: gameTitle ? gameTitle.textContent.trim() : "Jogo",
+    game:
+      gameTitle
+        ? gameTitle.textContent.trim()
+        : "Jogo",
 
-    info: gameInfo ? gameInfo.textContent.trim() : "",
+    info:
+      gameInfo
+        ? gameInfo.textContent.trim()
+        : "",
 
     reading: checkpoint.reading,
 
@@ -365,6 +373,8 @@ function registerCheckpoint(decision) {
     market: checkpoint.market,
 
     decision: decision,
+
+    result: "PENDENTE",
 
     date: new Date().toLocaleString("pt-BR")
 
@@ -377,7 +387,8 @@ function registerCheckpoint(decision) {
     JSON.stringify(history)
   );
 
-  const result = document.getElementById("checkpointResult");
+  const result =
+    document.getElementById("checkpointResult");
 
   result.classList.remove("hidden");
 
@@ -403,6 +414,10 @@ function registerCheckpoint(decision) {
 
       <div class="selected-info">
         DECISÃO: ${decision}
+      </div>
+
+      <div class="upcoming" style="margin-top: 15px;">
+        RESULTADO: PENDENTE
       </div>
 
       <div class="live" style="margin-top: 15px;">
@@ -436,17 +451,20 @@ function renderHistory() {
 
   }
 
-  const entries = history.filter(
-    item => item.decision === "ENTRAR"
-  ).length;
+  const entries =
+    history.filter(
+      item => item.decision === "ENTRAR"
+    ).length;
 
-  const waiting = history.filter(
-    item => item.decision === "AGUARDAR"
-  ).length;
+  const waiting =
+    history.filter(
+      item => item.decision === "AGUARDAR"
+    ).length;
 
-  const abstentions = history.filter(
-    item => item.decision === "ABSTER"
-  ).length;
+  const abstentions =
+    history.filter(
+      item => item.decision === "ABSTER"
+    ).length;
 
   historyContainer.innerHTML = `
 
@@ -456,9 +474,11 @@ function renderHistory() {
         <div class="competition">
           TOTAL
         </div>
+
         <div class="score">
           ${history.length}
         </div>
+
         <div class="section-subtitle">
           checkpoints
         </div>
@@ -468,6 +488,7 @@ function renderHistory() {
         <div class="competition">
           ENTRADAS
         </div>
+
         <div class="score">
           ${entries}
         </div>
@@ -477,6 +498,7 @@ function renderHistory() {
         <div class="competition">
           AGUARDANDO
         </div>
+
         <div class="score">
           ${waiting}
         </div>
@@ -486,6 +508,7 @@ function renderHistory() {
         <div class="competition">
           ABSTENÇÕES
         </div>
+
         <div class="score">
           ${abstentions}
         </div>
@@ -535,6 +558,10 @@ function renderHistory() {
             MERCADO: ${item.market}
           </div>
 
+          <div class="upcoming">
+            RESULTADO: ${item.result || "PENDENTE"}
+          </div>
+
         </div>
 
       `).join("")}
@@ -545,4 +572,5 @@ function renderHistory() {
 }
 
 renderGames();
+
 renderHistory();
