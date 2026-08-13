@@ -54,6 +54,10 @@ let checkpoint = {
   market: ""
 };
 
+let history = JSON.parse(
+  localStorage.getItem("nexoHistory") || "[]"
+);
+
 function renderGames() {
 
   liveContainer.innerHTML = "";
@@ -342,6 +346,37 @@ function chooseMarket(value) {
 
 function registerCheckpoint(decision) {
 
+  const gameTitle = selectedGame.querySelector(".selected-title");
+
+  const gameInfo = selectedGame.querySelector(".selected-info");
+
+  const newCheckpoint = {
+
+    id: Date.now(),
+
+    game: gameTitle ? gameTitle.textContent.trim() : "Jogo",
+
+    info: gameInfo ? gameInfo.textContent.trim() : "",
+
+    reading: checkpoint.reading,
+
+    thesis: checkpoint.thesis,
+
+    market: checkpoint.market,
+
+    decision: decision,
+
+    date: new Date().toLocaleString("pt-BR")
+
+  };
+
+  history.unshift(newCheckpoint);
+
+  localStorage.setItem(
+    "nexoHistory",
+    JSON.stringify(history)
+  );
+
   const result = document.getElementById("checkpointResult");
 
   result.classList.remove("hidden");
@@ -378,6 +413,136 @@ function registerCheckpoint(decision) {
 
   `;
 
+  renderHistory();
+
+}
+
+function renderHistory() {
+
+  const historyContainer =
+    document.getElementById("historyContainer");
+
+  if (!historyContainer) return;
+
+  if (history.length === 0) {
+
+    historyContainer.innerHTML = `
+      <div class="section-subtitle">
+        Nenhum checkpoint registrado ainda.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  const entries = history.filter(
+    item => item.decision === "ENTRAR"
+  ).length;
+
+  const waiting = history.filter(
+    item => item.decision === "AGUARDAR"
+  ).length;
+
+  const abstentions = history.filter(
+    item => item.decision === "ABSTER"
+  ).length;
+
+  historyContainer.innerHTML = `
+
+    <div class="games-grid">
+
+      <div class="game-card">
+        <div class="competition">
+          TOTAL
+        </div>
+        <div class="score">
+          ${history.length}
+        </div>
+        <div class="section-subtitle">
+          checkpoints
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="competition">
+          ENTRADAS
+        </div>
+        <div class="score">
+          ${entries}
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="competition">
+          AGUARDANDO
+        </div>
+        <div class="score">
+          ${waiting}
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="competition">
+          ABSTENÇÕES
+        </div>
+        <div class="score">
+          ${abstentions}
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 20px;">
+
+      ${history.map(item => `
+
+        <div class="game-card" style="margin-bottom: 12px;">
+
+          <div class="game-top">
+
+            <span class="competition">
+              ${item.date}
+            </span>
+
+            <span class="${
+              item.decision === "ENTRAR"
+                ? "live"
+                : "upcoming"
+            }">
+              ${item.decision}
+            </span>
+
+          </div>
+
+          <div class="teams">
+            ${item.game}
+          </div>
+
+          <div class="selected-info">
+            ${item.info}
+          </div>
+
+          <div class="selected-info">
+            LEITURA: ${item.reading}
+          </div>
+
+          <div class="selected-info">
+            TESE: ${item.thesis}
+          </div>
+
+          <div class="selected-info">
+            MERCADO: ${item.market}
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+  `;
+
 }
 
 renderGames();
+renderHistory();
