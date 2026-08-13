@@ -48,6 +48,12 @@ const liveContainer = document.getElementById("liveGames");
 const upcomingContainer = document.getElementById("upcomingGames");
 const selectedGame = document.getElementById("selectedGame");
 
+let checkpoint = {
+  reading: "",
+  thesis: "",
+  market: ""
+};
+
 function renderGames() {
 
   liveContainer.innerHTML = "";
@@ -125,9 +131,11 @@ function selectGame(id) {
   if (game.status === "LIVE") {
 
     selectedGame.innerHTML = `
+
       <div class="selected-game">
 
         <div>
+
           <div class="selected-title">
             ${game.home} ${game.score} ${game.away}
           </div>
@@ -135,6 +143,7 @@ function selectGame(id) {
           <div class="selected-info">
             ${game.competition} · ${game.minute} · AO VIVO
           </div>
+
         </div>
 
         <div class="live">
@@ -143,19 +152,125 @@ function selectGame(id) {
 
       </div>
 
-      <div class="quick-grid">
+      <div class="panel">
 
-        <button class="quick-button">
-          🟢 LEITURA FORTE
-        </button>
+        <h2 class="section-title">
+          CHECKPOINT
+        </h2>
 
-        <button class="quick-button">
-          🟡 LEITURA NEUTRA
-        </button>
+        <div class="section-subtitle">
+          Registre rapidamente a leitura deste momento.
+        </div>
 
-        <button class="quick-button">
-          🔴 LEITURA FRACA
-        </button>
+        <h3 class="section-title">
+          1. LEITURA
+        </h3>
+
+        <div class="quick-grid">
+
+          <button class="quick-button" onclick="chooseReading('FORTE')">
+            🟢 FORTE
+          </button>
+
+          <button class="quick-button" onclick="chooseReading('NEUTRA')">
+            🟡 NEUTRA
+          </button>
+
+          <button class="quick-button" onclick="chooseReading('FRACA')">
+            🔴 FRACA
+          </button>
+
+        </div>
+
+        <div id="checkpointStep2" class="hidden">
+
+          <h3 class="section-title">
+            2. TESE
+          </h3>
+
+          <div class="quick-grid">
+
+            <button class="quick-button" onclick="chooseThesis('PRÓXIMO GOL')">
+              ⚽ PRÓXIMO GOL
+            </button>
+
+            <button class="quick-button" onclick="chooseThesis('ESCANTEIO')">
+              🚩 ESCANTEIO
+            </button>
+
+            <button class="quick-button" onclick="chooseThesis('CARTÃO')">
+              🟨 CARTÃO
+            </button>
+
+            <button class="quick-button" onclick="chooseThesis('MOVIMENTO DE ODD')">
+              📈 MOVIMENTO DE ODD
+            </button>
+
+            <button class="quick-button" onclick="chooseThesis('OUTRO')">
+              OUTRO
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="checkpointStep3" class="hidden">
+
+          <h3 class="section-title">
+            3. MERCADO
+          </h3>
+
+          <div class="quick-grid">
+
+            <button class="quick-button" onclick="chooseMarket('OVER / UNDER')">
+              OVER / UNDER
+            </button>
+
+            <button class="quick-button" onclick="chooseMarket('MATCH ODDS')">
+              MATCH ODDS
+            </button>
+
+            <button class="quick-button" onclick="chooseMarket('CORRECT SCORE')">
+              CORRECT SCORE
+            </button>
+
+            <button class="quick-button" onclick="chooseMarket('ESCANTEIOS')">
+              ESCANTEIOS
+            </button>
+
+            <button class="quick-button" onclick="chooseMarket('CARTÕES')">
+              CARTÕES
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="checkpointStep4" class="hidden">
+
+          <h3 class="section-title">
+            4. DECISÃO
+          </h3>
+
+          <div class="quick-grid">
+
+            <button class="quick-button" onclick="registerCheckpoint('ENTRAR')">
+              🟢 ENTRAR
+            </button>
+
+            <button class="quick-button" onclick="registerCheckpoint('AGUARDAR')">
+              🟡 AGUARDAR
+            </button>
+
+            <button class="quick-button" onclick="registerCheckpoint('ABSTER')">
+              🔴 ABSTER
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="checkpointResult" class="hidden"></div>
 
       </div>
     `;
@@ -163,9 +278,11 @@ function selectGame(id) {
   } else {
 
     selectedGame.innerHTML = `
+
       <div class="selected-game">
 
         <div>
+
           <div class="selected-title">
             ${game.home} × ${game.away}
           </div>
@@ -173,6 +290,7 @@ function selectGame(id) {
           <div class="selected-info">
             ${game.competition} · ${game.time} · PRÉ-JOGO
           </div>
+
         </div>
 
         <div class="upcoming">
@@ -180,6 +298,7 @@ function selectGame(id) {
         </div>
 
       </div>
+
     `;
 
   }
@@ -188,6 +307,76 @@ function selectGame(id) {
     behavior: "smooth",
     block: "start"
   });
+
+}
+
+function chooseReading(value) {
+
+  checkpoint.reading = value;
+
+  document
+    .getElementById("checkpointStep2")
+    .classList.remove("hidden");
+
+}
+
+function chooseThesis(value) {
+
+  checkpoint.thesis = value;
+
+  document
+    .getElementById("checkpointStep3")
+    .classList.remove("hidden");
+
+}
+
+function chooseMarket(value) {
+
+  checkpoint.market = value;
+
+  document
+    .getElementById("checkpointStep4")
+    .classList.remove("hidden");
+
+}
+
+function registerCheckpoint(decision) {
+
+  const result = document.getElementById("checkpointResult");
+
+  result.classList.remove("hidden");
+
+  result.innerHTML = `
+
+    <div class="panel">
+
+      <h2 class="section-title">
+        CHECKPOINT REGISTRADO
+      </h2>
+
+      <div class="selected-info">
+        LEITURA: ${checkpoint.reading}
+      </div>
+
+      <div class="selected-info">
+        TESE: ${checkpoint.thesis}
+      </div>
+
+      <div class="selected-info">
+        MERCADO: ${checkpoint.market}
+      </div>
+
+      <div class="selected-info">
+        DECISÃO: ${decision}
+      </div>
+
+      <div class="live" style="margin-top: 15px;">
+        ✓ REGISTRO REALIZADO
+      </div>
+
+    </div>
+
+  `;
 
 }
 
