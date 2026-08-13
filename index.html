@@ -38,15 +38,15 @@ TRADER
 
 <nav class="nav">
 
-<button class="active">
+<button class="active" onclick="showSection('gamesSection')">
 🏟️ JOGOS
 </button>
 
-<button>
+<button onclick="showSection('historySection')">
 📊 HISTÓRICO
 </button>
 
-<button>
+<button onclick="showSection('metricsSection')">
 📈 MÉTRICAS
 </button>
 
@@ -54,6 +54,8 @@ TRADER
 
 
 <main>
+
+<section id="gamesSection">
 
 <section class="games-section">
 
@@ -89,16 +91,79 @@ Partidas que ainda não começaram
 
 </section>
 
+</section>
+
+
+<section id="historySection" class="hidden">
+
+<h1 class="section-title">
+📊 HISTÓRICO
+</h1>
+
+<div class="section-subtitle">
+Suas decisões registradas pelo NEXO.
+</div>
+
+<div id="historyContainer"></div>
+
+</section>
+
+
+<section id="metricsSection" class="hidden">
+
+<h1 class="section-title">
+📈 MÉTRICAS
+</h1>
+
+<div class="panel">
+
+<h2 class="section-title">
+Em construção
+</h2>
+
+<div class="section-subtitle">
+O NEXO começará a analisar seus padrões de decisão aqui.
+</div>
+
+</div>
+
+</section>
+
 </main>
 
 
 <footer class="footer">
 
-NEXO — Protótipo V0.3
+NEXO — Protótipo V0.5
 
 </footer>
 
 </div>
+
+
+<script>
+
+function showSection(sectionId) {
+
+  document
+    .getElementById("gamesSection")
+    .classList.add("hidden");
+
+  document
+    .getElementById("historySection")
+    .classList.add("hidden");
+
+  document
+    .getElementById("metricsSection")
+    .classList.add("hidden");
+
+  document
+    .getElementById(sectionId)
+    .classList.remove("hidden");
+
+}
+
+</script>
 
 
 <script src="app.js"></script>
