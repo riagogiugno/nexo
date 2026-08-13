@@ -7,242 +7,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXO — Trading Esportivo</title>
+<title>NEXO</title>
 
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #090b0e;
-  color: #f2f2f2;
-}
-
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 30px 18px 60px;
-}
-
-.header {
-  margin-bottom: 30px;
-}
-
-.logo {
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: 7px;
-}
-
-.tagline {
-  color: #777;
-  margin-top: 5px;
-}
-
-.card {
-  background: #14171c;
-  border: 1px solid #292d34;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 18px;
-}
-
-.card h2 {
-  margin-top: 0;
-  font-size: 18px;
-  letter-spacing: 1px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 14px;
-}
-
-label {
-  display: block;
-  color: #999;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-input,
-select,
-textarea {
-
-  width: 100%;
-
-  background: #0c0f13;
-
-  color: #fff;
-
-  border: 1px solid #30353d;
-
-  border-radius: 8px;
-
-  padding: 12px;
-
-  font-size: 14px;
-
-}
-
-textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.signal-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 10px;
-}
-
-.signal {
-
-  background: #0d1014;
-
-  border: 1px solid #30353d;
-
-  border-radius: 9px;
-
-  padding: 12px;
-
-  cursor: pointer;
-
-}
-
-.signal input {
-  width: auto;
-  margin-right: 7px;
-}
-
-.signal strong {
-  display: block;
-  font-size: 14px;
-}
-
-.signal span {
-  display: block;
-  font-size: 11px;
-  color: #777;
-  margin-top: 4px;
-}
-
-.button {
-
-  width: 100%;
-
-  padding: 15px;
-
-  margin-top: 18px;
-
-  border: none;
-
-  border-radius: 9px;
-
-  background: #f2f2f2;
-
-  color: #090b0e;
-
-  font-weight: bold;
-
-  font-size: 15px;
-
-  cursor: pointer;
-
-}
-
-.button:hover {
-  opacity: .85;
-}
-
-.result {
-
-  display: none;
-
-  margin-top: 20px;
-
-  padding: 20px;
-
-  border-radius: 12px;
-
-  background: #0d1116;
-
-  border: 1px solid #333;
-
-}
-
-.score {
-
-  font-size: 38px;
-
-  font-weight: bold;
-
-  margin: 8px 0;
-
-}
-
-.status {
-
-  font-size: 13px;
-
-  color: #aaa;
-
-}
-
-.decision-grid {
-
-  display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-
-  gap: 10px;
-
-  margin-top: 10px;
-
-}
-
-.decision {
-
-  padding: 13px;
-
-  background: #0d1014;
-
-  border: 1px solid #333;
-
-  border-radius: 8px;
-
-  text-align: center;
-
-}
-
-.footer {
-
-  text-align: center;
-
-  color: #555;
-
-  font-size: 11px;
-
-  margin-top: 30px;
-
-}
-
-.warning {
-
-  color: #888;
-
-  font-size: 12px;
-
-  margin-top: 12px;
-
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -250,424 +17,91 @@ textarea {
 
 <div class="container">
 
-<div class="header">
+<header class="header">
+
+<div>
 
 <div class="logo">NEXO</div>
 
-<div class="tagline">
+<div class="section-subtitle">
 O ponto entre a leitura e a decisão.
 </div>
 
 </div>
 
-
-<!-- PARTIDA -->
-
-<div class="card">
-
-<h2>01 — PARTIDA</h2>
-
-<div class="grid">
-
-<div>
-
-<label>Competição</label>
-
-<input id="competition" placeholder="Ex.: Libertadores">
-
+<div class="user">
+TRADER
 </div>
 
-<div>
+</header>
 
-<label>Jogo</label>
 
-<input id="game" placeholder="Ex.: Palmeiras x Cerro">
+<nav class="nav">
 
-</div>
-
-<div>
-
-<label>Minuto</label>
-
-<input id="minute" type="number" placeholder="Ex.: 66">
-
-</div>
-
-<div>
-
-<label>Placar</label>
-
-<input id="score" placeholder="Ex.: 0 x 0">
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- LEITURA -->
-
-<div class="card">
-
-<h2>02 — LEITURA DO JOGO</h2>
-
-<div class="signal-grid">
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="15">
-
-<strong>Pressão</strong>
-
-<span>Pressão ofensiva relevante</span>
-
-</label>
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="15">
-
-<strong>Ritmo</strong>
-
-<span>Jogo acelerado e intenso</span>
-
-</label>
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="15">
-
-<strong>Finalizações</strong>
-
-<span>Volume de finalizações</span>
-
-</label>
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="20">
-
-<strong>No alvo</strong>
-
-<span>Finalizações perigosas</span>
-
-</label>
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="15">
-
-<strong>Transições</strong>
-
-<span>Espaço e ataques rápidos</span>
-
-</label>
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="10">
-
-<strong>Bolas na área</strong>
-
-<span>Presença ofensiva</span>
-
-</label>
-
-
-<label class="signal">
-
-<input type="checkbox" class="signalCheck" data-weight="5">
-
-<strong>Escanteios</strong>
-
-<span>Pressão territorial</span>
-
-</label>
-
-
-</div>
-
-</div>
-
-
-<!-- TESE -->
-
-<div class="card">
-
-<h2>03 — TESE</h2>
-
-<div class="grid">
-
-<div>
-
-<label>O que você acredita que acontecerá?</label>
-
-<select id="thesis">
-
-<option value="">Selecione</option>
-
-<option>Próximo gol</option>
-
-<option>Próximo gol — Mandante</option>
-
-<option>Próximo gol — Visitante</option>
-
-<option>Próximo cartão</option>
-
-<option>Próximo escanteio</option>
-
-<option>Nenhum evento relevante</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>Horizonte da tese</label>
-
-<select id="horizon">
-
-<option>Próximos 5 minutos</option>
-
-<option>Próximos 10 minutos</option>
-
-<option>Próximos 15 minutos</option>
-
-<option>Até o intervalo</option>
-
-<option>Até o fim</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<label style="margin-top:15px;">
-Observação do trader
-</label>
-
-<textarea id="observation"
-placeholder="O que você está enxergando que os números não mostram?"></textarea>
-
-</div>
-
-
-<!-- MERCADO -->
-
-<div class="card">
-
-<h2>04 — EXPRESSÃO DE MERCADO</h2>
-
-<div class="grid">
-
-<div>
-
-<label>Mercado</label>
-
-<select id="market">
-
-<option value="">Selecione</option>
-
-<option>Over / Under</option>
-
-<option>Match Odds</option>
-
-<option>Lay</option>
-
-<option>Back</option>
-
-<option>Correct Score</option>
-
-<option>BTTS</option>
-
-<option>Escanteios</option>
-
-<option>Cartões</option>
-
-<option>Outro</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>Entrada / referência</label>
-
-<input id="odds" placeholder="Ex.: 2.10">
-
-</div>
-
-</div>
-
-<div class="warning">
-
-O mercado é a expressão da tese. Ele não define sozinho a qualidade da leitura.
-
-</div>
-
-</div>
-
-
-<!-- DECISÃO -->
-
-<div class="card">
-
-<h2>05 — DECISÃO</h2>
-
-<div class="decision-grid">
-
-<label class="decision">
-
-<input type="radio" name="decision" value="ENTREI">
-
-ENTREI
-
-</label>
-
-<label class="decision">
-
-<input type="radio" name="decision" value="AGUARDEI">
-
-AGUARDEI
-
-</label>
-
-<label class="decision">
-
-<input type="radio" name="decision" value="ABSTIVE-ME">
-
-ABSTIVE-ME
-
-</label>
-
-</div>
-
-<button class="button" onclick="analisar()">
-
-ANALISAR CHECKPOINT
-
+<button class="active">
+🏟️ JOGOS
 </button>
 
+<button>
+📊 HISTÓRICO
+</button>
 
-<div class="result" id="result">
+<button>
+📈 MÉTRICAS
+</button>
 
-<div class="status">
-FORÇA DOS SINAIS REGISTRADOS
+</nav>
+
+
+<main>
+
+<section class="games-section">
+
+<h1 class="section-title">
+🔴 LIVE
+</h1>
+
+<div class="section-subtitle">
+Jogos acontecendo agora
 </div>
 
-<div class="score" id="scoreResult">
-0%
+<div id="liveGames" class="games-grid"></div>
+
+</section>
+
+
+<section class="games-section">
+
+<h1 class="section-title">
+⏳ PRÓXIMOS
+</h1>
+
+<div class="section-subtitle">
+Partidas que ainda não começaram
 </div>
 
-<div id="message"></div>
+<div id="upcomingGames" class="games-grid"></div>
 
-</div>
-
-</div>
+</section>
 
 
-<!-- REGISTRO -->
+<section id="selectedGame" class="panel hidden">
 
-<div class="card">
+</section>
 
-<h2>06 — REGISTRO</h2>
-
-<div class="status">
-
-O NEXO deve aprender com decisões reais.
-
-Nesta versão, o checkpoint é apenas armazenado visualmente.
-
-Nas próximas versões vamos criar histórico, métricas e comparação entre decisões.
-
-</div>
-
-</div>
+</main>
 
 
-<div class="footer">
+<footer class="footer">
 
-NEXO — Protótipo experimental
+NEXO — Protótipo V0.3
 
-</div>
+</footer>
 
 </div>
 
 
-<script>
-
-function analisar() {
-
-const checks =
-document.querySelectorAll(".signalCheck");
-
-let total = 0;
-
-checks.forEach(check => {
-
-if (check.checked) {
-
-total += Number(check.dataset.weight);
-
-}
-
-});
-
-
-const result =
-document.getElementById("result");
-
-const scoreResult =
-document.getElementById("scoreResult");
-
-const message =
-document.getElementById("message");
-
-
-result.style.display = "block";
-
-
-scoreResult.innerText =
-total + "%";
-
-
-if (total >= 75) {
-
-message.innerText =
-"LEITURA FORTE — os sinais registrados apresentam convergência relevante.";
-
-}
-
-else if (total >= 50) {
-
-message.innerText =
-"LEITURA PARCIAL — existem sinais relevantes, mas ainda há elementos ausentes.";
-
-}
-
-else {
-
-message.innerText =
-"LEITURA INSUFICIENTE — os sinais registrados ainda não sustentam uma leitura forte.";
-
-}
-
-}
-
-</script>
+<script src="app.js"></script>
 
 </body>
 
