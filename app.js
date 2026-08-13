@@ -66,6 +66,8 @@ let history = JSON.parse(
   localStorage.getItem("nexoHistory") || "[]"
 );
 
+let activeOperationId = null;
+
 
 /* =========================
    JOGOS
@@ -91,6 +93,7 @@ function renderGames() {
 
       card.innerHTML = `
         <div class="game-top">
+
           <span class="live">
             🔴 AO VIVO
           </span>
@@ -98,6 +101,7 @@ function renderGames() {
           <span class="competition">
             ${game.competition}
           </span>
+
         </div>
 
         <div class="teams">
@@ -106,6 +110,7 @@ function renderGames() {
         </div>
 
         <div class="scoreline">
+
           <span class="score">
             ${game.score}
           </span>
@@ -113,12 +118,15 @@ function renderGames() {
           <span class="minute">
             ${game.minute}
           </span>
+
         </div>
 
         <button
           class="select-game"
           onclick="selectGame(${game.id})">
+
           ACOMPANHAR JOGO
+
         </button>
       `;
 
@@ -128,6 +136,7 @@ function renderGames() {
 
       card.innerHTML = `
         <div class="game-top">
+
           <span class="upcoming">
             ⏳ PRÓXIMO
           </span>
@@ -135,6 +144,7 @@ function renderGames() {
           <span class="competition">
             ${game.competition}
           </span>
+
         </div>
 
         <div class="teams">
@@ -143,6 +153,7 @@ function renderGames() {
         </div>
 
         <div class="scoreline">
+
           <span class="score">
             —
           </span>
@@ -150,12 +161,15 @@ function renderGames() {
           <span class="minute">
             ${game.time}
           </span>
+
         </div>
 
         <button
           class="select-game"
           onclick="selectGame(${game.id})">
+
           ACOMPANHAR JOGO
+
         </button>
       `;
 
@@ -212,6 +226,7 @@ function selectGame(id) {
         </div>
 
       </div>
+
     `;
 
     return;
@@ -280,8 +295,9 @@ function selectGame(id) {
 
       </div>
 
-      <div id="checkpointStep2"
-           class="hidden">
+      <div
+        id="checkpointStep2"
+        class="hidden">
 
         <h3 class="section-title">
           2. TESE
@@ -323,8 +339,9 @@ function selectGame(id) {
 
       </div>
 
-      <div id="checkpointStep3"
-           class="hidden">
+      <div
+        id="checkpointStep3"
+        class="hidden">
 
         <h3 class="section-title">
           3. MERCADO
@@ -366,8 +383,9 @@ function selectGame(id) {
 
       </div>
 
-      <div id="checkpointStep4"
-           class="hidden">
+      <div
+        id="checkpointStep4"
+        class="hidden">
 
         <h3 class="section-title">
           4. OPERAÇÃO
@@ -384,7 +402,7 @@ function selectGame(id) {
             type="number"
             step="0.01"
             min="1.01"
-            placeholder="Ex: 1.80"
+            placeholder="Ex: 1.50"
           >
 
           <label>
@@ -402,19 +420,23 @@ function selectGame(id) {
           <button
             class="select-game"
             onclick="startOperation()">
+
             REGISTRAR ENTRADA
+
           </button>
 
         </div>
 
       </div>
 
-      <div id="operationPanel"
-           class="hidden">
+      <div
+        id="operationPanel"
+        class="hidden">
       </div>
 
-      <div id="checkpointResult"
-           class="hidden">
+      <div
+        id="checkpointResult"
+        class="hidden">
       </div>
 
     </div>
@@ -523,6 +545,98 @@ function startOperation() {
   checkpoint.odd = odd;
   checkpoint.stake = stake;
 
+  const game =
+    games.find(
+      item =>
+        item.id === checkpoint.gameId
+    );
+
+  if (!game) {
+    return;
+  }
+
+  /*
+    A operação nasce aqui.
+    Ela já entra no histórico como ATIVA.
+  */
+
+  const operation = {
+
+    id: Date.now(),
+
+    gameId:
+      checkpoint.gameId,
+
+    game:
+      `${game.home} ${game.score || ""} ${game.away}`,
+
+    competition:
+      game.competition,
+
+    minute:
+      game.minute || "",
+
+    reading:
+      checkpoint.reading,
+
+    thesis:
+      checkpoint.thesis,
+
+    market:
+      checkpoint.market,
+
+    entryOdd:
+      odd,
+
+    exitOdd:
+      null,
+
+    stake:
+      stake,
+
+    decision:
+      "ENTRAR",
+
+    status:
+      "ATIVA",
+
+    result:
+      "PENDENTE",
+
+    profit:
+      0,
+
+    date:
+      new Date().toLocaleString(
+        "pt-BR"
+      )
+
+  };
+
+  history.unshift(operation);
+
+  activeOperationId =
+    operation.id;
+
+  saveHistory();
+
+  showActiveOperation(
+    operation
+  );
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   OPERAÇÃO ATIVA
+========================= */
+
+function showActiveOperation(
+  operation
+) {
+
   const operationPanel =
     document.getElementById(
       "operationPanel"
@@ -544,19 +658,24 @@ function startOperation() {
         OPERAÇÃO ATIVA
       </h2>
 
+      <div class="live"
+           style="margin-bottom:15px;">
+        🟡 EM ANDAMENTO
+      </div>
+
       <div class="selected-info">
         ODD DE ENTRADA:
-        ${odd.toFixed(2)}
+        ${operation.entryOdd.toFixed(2)}
       </div>
 
       <div class="selected-info">
         STAKE:
-        R$ ${stake.toFixed(2)}
+        R$ ${operation.stake.toFixed(2)}
       </div>
 
       <div class="selected-info">
         EXPOSIÇÃO:
-        R$ ${(stake * odd).toFixed(2)}
+        R$ ${(operation.stake * operation.entryOdd).toFixed(2)}
       </div>
 
       <h3 class="section-title">
@@ -603,6 +722,10 @@ function startOperation() {
 
 function cashout() {
 
+  if (!activeOperationId) {
+    return;
+  }
+
   const output =
     prompt(
       "Informe a odd de saída no cashout:"
@@ -624,25 +747,25 @@ function cashout() {
     return;
   }
 
-  const entryOdd =
-    Number(checkpoint.odd);
-
-  const stake =
-    Number(checkpoint.stake);
-
-  /*
-    Fórmula de cashout simplificada
-    para back:
-    lucro = stake × (entry / exit - 1)
-  */
-
-  const profit =
-    stake *
-    (
-      entryOdd / exitOdd - 1
+  const operation =
+    history.find(
+      item =>
+        item.id === activeOperationId
     );
 
-  saveOperation(
+  if (!operation) {
+    return;
+  }
+
+  const profit =
+    operation.stake *
+    (
+      operation.entryOdd /
+      exitOdd - 1
+    );
+
+  closeOperation(
+    operation,
     "CASHOUT",
     exitOdd,
     profit
@@ -657,25 +780,36 @@ function cashout() {
 
 function finishOperation(result) {
 
-  const stake =
-    Number(checkpoint.stake);
+  if (!activeOperationId) {
+    return;
+  }
 
-  const odd =
-    Number(checkpoint.odd);
+  const operation =
+    history.find(
+      item =>
+        item.id === activeOperationId
+    );
+
+  if (!operation) {
+    return;
+  }
 
   let profit = 0;
 
   if (result === "GREEN") {
 
     profit =
-      stake * (odd - 1);
+      operation.stake *
+      (
+        operation.entryOdd - 1
+      );
 
   }
 
   if (result === "LOSS") {
 
     profit =
-      -stake;
+      -operation.stake;
 
   }
 
@@ -685,7 +819,8 @@ function finishOperation(result) {
 
   }
 
-  saveOperation(
+  closeOperation(
+    operation,
     result,
     null,
     profit
@@ -695,85 +830,38 @@ function finishOperation(result) {
 
 
 /* =========================
-   SALVAR OPERAÇÃO
+   ENCERRAR OPERAÇÃO
 ========================= */
 
-function saveOperation(
+function closeOperation(
+  operation,
   result,
   exitOdd,
   profit
 ) {
 
-  const game =
-    games.find(
-      item =>
-        item.id === checkpoint.gameId
+  operation.status =
+    "ENCERRADA";
+
+  operation.result =
+    result;
+
+  operation.exitOdd =
+    exitOdd;
+
+  operation.profit =
+    Number(
+      profit.toFixed(2)
     );
 
-  const operation = {
+  operation.closedAt =
+    new Date().toLocaleString(
+      "pt-BR"
+    );
 
-    id: Date.now(),
+  saveHistory();
 
-    gameId:
-      checkpoint.gameId,
-
-    game:
-      game
-        ? `${game.home} ${game.score || ""} ${game.away}`
-        : "Jogo",
-
-    competition:
-      game
-        ? game.competition
-        : "",
-
-    minute:
-      game
-        ? game.minute || ""
-        : "",
-
-    reading:
-      checkpoint.reading,
-
-    thesis:
-      checkpoint.thesis,
-
-    market:
-      checkpoint.market,
-
-    entryOdd:
-      Number(checkpoint.odd),
-
-    exitOdd:
-      exitOdd !== null
-        ? Number(exitOdd)
-        : null,
-
-    stake:
-      Number(checkpoint.stake),
-
-    decision:
-      "ENTRAR",
-
-    result:
-      result,
-
-    profit:
-      Number(profit.toFixed(2)),
-
-    date:
-      new Date().toLocaleString(
-        "pt-BR"
-      )
-
-  };
-
-  history.unshift(operation);
-
-  localStorage.setItem(
-    "nexoHistory",
-    JSON.stringify(history)
-  );
+  activeOperationId = null;
 
   showOperationResult(
     operation
@@ -785,7 +873,7 @@ function saveOperation(
 
 
 /* =========================
-   RESULTADO DA OPERAÇÃO
+   RESULTADO
 ========================= */
 
 function showOperationResult(
@@ -872,12 +960,6 @@ function renderHistory() {
     return;
   }
 
-  /*
-    Aceita operações novas
-    e ignora registros antigos
-    que não possuem odd de entrada.
-  */
-
   const operations =
     history.filter(
       item =>
@@ -904,6 +986,12 @@ function renderHistory() {
         sum + Number(item.profit || 0),
       0
     );
+
+  const active =
+    operations.filter(
+      item =>
+        item.status === "ATIVA"
+    ).length;
 
   const greens =
     operations.filter(
@@ -941,6 +1029,18 @@ function renderHistory() {
 
         <div class="score">
           ${operations.length}
+        </div>
+
+      </div>
+
+      <div class="game-card">
+
+        <div class="competition">
+          ATIVAS
+        </div>
+
+        <div class="score">
+          ${active}
         </div>
 
       </div>
@@ -1025,13 +1125,21 @@ function renderHistory() {
 
             <span
               class="${
-                item.result === "GREEN"
-                || item.result === "CASHOUT"
-                  ? "live"
-                  : "upcoming"
+                item.status === "ATIVA"
+                  ? "upcoming"
+                  : item.result === "GREEN"
+                  || item.result === "CASHOUT"
+                    ? "live"
+                    : "upcoming"
               }"
             >
-              ${item.result}
+
+              ${
+                item.status === "ATIVA"
+                  ? "🟡 ATIVA"
+                  : item.result
+              }
+
             </span>
 
           </div>
@@ -1042,7 +1150,11 @@ function renderHistory() {
 
           <div class="selected-info">
             ${item.competition || ""}
-            ${item.minute ? " · " + item.minute : ""}
+            ${
+              item.minute
+                ? " · " + item.minute
+                : ""
+            }
           </div>
 
           <div class="selected-info">
@@ -1079,12 +1191,14 @@ function renderHistory() {
 
           <div class="selected-info">
             STAKE:
-            R$ ${Number(item.stake).toFixed(2)}
+            R$
+            ${Number(item.stake).toFixed(2)}
           </div>
 
           <div class="selected-info">
             P&L:
-            R$ ${Number(item.profit || 0).toFixed(2)}
+            R$
+            ${Number(item.profit || 0).toFixed(2)}
           </div>
 
         </div>
@@ -1093,6 +1207,20 @@ function renderHistory() {
 
     </div>
   `;
+
+}
+
+
+/* =========================
+   SALVAR
+========================= */
+
+function saveHistory() {
+
+  localStorage.setItem(
+    "nexoHistory",
+    JSON.stringify(history)
+  );
 
 }
 
