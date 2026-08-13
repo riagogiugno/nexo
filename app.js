@@ -1217,6 +1217,12 @@ function renderHistory() {
 
 function saveHistory() {
 
+  /*
+    Mantemos a chave "nexoHistory"
+    para preservar o histórico existente
+    durante a transição NEXO → NEXUP.
+  */
+
   localStorage.setItem(
     "nexoHistory",
     JSON.stringify(history)
