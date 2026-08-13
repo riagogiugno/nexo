@@ -54,11 +54,12 @@ const selectedGame =
   document.getElementById("selectedGame");
 
 let checkpoint = {
+  gameId: null,
   reading: "",
   thesis: "",
   market: "",
-  odd: "",
-  stake: ""
+  odd: 0,
+  stake: 0
 };
 
 let history = JSON.parse(
@@ -66,14 +67,23 @@ let history = JSON.parse(
 );
 
 
+/* =========================
+   JOGOS
+========================= */
+
 function renderGames() {
+
+  if (!liveContainer || !upcomingContainer) {
+    return;
+  }
 
   liveContainer.innerHTML = "";
   upcomingContainer.innerHTML = "";
 
   games.forEach(game => {
 
-    const card = document.createElement("div");
+    const card =
+      document.createElement("div");
 
     card.className = "game-card";
 
@@ -81,7 +91,10 @@ function renderGames() {
 
       card.innerHTML = `
         <div class="game-top">
-          <span class="live">🔴 AO VIVO</span>
+          <span class="live">
+            🔴 AO VIVO
+          </span>
+
           <span class="competition">
             ${game.competition}
           </span>
@@ -130,7 +143,9 @@ function renderGames() {
         </div>
 
         <div class="scoreline">
-          <span class="score">—</span>
+          <span class="score">
+            —
+          </span>
 
           <span class="minute">
             ${game.time}
@@ -152,16 +167,24 @@ function renderGames() {
 }
 
 
+/* =========================
+   SELECIONAR JOGO
+========================= */
+
 function selectGame(id) {
 
   const game =
     games.find(item => item.id === id);
 
-  if (!game) return;
+  if (!game || !selectedGame) {
+    return;
+  }
+
+  checkpoint.gameId = id;
 
   selectedGame.classList.remove("hidden");
 
-  if (game.status === "LIVE") {
+  if (game.status !== "LIVE") {
 
     selectedGame.innerHTML = `
 
@@ -171,216 +194,14 @@ function selectGame(id) {
 
           <div class="selected-title">
             ${game.home}
-            ${game.score}
+            ×
             ${game.away}
           </div>
 
           <div class="selected-info">
             ${game.competition}
-            · ${game.minute}
-            · AO VIVO
-          </div>
-
-        </div>
-
-        <div class="live">
-          🔴 LIVE
-        </div>
-
-      </div>
-
-      <div class="panel">
-
-        <h2 class="section-title">
-          CHECKPOINT
-        </h2>
-
-        <div class="section-subtitle">
-          Registre rapidamente a leitura deste momento.
-        </div>
-
-        <h3 class="section-title">
-          1. LEITURA
-        </h3>
-
-        <div class="quick-grid">
-
-          <button
-            class="quick-button"
-            onclick="chooseReading('FORTE')">
-            🟢 FORTE
-          </button>
-
-          <button
-            class="quick-button"
-            onclick="chooseReading('NEUTRA')">
-            🟡 NEUTRA
-          </button>
-
-          <button
-            class="quick-button"
-            onclick="chooseReading('FRACA')">
-            🔴 FRACA
-          </button>
-
-        </div>
-
-        <div id="checkpointStep2"
-             class="hidden">
-
-          <h3 class="section-title">
-            2. TESE
-          </h3>
-
-          <div class="quick-grid">
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('PRÓXIMO GOL')">
-              ⚽ PRÓXIMO GOL
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('ESCANTEIO')">
-              🚩 ESCANTEIO
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('CARTÃO')">
-              🟨 CARTÃO
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('MOVIMENTO DE ODD')">
-              📈 MOVIMENTO DE ODD
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('OUTRO')">
-              OUTRO
-            </button>
-
-          </div>
-
-        </div>
-
-        <div id="checkpointStep3"
-             class="hidden">
-
-          <h3 class="section-title">
-            3. MERCADO
-          </h3>
-
-          <div class="quick-grid">
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('OVER / UNDER')">
-              OVER / UNDER
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('MATCH ODDS')">
-              MATCH ODDS
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('CORRECT SCORE')">
-              CORRECT SCORE
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('ESCANTEIOS')">
-              ESCANTEIOS
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('CARTÕES')">
-              CARTÕES
-            </button>
-
-          </div>
-
-        </div>
-
-        <div id="checkpointStep4"
-             class="hidden">
-
-          <h3 class="section-title">
-            4. OPERAÇÃO
-          </h3>
-
-          <div class="operation-form">
-
-            <label>
-              ODD DE ENTRADA
-            </label>
-
-            <input
-              id="entryOdd"
-              type="number"
-              step="0.01"
-              min="1"
-              placeholder="Ex: 1.80"
-            >
-
-            <label>
-              STAKE
-            </label>
-
-            <input
-              id="entryStake"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder="Ex: 20.00"
-            >
-
-            <button
-              class="select-game"
-              onclick="startOperation()">
-              REGISTRAR ENTRADA
-            </button>
-
-          </div>
-
-        </div>
-
-        <div id="operationPanel"
-             class="hidden">
-
-        </div>
-
-        <div id="checkpointResult"
-             class="hidden">
-        </div>
-
-      </div>
-    `;
-
-  } else {
-
-    selectedGame.innerHTML = `
-
-      <div class="selected-game">
-
-        <div>
-
-          <div class="selected-title">
-            ${game.home} × ${game.away}
-          </div>
-
-          <div class="selected-info">
-            ${game.competition}
-            · ${game.time}
+            ·
+            ${game.time}
             · PRÉ-JOGO
           </div>
 
@@ -391,10 +212,213 @@ function selectGame(id) {
         </div>
 
       </div>
-
     `;
 
+    return;
   }
+
+  selectedGame.innerHTML = `
+
+    <div class="selected-game">
+
+      <div>
+
+        <div class="selected-title">
+          ${game.home}
+          ${game.score}
+          ${game.away}
+        </div>
+
+        <div class="selected-info">
+          ${game.competition}
+          ·
+          ${game.minute}
+          · AO VIVO
+        </div>
+
+      </div>
+
+      <div class="live">
+        🔴 LIVE
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <h2 class="section-title">
+        CHECKPOINT
+      </h2>
+
+      <div class="section-subtitle">
+        Registre rapidamente a leitura deste momento.
+      </div>
+
+      <h3 class="section-title">
+        1. LEITURA
+      </h3>
+
+      <div class="quick-grid">
+
+        <button
+          class="quick-button"
+          onclick="chooseReading('FORTE')">
+          🟢 FORTE
+        </button>
+
+        <button
+          class="quick-button"
+          onclick="chooseReading('NEUTRA')">
+          🟡 NEUTRA
+        </button>
+
+        <button
+          class="quick-button"
+          onclick="chooseReading('FRACA')">
+          🔴 FRACA
+        </button>
+
+      </div>
+
+      <div id="checkpointStep2"
+           class="hidden">
+
+        <h3 class="section-title">
+          2. TESE
+        </h3>
+
+        <div class="quick-grid">
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('PRÓXIMO GOL')">
+            ⚽ PRÓXIMO GOL
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('ESCANTEIO')">
+            🚩 ESCANTEIO
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('CARTÃO')">
+            🟨 CARTÃO
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('MOVIMENTO DE ODD')">
+            📈 MOVIMENTO DE ODD
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('OUTRO')">
+            OUTRO
+          </button>
+
+        </div>
+
+      </div>
+
+      <div id="checkpointStep3"
+           class="hidden">
+
+        <h3 class="section-title">
+          3. MERCADO
+        </h3>
+
+        <div class="quick-grid">
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('OVER / UNDER')">
+            OVER / UNDER
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('MATCH ODDS')">
+            MATCH ODDS
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('CORRECT SCORE')">
+            CORRECT SCORE
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('ESCANTEIOS')">
+            ESCANTEIOS
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('CARTÕES')">
+            CARTÕES
+          </button>
+
+        </div>
+
+      </div>
+
+      <div id="checkpointStep4"
+           class="hidden">
+
+        <h3 class="section-title">
+          4. OPERAÇÃO
+        </h3>
+
+        <div class="operation-form">
+
+          <label>
+            ODD DE ENTRADA
+          </label>
+
+          <input
+            id="entryOdd"
+            type="number"
+            step="0.01"
+            min="1.01"
+            placeholder="Ex: 1.80"
+          >
+
+          <label>
+            STAKE
+          </label>
+
+          <input
+            id="entryStake"
+            type="number"
+            step="0.01"
+            min="0.01"
+            placeholder="Ex: 20.00"
+          >
+
+          <button
+            class="select-game"
+            onclick="startOperation()">
+            REGISTRAR ENTRADA
+          </button>
+
+        </div>
+
+      </div>
+
+      <div id="operationPanel"
+           class="hidden">
+      </div>
+
+      <div id="checkpointResult"
+           class="hidden">
+      </div>
+
+    </div>
+  `;
 
   selectedGame.scrollIntoView({
     behavior: "smooth",
@@ -404,13 +428,22 @@ function selectGame(id) {
 }
 
 
+/* =========================
+   CHECKPOINT
+========================= */
+
 function chooseReading(value) {
 
   checkpoint.reading = value;
 
-  document
-    .getElementById("checkpointStep2")
-    .classList.remove("hidden");
+  const step =
+    document.getElementById(
+      "checkpointStep2"
+    );
+
+  if (step) {
+    step.classList.remove("hidden");
+  }
 
 }
 
@@ -419,9 +452,14 @@ function chooseThesis(value) {
 
   checkpoint.thesis = value;
 
-  document
-    .getElementById("checkpointStep3")
-    .classList.remove("hidden");
+  const step =
+    document.getElementById(
+      "checkpointStep3"
+    );
+
+  if (step) {
+    step.classList.remove("hidden");
+  }
 
 }
 
@@ -430,12 +468,21 @@ function chooseMarket(value) {
 
   checkpoint.market = value;
 
-  document
-    .getElementById("checkpointStep4")
-    .classList.remove("hidden");
+  const step =
+    document.getElementById(
+      "checkpointStep4"
+    );
+
+  if (step) {
+    step.classList.remove("hidden");
+  }
 
 }
 
+
+/* =========================
+   ENTRADA
+========================= */
 
 function startOperation() {
 
@@ -445,22 +492,30 @@ function startOperation() {
   const stakeInput =
     document.getElementById("entryStake");
 
+  if (!oddInput || !stakeInput) {
+    return;
+  }
+
   const odd =
-    parseFloat(oddInput.value);
+    Number(oddInput.value);
 
   const stake =
-    parseFloat(stakeInput.value);
+    Number(stakeInput.value);
 
   if (!odd || odd <= 1) {
 
-    alert("Informe uma odd válida.");
+    alert(
+      "Informe uma odd válida."
+    );
 
     return;
   }
 
   if (!stake || stake <= 0) {
 
-    alert("Informe uma stake válida.");
+    alert(
+      "Informe uma stake válida."
+    );
 
     return;
   }
@@ -469,9 +524,17 @@ function startOperation() {
   checkpoint.stake = stake;
 
   const operationPanel =
-    document.getElementById("operationPanel");
+    document.getElementById(
+      "operationPanel"
+    );
 
-  operationPanel.classList.remove("hidden");
+  if (!operationPanel) {
+    return;
+  }
+
+  operationPanel.classList.remove(
+    "hidden"
+  );
 
   operationPanel.innerHTML = `
 
@@ -482,17 +545,18 @@ function startOperation() {
       </h2>
 
       <div class="selected-info">
-        ODD DE ENTRADA: ${odd.toFixed(2)}
+        ODD DE ENTRADA:
+        ${odd.toFixed(2)}
       </div>
 
       <div class="selected-info">
-        STAKE: R$ ${stake.toFixed(2)}
+        STAKE:
+        R$ ${stake.toFixed(2)}
       </div>
 
       <div class="selected-info">
-        EXPOSIÇÃO: R$ ${(
-          stake * odd
-        ).toFixed(2)}
+        EXPOSIÇÃO:
+        R$ ${(stake * odd).toFixed(2)}
       </div>
 
       <h3 class="section-title">
@@ -533,6 +597,10 @@ function startOperation() {
 }
 
 
+/* =========================
+   CASHOUT
+========================= */
+
 function cashout() {
 
   const output =
@@ -540,21 +608,33 @@ function cashout() {
       "Informe a odd de saída no cashout:"
     );
 
+  if (output === null) {
+    return;
+  }
+
   const exitOdd =
-    parseFloat(output);
+    Number(output);
 
   if (!exitOdd || exitOdd <= 1) {
 
-    alert("Odd de saída inválida.");
+    alert(
+      "Odd de saída inválida."
+    );
 
     return;
   }
 
+  const entryOdd =
+    Number(checkpoint.odd);
+
   const stake =
     Number(checkpoint.stake);
 
-  const entryOdd =
-    Number(checkpoint.odd);
+  /*
+    Fórmula de cashout simplificada
+    para back:
+    lucro = stake × (entry / exit - 1)
+  */
 
   const profit =
     stake *
@@ -570,6 +650,10 @@ function cashout() {
 
 }
 
+
+/* =========================
+   GREEN / LOSS / VOID
+========================= */
 
 function finishOperation(result) {
 
@@ -610,34 +694,42 @@ function finishOperation(result) {
 }
 
 
+/* =========================
+   SALVAR OPERAÇÃO
+========================= */
+
 function saveOperation(
   result,
   exitOdd,
   profit
 ) {
 
-  const gameTitle =
-    selectedGame.querySelector(
-      ".selected-title"
-    );
-
-  const gameInfo =
-    selectedGame.querySelector(
-      ".selected-info"
+  const game =
+    games.find(
+      item =>
+        item.id === checkpoint.gameId
     );
 
   const operation = {
 
     id: Date.now(),
 
+    gameId:
+      checkpoint.gameId,
+
     game:
-      gameTitle
-        ? gameTitle.textContent.trim()
+      game
+        ? `${game.home} ${game.score || ""} ${game.away}`
         : "Jogo",
 
-    info:
-      gameInfo
-        ? gameInfo.textContent.trim()
+    competition:
+      game
+        ? game.competition
+        : "",
+
+    minute:
+      game
+        ? game.minute || ""
         : "",
 
     reading:
@@ -652,11 +744,13 @@ function saveOperation(
     entryOdd:
       Number(checkpoint.odd),
 
+    exitOdd:
+      exitOdd !== null
+        ? Number(exitOdd)
+        : null,
+
     stake:
       Number(checkpoint.stake),
-
-    exitOdd:
-      exitOdd,
 
     decision:
       "ENTRAR",
@@ -681,10 +775,31 @@ function saveOperation(
     JSON.stringify(history)
   );
 
+  showOperationResult(
+    operation
+  );
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   RESULTADO DA OPERAÇÃO
+========================= */
+
+function showOperationResult(
+  operation
+) {
+
   const resultContainer =
     document.getElementById(
       "checkpointResult"
     );
+
+  if (!resultContainer) {
+    return;
+  }
 
   resultContainer.classList.remove(
     "hidden"
@@ -699,20 +814,21 @@ function saveOperation(
       </h2>
 
       <div class="selected-info">
-        RESULTADO: ${result}
+        RESULTADO:
+        ${operation.result}
       </div>
 
       <div class="selected-info">
         ODD DE ENTRADA:
-        ${checkpoint.odd.toFixed(2)}
+        ${operation.entryOdd.toFixed(2)}
       </div>
 
       ${
-        exitOdd
+        operation.exitOdd !== null
           ? `
             <div class="selected-info">
               ODD DE SAÍDA:
-              ${exitOdd.toFixed(2)}
+              ${operation.exitOdd.toFixed(2)}
             </div>
           `
           : ""
@@ -720,27 +836,30 @@ function saveOperation(
 
       <div class="selected-info">
         STAKE:
-        R$ ${checkpoint.stake.toFixed(2)}
+        R$ ${operation.stake.toFixed(2)}
       </div>
 
       <div class="selected-info">
         P&L:
-        R$ ${profit.toFixed(2)}
+        R$ ${operation.profit.toFixed(2)}
       </div>
 
-      <div class="live"
-           style="margin-top:15px;">
+      <div
+        class="live"
+        style="margin-top:15px;"
+      >
         ✓ OPERAÇÃO REGISTRADA
       </div>
 
     </div>
-
   `;
-
-  renderHistory();
 
 }
 
+
+/* =========================
+   HISTÓRICO
+========================= */
 
 function renderHistory() {
 
@@ -749,30 +868,66 @@ function renderHistory() {
       "historyContainer"
     );
 
-  if (!historyContainer) return;
+  if (!historyContainer) {
+    return;
+  }
 
-  if (history.length === 0) {
+  /*
+    Aceita operações novas
+    e ignora registros antigos
+    que não possuem odd de entrada.
+  */
+
+  const operations =
+    history.filter(
+      item =>
+        item &&
+        item.entryOdd !== undefined
+    );
+
+  if (operations.length === 0) {
 
     historyContainer.innerHTML = `
+
       <div class="section-subtitle">
         Nenhuma operação registrada ainda.
       </div>
+
     `;
 
     return;
   }
 
-  const entries =
-    history.filter(
-      item => item.decision === "ENTRAR"
-    ).length;
-
   const totalProfit =
-    history.reduce(
+    operations.reduce(
       (sum, item) =>
         sum + Number(item.profit || 0),
       0
     );
+
+  const greens =
+    operations.filter(
+      item =>
+        item.result === "GREEN"
+    ).length;
+
+  const losses =
+    operations.filter(
+      item =>
+        item.result === "LOSS"
+    ).length;
+
+  const cashouts =
+    operations.filter(
+      item =>
+        item.result === "CASHOUT"
+    ).length;
+
+  const voids =
+    operations.filter(
+      item =>
+        item.result === "VOID"
+    ).length;
 
   historyContainer.innerHTML = `
 
@@ -785,7 +940,55 @@ function renderHistory() {
         </div>
 
         <div class="score">
-          ${entries}
+          ${operations.length}
+        </div>
+
+      </div>
+
+      <div class="game-card">
+
+        <div class="competition">
+          GREEN
+        </div>
+
+        <div class="score">
+          ${greens}
+        </div>
+
+      </div>
+
+      <div class="game-card">
+
+        <div class="competition">
+          CASHOUT
+        </div>
+
+        <div class="score">
+          ${cashouts}
+        </div>
+
+      </div>
+
+      <div class="game-card">
+
+        <div class="competition">
+          LOSS
+        </div>
+
+        <div class="score">
+          ${losses}
+        </div>
+
+      </div>
+
+      <div class="game-card">
+
+        <div class="competition">
+          VOID
+        </div>
+
+        <div class="score">
+          ${voids}
         </div>
 
       </div>
@@ -797,7 +1000,8 @@ function renderHistory() {
         </div>
 
         <div class="score">
-          R$ ${totalProfit.toFixed(2)}
+          R$
+          ${totalProfit.toFixed(2)}
         </div>
 
       </div>
@@ -806,7 +1010,7 @@ function renderHistory() {
 
     <div style="margin-top:20px;">
 
-      ${history.map(item => `
+      ${operations.map(item => `
 
         <div
           class="game-card"
@@ -816,54 +1020,58 @@ function renderHistory() {
           <div class="game-top">
 
             <span class="competition">
-              ${item.date}
+              ${item.date || ""}
             </span>
 
-            <span class="${
-              item.result === "GREEN"
-              || item.result === "CASHOUT"
-                ? "live"
-                : "upcoming"
-            }">
+            <span
+              class="${
+                item.result === "GREEN"
+                || item.result === "CASHOUT"
+                  ? "live"
+                  : "upcoming"
+              }"
+            >
               ${item.result}
             </span>
 
           </div>
 
           <div class="teams">
-            ${item.game}
+            ${item.game || "Jogo"}
           </div>
 
           <div class="selected-info">
-            ${item.info}
+            ${item.competition || ""}
+            ${item.minute ? " · " + item.minute : ""}
           </div>
 
           <div class="selected-info">
             LEITURA:
-            ${item.reading}
+            ${item.reading || "-"}
           </div>
 
           <div class="selected-info">
             TESE:
-            ${item.thesis}
+            ${item.thesis || "-"}
           </div>
 
           <div class="selected-info">
             MERCADO:
-            ${item.market}
+            ${item.market || "-"}
           </div>
 
           <div class="selected-info">
-            ENTRADA:
-            ${item.entryOdd.toFixed(2)}
+            ODD DE ENTRADA:
+            ${Number(item.entryOdd).toFixed(2)}
           </div>
 
           ${
-            item.exitOdd
+            item.exitOdd !== null &&
+            item.exitOdd !== undefined
               ? `
                 <div class="selected-info">
-                  SAÍDA:
-                  ${item.exitOdd.toFixed(2)}
+                  ODD DE SAÍDA:
+                  ${Number(item.exitOdd).toFixed(2)}
                 </div>
               `
               : ""
@@ -871,12 +1079,12 @@ function renderHistory() {
 
           <div class="selected-info">
             STAKE:
-            R$ ${item.stake.toFixed(2)}
+            R$ ${Number(item.stake).toFixed(2)}
           </div>
 
           <div class="selected-info">
             P&L:
-            R$ ${item.profit.toFixed(2)}
+            R$ ${Number(item.profit || 0).toFixed(2)}
           </div>
 
         </div>
@@ -888,6 +1096,10 @@ function renderHistory() {
 
 }
 
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
 
 renderGames();
 
