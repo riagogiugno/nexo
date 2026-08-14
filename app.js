@@ -193,8 +193,10 @@ function formatMoney(value) {
 
 function escapeHTML(value) {
 
-  if (value === null ||
-      value === undefined) {
+  if (
+    value === null ||
+    value === undefined
+  ) {
     return "";
   }
 
@@ -240,8 +242,10 @@ function resetCheckpoint(gameId) {
 
 function renderGames() {
 
-  if (!liveContainer ||
-      !upcomingContainer) {
+  if (
+    !liveContainer ||
+    !upcomingContainer
+  ) {
     return;
   }
 
@@ -255,6 +259,7 @@ function renderGames() {
 
     card.className =
       "game-card";
+
 
     if (game.status === "LIVE") {
 
@@ -367,7 +372,10 @@ function selectGame(id) {
 
   const game = getGame(id);
 
-  if (!game || !selectedGame) {
+  if (
+    !game ||
+    !selectedGame
+  ) {
     return;
   }
 
@@ -378,10 +386,6 @@ function selectGame(id) {
   const activeOperation =
     getActiveOperation();
 
-  /*
-    Se existe uma operação ativa,
-    recuperamos ela.
-  */
 
   if (
     activeOperation &&
@@ -409,6 +413,7 @@ function selectGame(id) {
 
   }
 
+
   selectedGame.scrollIntoView({
     behavior: "smooth",
     block: "start"
@@ -429,6 +434,7 @@ function showSelectedGame(
   if (!selectedGame) {
     return;
   }
+
 
   if (game.status !== "LIVE") {
 
@@ -502,6 +508,7 @@ function showSelectedGame(
 
     </div>
 
+
     <div class="panel">
 
       <h2 class="section-title">
@@ -522,6 +529,7 @@ function showSelectedGame(
 
       </div>
 
+
       <h3 class="section-title">
         CHECKPOINT
       </h3>
@@ -535,6 +543,7 @@ function showSelectedGame(
         DECISÃO
 
       </div>
+
 
       <h3 class="section-title">
         1. MINHA LEITURA
@@ -753,13 +762,19 @@ function chooseReading(value) {
   checkpoint.reading =
     value;
 
+
   const step =
     document.getElementById(
       "checkpointStep2"
     );
 
+
   if (step) {
-    step.classList.remove("hidden");
+
+    step.classList.remove(
+      "hidden"
+    );
+
   }
 
 }
@@ -774,13 +789,19 @@ function chooseThesis(value) {
   checkpoint.thesis =
     value;
 
+
   const step =
     document.getElementById(
       "checkpointStep3"
     );
 
+
   if (step) {
-    step.classList.remove("hidden");
+
+    step.classList.remove(
+      "hidden"
+    );
+
   }
 
 }
@@ -795,13 +816,19 @@ function chooseMarket(value) {
   checkpoint.market =
     value;
 
+
   const step =
     document.getElementById(
       "checkpointStep4"
     );
 
+
   if (step) {
-    step.classList.remove("hidden");
+
+    step.classList.remove(
+      "hidden"
+    );
+
   }
 
 }
@@ -813,13 +840,9 @@ function chooseMarket(value) {
 
 function startOperation() {
 
-  /*
-    Não permitimos duas operações simultâneas
-    nesta primeira arquitetura.
-  */
-
   const existing =
     getActiveOperation();
+
 
   if (existing) {
 
@@ -887,11 +910,11 @@ function startOperation() {
     );
 
 
-  if (!oddInput ||
-      !stakeInput) {
-
+  if (
+    !oddInput ||
+    !stakeInput
+  ) {
     return;
-
   }
 
 
@@ -902,8 +925,10 @@ function startOperation() {
     Number(stakeInput.value);
 
 
-  if (!Number.isFinite(odd) ||
-      odd <= 1) {
+  if (
+    !Number.isFinite(odd) ||
+    odd <= 1
+  ) {
 
     alert(
       "Informe uma odd válida."
@@ -914,8 +939,10 @@ function startOperation() {
   }
 
 
-  if (!Number.isFinite(stake) ||
-      stake <= 0) {
+  if (
+    !Number.isFinite(stake) ||
+    stake <= 0
+  ) {
 
     alert(
       "Informe uma stake válida."
@@ -1007,6 +1034,7 @@ function startOperation() {
     operation
   );
 
+
   activeOperationId =
     operation.id;
 
@@ -1018,6 +1046,7 @@ function startOperation() {
   showActiveOperation(
     operation
   );
+
 
   renderHistory();
 
@@ -1036,6 +1065,7 @@ function showActiveOperation(
     document.getElementById(
       "operationPanel"
     );
+
 
   if (!operationPanel) {
     return;
@@ -1170,6 +1200,7 @@ function cashout() {
   const operation =
     getActiveOperation();
 
+
   if (!operation) {
     return;
   }
@@ -1190,8 +1221,10 @@ function cashout() {
     Number(output);
 
 
-  if (!Number.isFinite(exitOdd) ||
-      exitOdd <= 1) {
+  if (
+    !Number.isFinite(exitOdd) ||
+    exitOdd <= 1
+  ) {
 
     alert(
       "Odd de saída inválida."
@@ -1201,13 +1234,6 @@ function cashout() {
 
   }
 
-
-  /*
-    Em back exchange:
-
-    lucro =
-    stake × (entrada / saída - 1)
-  */
 
   const profit =
     operation.stake *
@@ -1238,6 +1264,7 @@ function finishOperation(
 
   const operation =
     getActiveOperation();
+
 
   if (!operation) {
     return;
@@ -1307,16 +1334,20 @@ function closeOperation(
   operation.status =
     "ENCERRADA";
 
+
   operation.result =
     result;
 
+
   operation.exitOdd =
     exitOdd;
+
 
   operation.profit =
     Number(
       profit.toFixed(2)
     );
+
 
   operation.closedAt =
     new Date().toLocaleString(
@@ -1329,6 +1360,7 @@ function closeOperation(
 
   activeOperationId =
     null;
+
 
   saveActiveOperation();
 
@@ -1355,6 +1387,7 @@ function showOperationResult(
     document.getElementById(
       "checkpointResult"
     );
+
 
   if (!resultContainer) {
     return;
@@ -1456,6 +1489,7 @@ function renderHistory() {
     document.getElementById(
       "historyContainer"
     );
+
 
   if (!historyContainer) {
     return;
@@ -1805,6 +1839,7 @@ function restoreActiveOperation() {
   const operation =
     getActiveOperation();
 
+
   if (!operation) {
 
     activeOperationId =
@@ -1838,14 +1873,17 @@ function restoreActiveOperation() {
       "hidden"
     );
 
+
     showSelectedGame(
       game,
       true
     );
 
+
     showActiveOperation(
       operation
     );
+
 
     selectedGame.scrollIntoView({
       behavior: "smooth",
@@ -1866,17 +1904,20 @@ renderGames();
 renderHistory();
 
 restoreActiveOperation();
+
+
 /* =========================================================
    NEXUP — DASHBOARD DATA
 ========================================================= */
 
 function updateDashboard() {
 
-  const operations = history.filter(
-    item =>
-      item &&
-      item.entryOdd !== undefined
-  );
+  const operations =
+    history.filter(
+      item =>
+        item &&
+        item.entryOdd !== undefined
+    );
 
 
   /* =======================================================
@@ -1918,15 +1959,18 @@ function updateDashboard() {
       "overviewLive"
     );
 
+
   const overviewReadings =
     document.getElementById(
       "overviewReadings"
     );
 
+
   const overviewActive =
     document.getElementById(
       "overviewActive"
     );
+
 
   const overviewProfit =
     document.getElementById(
@@ -1963,6 +2007,7 @@ function updateDashboard() {
     overviewProfit.textContent =
       `R$ ${formatMoney(profit)}`;
 
+
     overviewProfit.style.color =
       profit > 0
         ? "var(--green)"
@@ -1996,6 +2041,7 @@ function updateDashboard() {
       const game =
         liveGamesList[index];
 
+
       if (!game) {
         return;
       }
@@ -2016,6 +2062,7 @@ function updateDashboard() {
         document.createElement(
           "div"
         );
+
 
       scoreBox.className =
         "nexup-score";
@@ -2079,15 +2126,18 @@ function updateDashboard() {
       "metricDecisions"
     );
 
+
   const metricGreens =
     document.getElementById(
       "metricGreens"
     );
 
+
   const metricLosses =
     document.getElementById(
       "metricLosses"
     );
+
 
   const metricWinRate =
     document.getElementById(
@@ -2221,15 +2271,19 @@ function updateDashboard() {
             <div class="game-top">
 
               <span class="competition">
+
                 ${escapeHTML(
                   operation.date || ""
                 )}
+
               </span>
 
               <span class="${resultClass}">
+
                 ${escapeHTML(
                   resultLabel
                 )}
+
               </span>
 
             </div>
@@ -2311,31 +2365,53 @@ setInterval(
   updateDashboard,
   1000
 );
+
+
 /* =====================================================
    NEXUP — ONBOARDING ENGINE
+   FLUXO AUTOMÁTICO
 ====================================================== */
 
 (function () {
 
   const onboarding =
-    document.getElementById("nexupOnboarding");
+    document.getElementById(
+      "nexupOnboarding"
+    );
 
-  const nextButton =
-    document.getElementById("onboardingNext");
 
   const steps =
-    document.querySelectorAll(".onboarding-step");
+    document.querySelectorAll(
+      ".onboarding-step"
+    );
+
 
   const dots =
-    document.querySelectorAll(".progress-dot");
+    document.querySelectorAll(
+      ".progress-dot"
+    );
+
 
   const options =
-    document.querySelectorAll(".onboarding-option");
+    document.querySelectorAll(
+      ".onboarding-option"
+    );
+
+
+  const backButton =
+    document.getElementById(
+      "onboardingBack"
+    );
+
+
+  const nextButton =
+    document.getElementById(
+      "onboardingNext"
+    );
 
 
   if (
     !onboarding ||
-    !nextButton ||
     !steps.length
   ) {
     return;
@@ -2344,15 +2420,37 @@ setInterval(
 
   let currentStep = 0;
 
+
   const answers = {
+
     profile: null,
+
     experience: null,
+
     style: null,
+
     objectives: []
+
   };
 
 
+  /* =====================================================
+     MOSTRAR ETAPA
+  ===================================================== */
+
   function showStep(index) {
+
+    if (
+      index < 0 ||
+      index >= steps.length
+    ) {
+      return;
+    }
+
+
+    currentStep =
+      index;
+
 
     steps.forEach(
       (step, stepIndex) => {
@@ -2378,25 +2476,94 @@ setInterval(
     );
 
 
-    if (
-      index === steps.length - 1
-    ) {
+    /*
+       CONTINUAR NÃO É MAIS NECESSÁRIO.
+       Mantemos o elemento oculto para evitar
+       qualquer conflito com o HTML existente.
+    */
 
-      nextButton.textContent =
-        "CONCLUIR";
+    if (nextButton) {
 
-    } else {
+      nextButton.style.display =
+        "none";
 
-      nextButton.textContent =
-        "CONTINUAR";
+    }
+
+
+    /*
+       VOLTAR permanece disponível
+       a partir da segunda etapa.
+    */
+
+    if (backButton) {
+
+      backButton.style.display =
+        index > 0
+          ? ""
+          : "none";
 
     }
 
   }
 
 
+  /* =====================================================
+     FINALIZAR
+  ===================================================== */
+
+  function finishOnboarding() {
+
+    localStorage.setItem(
+      "nexupProfile",
+      JSON.stringify(
+        answers
+      )
+    );
+
+
+    onboarding.style.display =
+      "none";
+
+
+    console.log(
+      "NEXUP — Perfil criado:",
+      answers
+    );
+
+  }
+
+
+  /* =====================================================
+     AVANÇAR
+  ===================================================== */
+
+  function nextStep() {
+
+    if (
+      currentStep >=
+      steps.length - 1
+    ) {
+
+      finishOnboarding();
+
+      return;
+
+    }
+
+
+    showStep(
+      currentStep + 1
+    );
+
+  }
+
+
+  /* =====================================================
+     CLIQUE NAS RESPOSTAS
+  ===================================================== */
+
   options.forEach(
-    (option) => {
+    option => {
 
       option.addEventListener(
         "click",
@@ -2419,10 +2586,9 @@ setInterval(
             );
 
 
-          /*
-             Objetivos podem ter
-             múltiplas escolhas.
-          */
+          /* ===============================================
+             OBJETIVOS
+          =============================================== */
 
           if (
             stepNumber === 4
@@ -2431,6 +2597,7 @@ setInterval(
             option.classList.toggle(
               "selected"
             );
+
 
             const objective =
               option.innerText
@@ -2465,15 +2632,20 @@ setInterval(
 
             }
 
+
+            /*
+               Como os objetivos podem ser múltiplos,
+               o clique não avança imediatamente.
+            */
+
             return;
 
           }
 
 
-          /*
-             As outras etapas
-             aceitam apenas uma escolha.
-          */
+          /* ===============================================
+             ETAPAS 1, 2 E 3
+          =============================================== */
 
           const optionsInStep =
             step.querySelectorAll(
@@ -2482,7 +2654,7 @@ setInterval(
 
 
           optionsInStep.forEach(
-            (item) => {
+            item => {
 
               item.classList.remove(
                 "selected"
@@ -2531,6 +2703,23 @@ setInterval(
 
           }
 
+
+          /*
+             AVANÇO AUTOMÁTICO.
+
+             O usuário simplesmente clica
+             na resposta e a próxima etapa abre.
+          */
+
+          setTimeout(
+            () => {
+
+              nextStep();
+
+            },
+            150
+          );
+
         }
       );
 
@@ -2538,189 +2727,52 @@ setInterval(
   );
 
 
-  nextButton.addEventListener(
-    "click",
-    () => {
+  /* =====================================================
+     BOTÃO VOLTAR
+  ===================================================== */
 
-      /*
-         Não permite avançar
-         sem escolher uma resposta.
-      */
+  if (backButton) {
 
-      const current =
-        steps[currentStep];
+    backButton.addEventListener(
+      "click",
+      () => {
+
+        if (
+          currentStep <= 0
+        ) {
+
+          return;
+
+        }
 
 
-      const selected =
-        current.querySelector(
-          ".onboarding-option.selected"
+        showStep(
+          currentStep - 1
         );
-
-
-      if (
-        !selected &&
-        currentStep !== 3
-      ) {
-
-        return;
 
       }
-
-
-      /*
-         Última etapa:
-         finalizar onboarding.
-      */
-
-      if (
-        currentStep ===
-        steps.length - 1
-      ) {
-
-        localStorage.setItem(
-          "nexupProfile",
-          JSON.stringify(
-            answers
-          )
-        );
-
-
-        onboarding.style.display =
-          "none";
-
-
-        console.log(
-          "NEXUP — Perfil criado:",
-          answers
-        );
-
-
-        return;
-
-      }
-
-
-      currentStep++;
-
-      showStep(
-        currentStep
-      );
-
-    }
-  );
-
-
-  showStep(0);
-
-})();
-/* =====================================================
-   NEXUP — ONBOARDING BACK BUTTON
-====================================================== */
-
-(function () {
-
-  const backButton =
-    document.getElementById(
-      "onboardingBack"
     );
 
-  const steps =
-    document.querySelectorAll(
-      ".onboarding-step"
-    );
-
-  if (
-    !backButton ||
-    !steps.length
-  ) {
-    return;
   }
 
 
-  backButton.addEventListener(
-    "click",
-    () => {
+  /* =====================================================
+     BOTÃO CONTINUAR
+     DESATIVADO
+  ===================================================== */
 
-      const activeStep =
-        document.querySelector(
-          ".onboarding-step.active"
-        );
+  if (nextButton) {
 
+    nextButton.style.display =
+      "none";
 
-      if (!activeStep) {
-        return;
-      }
+  }
 
 
-      const current =
-        Number(
-          activeStep.dataset.step
-        );
+  /* =====================================================
+     INICIALIZAÇÃO
+  ===================================================== */
 
-
-      if (current <= 1) {
-        return;
-      }
-
-
-      steps.forEach(
-        step => {
-
-          step.classList.remove(
-            "active"
-          );
-
-        }
-      );
-
-
-      const previous =
-        document.querySelector(
-          `.onboarding-step[data-step="${current - 1}"]`
-        );
-
-
-      if (previous) {
-
-        previous.classList.add(
-          "active"
-        );
-
-      }
-
-
-      const dots =
-        document.querySelectorAll(
-          ".progress-dot"
-        );
-
-
-      dots.forEach(
-        (dot, index) => {
-
-          dot.classList.toggle(
-            "active",
-            index === current - 2
-          );
-
-        }
-      );
-
-
-      const nextButton =
-        document.getElementById(
-          "onboardingNext"
-        );
-
-
-      if (nextButton) {
-
-        nextButton.textContent =
-          "CONTINUAR";
-
-      }
-
-    }
-  );
+  showStep(0);
 
 })();
