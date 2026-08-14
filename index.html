@@ -32,11 +32,425 @@
 
 <body>
 
+
+<!-- =====================================================
+     NEXUP — ONBOARDING / QUESTIONÁRIO
+     
+     IMPORTANTE:
+     O questionário começa ESCONDIDO.
+     Ele só aparece quando o usuário clicar
+     em "CONHECER MEU PERFIL".
+====================================================== -->
+
+<div
+  id="nexupOnboarding"
+  class="onboarding-overlay hidden"
+>
+
+  <div class="onboarding-card">
+
+
+    <!-- =================================================
+         BRAND
+    ================================================== -->
+
+    <div class="onboarding-brand">
+
+      <div class="onboarding-logo">
+        NEXUP
+      </div>
+
+      <div class="onboarding-tagline">
+        O ponto entre a leitura e a decisão.
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PASSO 1
+    ================================================== -->
+
+    <div
+      class="onboarding-step active"
+      data-step="1"
+    >
+
+      <div class="onboarding-eyebrow">
+        BEM-VINDO AO NEXUP
+      </div>
+
+      <h1>
+        COMO VOCÊ SE DEFINE HOJE?
+      </h1>
+
+      <p>
+        Não existe resposta certa.
+        O NEXUP vai usar suas respostas para
+        adaptar sua experiência.
+      </p>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="INICIANTE"
+        >
+          <strong>
+            ESTOU COMEÇANDO
+          </strong>
+
+          <span>
+            Quero aprender e entender melhor.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="APOSTADOR"
+        >
+          <strong>
+            APOSTADOR
+          </strong>
+
+          <span>
+            Acompanho jogos e faço algumas entradas.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="TRADER"
+        >
+          <strong>
+            TRADER
+          </strong>
+
+          <span>
+            Faço operações e acompanho o mercado.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="EXPERIENTE"
+        >
+          <strong>
+            TRADER EXPERIENTE
+          </strong>
+
+          <span>
+            Já tenho método e experiência.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="APRENDIZ"
+        >
+          <strong>
+            QUERO APRENDER
+          </strong>
+
+          <span>
+            Quero evoluir antes de operar.
+          </span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PASSO 2
+    ================================================== -->
+
+    <div
+      class="onboarding-step"
+      data-step="2"
+    >
+
+      <div class="onboarding-eyebrow">
+        EXPERIÊNCIA
+      </div>
+
+      <h1>
+        HÁ QUANTO TEMPO VOCÊ ACOMPANHA?
+      </h1>
+
+      <p>
+        Isso ajuda o NEXUP a calibrar sua experiência.
+      </p>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MENOS DE 6 MESES"
+        >
+          <strong>
+            MENOS DE 6 MESES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="6 MESES — 2 ANOS"
+        >
+          <strong>
+            6 MESES — 2 ANOS
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="2 — 5 ANOS"
+        >
+          <strong>
+            2 — 5 ANOS
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MAIS DE 5 ANOS"
+        >
+          <strong>
+            MAIS DE 5 ANOS
+          </strong>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PASSO 3
+    ================================================== -->
+
+    <div
+      class="onboarding-step"
+      data-step="3"
+    >
+
+      <div class="onboarding-eyebrow">
+        SEU ESTILO
+      </div>
+
+      <h1>
+        QUAL FRASE MAIS PARECE COM VOCÊ?
+      </h1>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="OPORTUNIDADE CLARA"
+        >
+          <strong>
+            ESPERO UMA OPORTUNIDADE MUITO CLARA.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="OPORTUNIDADES DURANTE O JOGO"
+        >
+          <strong>
+            GOSTO DE ENCONTRAR OPORTUNIDADES DURANTE O JOGO.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MAIS RISCO"
+        >
+          <strong>
+            NÃO TENHO PROBLEMA EM ASSUMIR MAIS RISCO.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="POUCAS OPERACOES"
+        >
+          <strong>
+            PREFIRO POUCAS OPERAÇÕES.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="DESCOBRINDO METODO"
+        >
+          <strong>
+            AINDA ESTOU DESCOBRINDO MEU MÉTODO.
+          </strong>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PASSO 4
+    ================================================== -->
+
+    <div
+      class="onboarding-step"
+      data-step="4"
+    >
+
+      <div class="onboarding-eyebrow">
+        SEU OBJETIVO
+      </div>
+
+      <h1>
+        O QUE VOCÊ QUER DO NEXUP?
+      </h1>
+
+      <p>
+        Escolha o que melhor representa o que você procura.
+      </p>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="APRENDER"
+        >
+          <strong>
+            📚 APRENDER
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="ORGANIZAR OPERACOES"
+        >
+          <strong>
+            📊 ORGANIZAR MINHAS OPERAÇÕES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MELHORAR DECISOES"
+        >
+          <strong>
+            🧠 MELHORAR MINHAS DECISÕES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="ENCONTRAR OPORTUNIDADES"
+        >
+          <strong>
+            🔎 ENCONTRAR OPORTUNIDADES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="EVOLUIR COMO TRADER"
+        >
+          <strong>
+            ⚡ EVOLUIR COMO TRADER
+          </strong>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ÚNICO FOOTER DO QUESTIONÁRIO
+    ================================================== -->
+
+    <div class="onboarding-footer">
+
+      <button
+        id="onboardingBack"
+        class="onboarding-back"
+        type="button"
+      >
+        ← VOLTAR
+      </button>
+
+
+      <div class="onboarding-progress">
+
+        <span class="progress-dot active"></span>
+
+        <span class="progress-dot"></span>
+
+        <span class="progress-dot"></span>
+
+        <span class="progress-dot"></span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     APLICAÇÃO PRINCIPAL
+====================================================== -->
+
 <div class="container">
 
-  <!-- =====================================================
+
+  <!-- =================================================
        HEADER
-  ====================================================== -->
+  ================================================== -->
 
   <header class="header">
 
@@ -52,6 +466,7 @@
 
     </div>
 
+
     <div class="user">
       TRADER
     </div>
@@ -59,234 +474,235 @@
   </header>
 
 
-  <!-- =====================================================
-       HOME / NEXUP
-  ====================================================== -->
+
+  <!-- =================================================
+       HOME
+       
+       Esta é a primeira tela.
+       O usuário NÃO entra direto na pesquisa.
+  ================================================== -->
 
   <section
     id="homeSection"
     class="nexup-home"
   >
 
+
     <div class="home-intro">
 
-      <div class="home-eyebrow">
+      <div class="onboarding-eyebrow">
         NEXUP TERMINAL
       </div>
 
       <h1 class="home-title">
-        O QUE VOCÊ QUER FAZER?
+        DECISÃO ANTES DA OPERAÇÃO.
       </h1>
 
       <p class="home-description">
-        Escolha uma área para começar.
-        O NEXUP organiza leitura, histórico
-        e decisão em um único lugar.
+        Leia o jogo. Organize sua informação.
+        Entenda sua decisão.
       </p>
 
     </div>
 
 
+    <!-- =================================================
+         HOME MODULES
+    ================================================== -->
+
     <div class="home-grid">
 
-      <!-- =================================================
-           JOGOS
-      ================================================== -->
+
+      <!-- JOGOS -->
 
       <button
-        class="home-card"
         type="button"
-        onclick="showSection('gamesSection', this)"
+        class="home-module featured"
+        onclick="openHomeSection('gamesSection', this)"
       >
 
-        <div class="home-card-icon">
+        <div class="home-module-icon">
           🏟️
         </div>
 
-        <div class="home-card-content">
+        <div class="home-module-content">
 
-          <div class="home-card-title">
+          <div class="home-module-title">
             JOGOS
           </div>
 
-          <div class="home-card-description">
-            Acompanhe partidas ao vivo
-            e próximos eventos.
+          <div class="home-module-description">
+            Acompanhe partidas, mercados e leituras
+            em tempo real.
           </div>
 
         </div>
 
-        <div class="home-card-arrow">
+        <div class="home-module-arrow">
           →
         </div>
 
       </button>
 
 
-      <!-- =================================================
-           PESQUISA
-      ================================================== -->
+
+      <!-- PESQUISA -->
 
       <button
-        class="home-card home-card-primary"
         type="button"
-        onclick="openOnboarding()"
+        class="home-module"
+        onclick="openHomeSection('researchSection', this)"
       >
 
-        <div class="home-card-icon">
+        <div class="home-module-icon">
           🔎
         </div>
 
-        <div class="home-card-content">
+        <div class="home-module-content">
 
-          <div class="home-card-title">
-            PESQUISAR MERCADO
+          <div class="home-module-title">
+            PESQUISA
           </div>
 
-          <div class="home-card-description">
-            Faça uma leitura e deixe o NEXUP
-            estruturar sua análise.
+          <div class="home-module-description">
+            Encontre informações para construir
+            uma leitura melhor.
           </div>
 
         </div>
 
-        <div class="home-card-arrow">
+        <div class="home-module-arrow">
           →
         </div>
 
       </button>
 
 
-      <!-- =================================================
-           HISTÓRICO
-      ================================================== -->
+
+      <!-- HISTÓRICO -->
 
       <button
-        class="home-card"
         type="button"
-        onclick="showSection('historySection', this)"
+        class="home-module"
+        onclick="openHomeSection('historySection', this)"
       >
 
-        <div class="home-card-icon">
+        <div class="home-module-icon">
           📊
         </div>
 
-        <div class="home-card-content">
+        <div class="home-module-content">
 
-          <div class="home-card-title">
+          <div class="home-module-title">
             HISTÓRICO
           </div>
 
-          <div class="home-card-description">
-            Consulte suas leituras e decisões
-            registradas.
+          <div class="home-module-description">
+            Revise suas leituras e decisões anteriores.
           </div>
 
         </div>
 
-        <div class="home-card-arrow">
+        <div class="home-module-arrow">
           →
         </div>
 
       </button>
 
 
-      <!-- =================================================
-           MÉTRICAS
-      ================================================== -->
+
+      <!-- MÉTRICAS -->
 
       <button
-        class="home-card"
         type="button"
-        onclick="showSection('metricsSection', this)"
+        class="home-module"
+        onclick="openHomeSection('metricsSection', this)"
       >
 
-        <div class="home-card-icon">
+        <div class="home-module-icon">
           📈
         </div>
 
-        <div class="home-card-content">
+        <div class="home-module-content">
 
-          <div class="home-card-title">
+          <div class="home-module-title">
             MÉTRICAS
           </div>
 
-          <div class="home-card-description">
-            Entenda seus padrões e acompanhe
-            sua evolução.
+          <div class="home-module-description">
+            Transforme seu histórico em inteligência
+            sobre seu processo.
           </div>
 
         </div>
 
-        <div class="home-card-arrow">
+        <div class="home-module-arrow">
           →
         </div>
 
       </button>
 
 
-      <!-- =================================================
-           DECISÕES
-      ================================================== -->
+
+      <!-- PERFIL -->
 
       <button
-        class="home-card"
         type="button"
+        class="home-module"
         onclick="openOnboarding()"
       >
 
-        <div class="home-card-icon">
+        <div class="home-module-icon">
           🧠
         </div>
 
-        <div class="home-card-content">
+        <div class="home-module-content">
 
-          <div class="home-card-title">
-            DECISÕES
+          <div class="home-module-title">
+            MEU PERFIL
           </div>
 
-          <div class="home-card-description">
-            Estruture uma leitura antes
-            de tomar uma decisão.
+          <div class="home-module-description">
+            Conheça seu perfil e calibre a experiência
+            do NEXUP.
           </div>
 
         </div>
 
-        <div class="home-card-arrow">
+        <div class="home-module-arrow">
           →
         </div>
 
       </button>
 
 
-      <!-- =================================================
-           MEU NEXUP
-      ================================================== -->
+
+      <!-- DECISÕES -->
 
       <button
-        class="home-card"
         type="button"
-        onclick="openProfile()"
+        class="home-module"
+        onclick="openHomeSection('decisionsSection', this)"
       >
 
-        <div class="home-card-icon">
-          ⚙️
+        <div class="home-module-icon">
+          ⚡
         </div>
 
-        <div class="home-card-content">
+        <div class="home-module-content">
 
-          <div class="home-card-title">
-            MEU NEXUP
+          <div class="home-module-title">
+            DECISÕES
           </div>
 
-          <div class="home-card-description">
-            Perfil, experiência e configuração
-            da sua jornada.
+          <div class="home-module-description">
+            Registre e acompanhe o processo por trás
+            de cada operação.
           </div>
 
         </div>
 
-        <div class="home-card-arrow">
+        <div class="home-module-arrow">
           →
         </div>
 
@@ -295,43 +711,41 @@
     </div>
 
 
-    <div class="home-status">
+    <div class="home-footer">
 
-      <span class="status-dot live-dot"></span>
-
-      SISTEMA ONLINE
-
-      <span class="home-status-separator">
-        •
-      </span>
-
-      DECISION INTELLIGENCE
+      NEXUP — DECISION INTELLIGENCE
 
     </div>
 
   </section>
 
 
-  <!-- =====================================================
-       NAVIGATION
-  ====================================================== -->
 
-  <nav class="nav">
+  <!-- =================================================
+       NAVEGAÇÃO INTERNA
+  ================================================== -->
+
+  <nav
+    id="mainNavigation"
+    class="nav hidden"
+  >
 
     <button
       class="active"
-      data-section="homeSection"
-      onclick="showSection('homeSection', this)"
-    >
-      ◉ INÍCIO
-    </button>
-
-    <button
       data-section="gamesSection"
       onclick="showSection('gamesSection', this)"
     >
       🏟️ JOGOS
     </button>
+
+
+    <button
+      data-section="researchSection"
+      onclick="showSection('researchSection', this)"
+    >
+      🔎 PESQUISA
+    </button>
+
 
     <button
       data-section="historySection"
@@ -340,6 +754,7 @@
       📊 HISTÓRICO
     </button>
 
+
     <button
       data-section="metricsSection"
       onclick="showSection('metricsSection', this)"
@@ -347,19 +762,28 @@
       📈 MÉTRICAS
     </button>
 
+
+    <button
+      data-section="decisionsSection"
+      onclick="showSection('decisionsSection', this)"
+    >
+      ⚡ DECISÕES
+    </button>
+
   </nav>
 
 
-  <!-- =====================================================
+
+  <!-- =================================================
        MAIN
-  ====================================================== -->
+  ================================================== -->
 
   <main>
 
 
-    <!-- ===================================================
-         GAMES / DASHBOARD
-    ==================================================== -->
+    <!-- =================================================
+         GAMES
+    ================================================== -->
 
     <section
       id="gamesSection"
@@ -367,11 +791,8 @@
     >
 
 
-      <!-- ================================================
-           DASHBOARD OVERVIEW
-      ================================================= -->
-
       <section class="dashboard-overview">
+
 
         <div class="overview-card">
 
@@ -455,9 +876,8 @@
       </section>
 
 
-      <!-- ================================================
-           LIVE
-      ================================================= -->
+
+      <!-- LIVE -->
 
       <section class="games-section">
 
@@ -466,8 +886,11 @@
           <div>
 
             <h1 class="section-title">
+
               <span class="status-dot live-dot"></span>
+
               LIVE
+
             </h1>
 
             <div class="section-subtitle">
@@ -491,9 +914,8 @@
       </section>
 
 
-      <!-- ================================================
-           UPCOMING
-      ================================================= -->
+
+      <!-- UPCOMING -->
 
       <section class="games-section">
 
@@ -502,8 +924,11 @@
           <div>
 
             <h1 class="section-title">
+
               <span class="status-dot upcoming-dot"></span>
+
               PRÓXIMOS
+
             </h1>
 
             <div class="section-subtitle">
@@ -527,9 +952,8 @@
       </section>
 
 
-      <!-- ================================================
-           SELECTED GAME / ANALYSIS
-      ================================================= -->
+
+      <!-- SELECTED GAME -->
 
       <section
         id="selectedGame"
@@ -537,9 +961,8 @@
       ></section>
 
 
-      <!-- ================================================
-           RECENT ACTIVITY
-      ================================================= -->
+
+      <!-- RECENT ACTIVITY -->
 
       <section
         id="recentActivity"
@@ -579,9 +1002,82 @@
     </section>
 
 
-    <!-- ===================================================
+
+    <!-- =================================================
+         PESQUISA
+         
+         A pesquisa agora é uma seção.
+         Não aparece automaticamente.
+    ================================================== -->
+
+    <section
+      id="researchSection"
+      class="hidden"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h1 class="section-title">
+            🔎 PESQUISA
+          </h1>
+
+          <div class="section-subtitle">
+            Consulte informações antes de tomar uma decisão.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          RESEARCH
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="section-title">
+          BUSCAR INFORMAÇÃO
+        </div>
+
+        <div class="section-subtitle">
+          A pesquisa é uma ferramenta do NEXUP,
+          não a porta de entrada da plataforma.
+        </div>
+
+
+        <div class="operation-form">
+
+          <label for="nexupSearch">
+            PESQUISA
+          </label>
+
+          <input
+            id="nexupSearch"
+            type="text"
+            placeholder="Digite o que deseja pesquisar..."
+          >
+
+          <button
+            type="button"
+            class="select-game"
+          >
+            PESQUISAR
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
          HISTORY
-    ==================================================== -->
+    ================================================== -->
 
     <section
       id="historySection"
@@ -614,9 +1110,10 @@
     </section>
 
 
-    <!-- ===================================================
+
+    <!-- =================================================
          METRICS
-    ==================================================== -->
+    ================================================== -->
 
     <section
       id="metricsSection"
@@ -645,6 +1142,7 @@
 
 
       <div class="metrics-overview">
+
 
         <div class="metric-card">
 
@@ -723,6 +1221,7 @@
           de decisão conforme o histórico crescer.
         </div>
 
+
         <div class="metrics-placeholder">
 
           <div class="metrics-placeholder-title">
@@ -741,12 +1240,75 @@
 
     </section>
 
+
+
+    <!-- =================================================
+         DECISIONS
+    ================================================== -->
+
+    <section
+      id="decisionsSection"
+      class="hidden"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h1 class="section-title">
+            ⚡ DECISÕES
+          </h1>
+
+          <div class="section-subtitle">
+            O processo por trás de cada operação.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          DECISION LOG
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          DECISION INTELLIGENCE
+        </h2>
+
+        <div class="section-subtitle">
+          Aqui ficará o registro estruturado das
+          decisões tomadas durante sua operação.
+        </div>
+
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            EM DESENVOLVIMENTO
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Teses, contexto, confiança, entrada,
+            resultado e qualidade da decisão serão
+            organizados nesta área.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
 
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
+
+  <!-- =================================================
+       FOOTER ÚNICO DA APLICAÇÃO
+  ================================================== -->
 
   <footer class="footer">
 
@@ -754,404 +1316,25 @@
 
   </footer>
 
-</div>
-
-
-<!-- =======================================================
-     ONBOARDING / MARKET RESEARCH
-======================================================== -->
-
-<div
-  id="nexupOnboarding"
-  class="onboarding-overlay"
->
-
-  <div class="onboarding-card">
-
-
-    <!-- ===================================================
-         BRAND
-    ================================================== -->
-
-    <div class="onboarding-brand">
-
-      <div class="onboarding-logo">
-        NEXUP
-      </div>
-
-      <div class="onboarding-tagline">
-        O ponto entre a leitura e a decisão.
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         STEP 1
-    ================================================== -->
-
-    <div
-      class="onboarding-step active"
-      data-step="1"
-    >
-
-      <div class="onboarding-eyebrow">
-        BEM-VINDO AO NEXUP
-      </div>
-
-      <h1>
-        COMO VOCÊ SE DEFINE HOJE?
-      </h1>
-
-      <p>
-        Não existe resposta certa.
-        O NEXUP vai usar suas respostas para
-        adaptar sua experiência.
-      </p>
-
-
-      <div class="onboarding-options">
-
-        <button
-          class="onboarding-option"
-          data-profile="INICIANTE"
-          type="button"
-        >
-          <strong>
-            ESTOU COMEÇANDO
-          </strong>
-
-          <span>
-            Quero aprender e entender melhor.
-          </span>
-        </button>
-
-
-        <button
-          class="onboarding-option"
-          data-profile="APOSTADOR"
-          type="button"
-        >
-          <strong>
-            APOSTADOR
-          </strong>
-
-          <span>
-            Acompanho jogos e faço algumas entradas.
-          </span>
-        </button>
-
-
-        <button
-          class="onboarding-option"
-          data-profile="TRADER"
-          type="button"
-        >
-          <strong>
-            TRADER
-          </strong>
-
-          <span>
-            Faço operações e acompanho o mercado.
-          </span>
-        </button>
-
-
-        <button
-          class="onboarding-option"
-          data-profile="EXPERIENTE"
-          type="button"
-        >
-          <strong>
-            TRADER EXPERIENTE
-          </strong>
-
-          <span>
-            Já tenho método e experiência.
-          </span>
-        </button>
-
-
-        <button
-          class="onboarding-option"
-          data-profile="APRENDIZ"
-          type="button"
-        >
-          <strong>
-            QUERO APRENDER
-          </strong>
-
-          <span>
-            Quero evoluir antes de operar.
-          </span>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         STEP 2
-    ================================================== -->
-
-    <div
-      class="onboarding-step"
-      data-step="2"
-    >
-
-      <div class="onboarding-eyebrow">
-        EXPERIÊNCIA
-      </div>
-
-      <h1>
-        HÁ QUANTO TEMPO VOCÊ ACOMPANHA?
-      </h1>
-
-      <p>
-        Isso ajuda o NEXUP a calibrar sua experiência.
-      </p>
-
-
-      <div class="onboarding-options">
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            MENOS DE 6 MESES
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            6 MESES — 2 ANOS
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            2 — 5 ANOS
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            MAIS DE 5 ANOS
-          </strong>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         STEP 3
-    ================================================== -->
-
-    <div
-      class="onboarding-step"
-      data-step="3"
-    >
-
-      <div class="onboarding-eyebrow">
-        SEU ESTILO
-      </div>
-
-      <h1>
-        QUAL FRASE MAIS PARECE COM VOCÊ?
-      </h1>
-
-
-      <div class="onboarding-options">
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            ESPERO UMA OPORTUNIDADE MUITO CLARA.
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            GOSTO DE ENCONTRAR OPORTUNIDADES DURANTE O JOGO.
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            NÃO TENHO PROBLEMA EM ASSUMIR MAIS RISCO.
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            PREFIRO POUCAS OPERAÇÕES.
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            AINDA ESTOU DESCOBRINDO MEU MÉTODO.
-          </strong>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         STEP 4
-    ================================================== -->
-
-    <div
-      class="onboarding-step"
-      data-step="4"
-    >
-
-      <div class="onboarding-eyebrow">
-        SEU OBJETIVO
-      </div>
-
-      <h1>
-        O QUE VOCÊ QUER DO NEXUP?
-      </h1>
-
-      <p>
-        Você poderá selecionar mais de uma opção.
-      </p>
-
-
-      <div class="onboarding-options">
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            📚 APRENDER
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            📊 ORGANIZAR MINHAS OPERAÇÕES
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            🧠 MELHORAR MINHAS DECISÕES
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            🔎 ENCONTRAR OPORTUNIDADES
-          </strong>
-        </button>
-
-        <button
-          class="onboarding-option"
-          type="button"
-        >
-          <strong>
-            ⚡ EVOLUIR COMO TRADER
-          </strong>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         ONBOARDING FOOTER
-    ================================================== -->
-
-    <div class="onboarding-footer">
-
-      <button
-        id="onboardingBack"
-        class="onboarding-back"
-        type="button"
-        onclick="previousOnboardingStep()"
-      >
-        ← VOLTAR
-      </button>
-
-
-      <div class="onboarding-progress">
-
-        <span class="progress-dot active"></span>
-
-        <span class="progress-dot"></span>
-
-        <span class="progress-dot"></span>
-
-        <span class="progress-dot"></span>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </div>
 
 
-<!-- =======================================================
+
+<!-- =====================================================
      NAVIGATION SCRIPT
-======================================================== -->
+====================================================== -->
 
 <script>
-
-  /* =====================================================
-     SECTIONS
-  ====================================================== */
 
   function showSection(sectionId, button) {
 
     const sections = [
-      "homeSection",
       "gamesSection",
+      "researchSection",
       "historySection",
-      "metricsSection"
+      "metricsSection",
+      "decisionsSection"
     ];
 
 
@@ -1170,14 +1353,13 @@
     const selected =
       document.getElementById(sectionId);
 
-
     if (selected) {
       selected.classList.remove("hidden");
     }
 
 
     document
-      .querySelectorAll(".nav button")
+      .querySelectorAll("#mainNavigation button")
       .forEach(function(navButton) {
 
         navButton.classList.remove("active");
@@ -1189,124 +1371,144 @@
       button.classList.add("active");
     }
 
-  }
 
+    const home =
+      document.getElementById("homeSection");
 
-  /* =====================================================
-     HOME
-  ====================================================== */
-
-  function showHome() {
-
-    showSection(
-      "homeSection",
-      document.querySelector(
-        '.nav button[data-section="homeSection"]'
-      )
-    );
-
-  }
-
-
-  /* =====================================================
-     ONBOARDING
-  ====================================================== */
-
-  let currentOnboardingStep = 1;
-
-  const totalOnboardingSteps = 4;
-
-
-  function openOnboarding() {
-
-    const overlay =
-      document.getElementById("nexupOnboarding");
-
-
-    if (!overlay) {
-      return;
+    if (home) {
+      home.classList.add("hidden");
     }
 
 
-    currentOnboardingStep = 1;
+    const navigation =
+      document.getElementById("mainNavigation");
 
-    updateOnboarding();
-
-
-    overlay.style.display = "flex";
-
-  }
-
-
-  function closeOnboarding() {
-
-    const overlay =
-      document.getElementById("nexupOnboarding");
-
-
-    if (!overlay) {
-      return;
+    if (navigation) {
+      navigation.classList.remove("hidden");
     }
 
-
-    overlay.style.display = "none";
-
-    showHome();
-
   }
 
 
-  function updateOnboarding() {
 
-    document
-      .querySelectorAll(".onboarding-step")
-      .forEach(function(step) {
+  function openHomeSection(sectionId, button) {
 
-        step.classList.remove("active");
-
-      });
+    showSection(sectionId, null);
 
 
-    const currentStep =
+    const navButton =
       document.querySelector(
-        '.onboarding-step[data-step="' +
-        currentOnboardingStep +
+        '#mainNavigation button[data-section="' +
+        sectionId +
         '"]'
       );
 
 
-    if (currentStep) {
-      currentStep.classList.add("active");
+    if (navButton) {
+      document
+        .querySelectorAll("#mainNavigation button")
+        .forEach(function(item) {
+
+          item.classList.remove("active");
+
+        });
+
+      navButton.classList.add("active");
     }
 
-
-    document
-      .querySelectorAll(".progress-dot")
-      .forEach(function(dot, index) {
-
-        dot.classList.toggle(
-          "active",
-          index < currentOnboardingStep
-        );
-
-      });
+  }
 
 
-    const backButton =
-      document.getElementById("onboardingBack");
+
+  function returnToGames() {
+
+    showSection("gamesSection", null);
+
+
+    const navButton =
+      document.querySelector(
+        '#mainNavigation button[data-section="gamesSection"]'
+      );
+
+
+    if (navButton) {
+      navButton.classList.add("active");
+    }
+
+  }
+
+</script>
+
+
+
+<!-- =====================================================
+     NEXUP — QUESTIONÁRIO
+     
+     Sem botão CONTINUAR.
+     Cada resposta avança automaticamente.
+====================================================== -->
+
+<script>
+
+(function() {
+
+  let currentStep = 1;
+
+  const totalSteps = 4;
+
+  const answers = {};
+
+
+  const overlay =
+    document.getElementById("nexupOnboarding");
+
+
+  const backButton =
+    document.getElementById("onboardingBack");
+
+
+  const steps =
+    document.querySelectorAll(".onboarding-step");
+
+
+  const dots =
+    document.querySelectorAll(".progress-dot");
+
+
+  function updateQuestionnaire() {
+
+    steps.forEach(function(step) {
+
+      const stepNumber =
+        Number(step.dataset.step);
+
+      step.classList.toggle(
+        "active",
+        stepNumber === currentStep
+      );
+
+    });
+
+
+    dots.forEach(function(dot, index) {
+
+      dot.classList.toggle(
+        "active",
+        index + 1 === currentStep
+      );
+
+    });
 
 
     if (backButton) {
 
-      if (currentOnboardingStep === 1) {
+      if (currentStep === 1) {
 
-        backButton.style.visibility =
-          "hidden";
+        backButton.style.visibility = "hidden";
 
       } else {
 
-        backButton.style.visibility =
-          "visible";
+        backButton.style.visibility = "visible";
 
       }
 
@@ -1315,91 +1517,104 @@
   }
 
 
-  function nextOnboardingStep() {
+  window.openOnboarding = function() {
 
-    if (
-      currentOnboardingStep <
-      totalOnboardingSteps
-    ) {
+    currentStep = 1;
 
-      currentOnboardingStep++;
+    updateQuestionnaire();
 
-      updateOnboarding();
+    overlay.classList.remove("hidden");
 
-    } else {
-
-      closeOnboarding();
-
-    }
-
-  }
+  };
 
 
-  function previousOnboardingStep() {
+  function closeOnboarding() {
 
-    if (currentOnboardingStep > 1) {
+    overlay.classList.add("hidden");
 
-      currentOnboardingStep--;
+    currentStep = 1;
 
-      updateOnboarding();
+    updateQuestionnaire();
 
-    } else {
+    /*
+      Depois da última resposta,
+      o usuário volta para JOGOS.
+    */
 
-      closeOnboarding();
-
-    }
+    returnToGames();
 
   }
 
 
-  /* =====================================================
-     ONBOARDING OPTIONS
-     CLICK = AUTOMATIC NEXT STEP
-  ====================================================== */
+  function selectAnswer(button) {
+
+    const step =
+      button.closest(".onboarding-step");
+
+
+    if (!step) {
+      return;
+    }
+
+
+    const stepNumber =
+      Number(step.dataset.step);
+
+
+    const value =
+      button.dataset.profile ||
+      button.dataset.answer ||
+      button.innerText.trim();
+
+
+    answers["step" + stepNumber] =
+      value;
+
+
+    /*
+      Feedback visual rápido.
+    */
+
+    button.classList.add("selected");
+
+
+    /*
+      Pequeno atraso para o clique
+      parecer uma escolha real antes
+      da transição.
+    */
+
+    setTimeout(function() {
+
+      button.classList.remove("selected");
+
+
+      if (currentStep < totalSteps) {
+
+        currentStep++;
+
+        updateQuestionnaire();
+
+      } else {
+
+        closeOnboarding();
+
+      }
+
+    }, 160);
+
+  }
+
 
   document
     .querySelectorAll(".onboarding-option")
-    .forEach(function(option) {
+    .forEach(function(button) {
 
-      option.addEventListener(
+      button.addEventListener(
         "click",
         function() {
 
-          const currentStep =
-            option.closest(".onboarding-step");
-
-
-          if (!currentStep) {
-            return;
-          }
-
-
-          currentStep
-            .querySelectorAll(
-              ".onboarding-option"
-            )
-            .forEach(function(item) {
-
-              item.classList.remove(
-                "selected"
-              );
-
-            });
-
-
-          option.classList.add(
-            "selected"
-          );
-
-
-          setTimeout(
-            function() {
-
-              nextOnboardingStep();
-
-            },
-            160
-          );
+          selectAnswer(button);
 
         }
       );
@@ -1407,52 +1622,44 @@
     });
 
 
-  /* =====================================================
-     MEU NEXUP
-  ====================================================== */
+  if (backButton) {
 
-  function openProfile() {
+    backButton.addEventListener(
+      "click",
+      function() {
 
-    openOnboarding();
+        if (currentStep > 1) {
+
+          currentStep--;
+
+          updateQuestionnaire();
+
+        } else {
+
+          overlay.classList.add("hidden");
+
+        }
+
+      }
+    );
 
   }
 
 
-  /* =====================================================
-     START
-  ====================================================== */
+  updateQuestionnaire();
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-      const onboarding =
-        document.getElementById(
-          "nexupOnboarding"
-        );
-
-
-      if (onboarding) {
-        onboarding.style.display =
-          "none";
-      }
-
-
-      showHome();
-
-      updateOnboarding();
-
-    }
-  );
+})();
 
 </script>
 
 
-<!-- =======================================================
+
+<!-- =====================================================
      APPLICATION
-======================================================== -->
+====================================================== -->
 
 <script src="app.js"></script>
+
 
 </body>
 
