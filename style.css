@@ -1484,3 +1484,37 @@ button {
   }
 
 }
+/* =====================================================
+   NEXUP — ONBOARDING BACK BUTTON
+====================================================== */
+
+.onboarding-back {
+  padding: 11px 16px;
+
+  background: transparent;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 8px;
+
+  color: #A1A1AA;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+
+.onboarding-back:hover {
+  color: #F4F4F5;
+
+  border-color: rgba(99, 102, 241, 0.5);
+
+  background: rgba(99, 102, 241, 0.08);
+}
