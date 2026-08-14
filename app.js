@@ -2613,3 +2613,114 @@ setInterval(
   showStep(0);
 
 })();
+/* =====================================================
+   NEXUP — ONBOARDING BACK BUTTON
+====================================================== */
+
+(function () {
+
+  const backButton =
+    document.getElementById(
+      "onboardingBack"
+    );
+
+  const steps =
+    document.querySelectorAll(
+      ".onboarding-step"
+    );
+
+  if (
+    !backButton ||
+    !steps.length
+  ) {
+    return;
+  }
+
+
+  backButton.addEventListener(
+    "click",
+    () => {
+
+      const activeStep =
+        document.querySelector(
+          ".onboarding-step.active"
+        );
+
+
+      if (!activeStep) {
+        return;
+      }
+
+
+      const current =
+        Number(
+          activeStep.dataset.step
+        );
+
+
+      if (current <= 1) {
+        return;
+      }
+
+
+      steps.forEach(
+        step => {
+
+          step.classList.remove(
+            "active"
+          );
+
+        }
+      );
+
+
+      const previous =
+        document.querySelector(
+          `.onboarding-step[data-step="${current - 1}"]`
+        );
+
+
+      if (previous) {
+
+        previous.classList.add(
+          "active"
+        );
+
+      }
+
+
+      const dots =
+        document.querySelectorAll(
+          ".progress-dot"
+        );
+
+
+      dots.forEach(
+        (dot, index) => {
+
+          dot.classList.toggle(
+            "active",
+            index === current - 2
+          );
+
+        }
+      );
+
+
+      const nextButton =
+        document.getElementById(
+          "onboardingNext"
+        );
+
+
+      if (nextButton) {
+
+        nextButton.textContent =
+          "CONTINUAR";
+
+      }
+
+    }
+  );
+
+})();
