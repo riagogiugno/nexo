@@ -2311,3 +2311,305 @@ setInterval(
   updateDashboard,
   1000
 );
+/* =====================================================
+   NEXUP — ONBOARDING ENGINE
+====================================================== */
+
+(function () {
+
+  const onboarding =
+    document.getElementById("nexupOnboarding");
+
+  const nextButton =
+    document.getElementById("onboardingNext");
+
+  const steps =
+    document.querySelectorAll(".onboarding-step");
+
+  const dots =
+    document.querySelectorAll(".progress-dot");
+
+  const options =
+    document.querySelectorAll(".onboarding-option");
+
+
+  if (
+    !onboarding ||
+    !nextButton ||
+    !steps.length
+  ) {
+    return;
+  }
+
+
+  let currentStep = 0;
+
+  const answers = {
+    profile: null,
+    experience: null,
+    style: null,
+    objectives: []
+  };
+
+
+  function showStep(index) {
+
+    steps.forEach(
+      (step, stepIndex) => {
+
+        step.classList.toggle(
+          "active",
+          stepIndex === index
+        );
+
+      }
+    );
+
+
+    dots.forEach(
+      (dot, dotIndex) => {
+
+        dot.classList.toggle(
+          "active",
+          dotIndex === index
+        );
+
+      }
+    );
+
+
+    if (
+      index === steps.length - 1
+    ) {
+
+      nextButton.textContent =
+        "CONCLUIR";
+
+    } else {
+
+      nextButton.textContent =
+        "CONTINUAR";
+
+    }
+
+  }
+
+
+  options.forEach(
+    (option) => {
+
+      option.addEventListener(
+        "click",
+        () => {
+
+          const step =
+            option.closest(
+              ".onboarding-step"
+            );
+
+
+          if (!step) {
+            return;
+          }
+
+
+          const stepNumber =
+            Number(
+              step.dataset.step
+            );
+
+
+          /*
+             Objetivos podem ter
+             múltiplas escolhas.
+          */
+
+          if (
+            stepNumber === 4
+          ) {
+
+            option.classList.toggle(
+              "selected"
+            );
+
+            const objective =
+              option.innerText
+                .trim();
+
+
+            if (
+              option.classList.contains(
+                "selected"
+              )
+            ) {
+
+              if (
+                !answers.objectives.includes(
+                  objective
+                )
+              ) {
+
+                answers.objectives.push(
+                  objective
+                );
+
+              }
+
+            } else {
+
+              answers.objectives =
+                answers.objectives.filter(
+                  item =>
+                    item !== objective
+                );
+
+            }
+
+            return;
+
+          }
+
+
+          /*
+             As outras etapas
+             aceitam apenas uma escolha.
+          */
+
+          const optionsInStep =
+            step.querySelectorAll(
+              ".onboarding-option"
+            );
+
+
+          optionsInStep.forEach(
+            (item) => {
+
+              item.classList.remove(
+                "selected"
+              );
+
+            }
+          );
+
+
+          option.classList.add(
+            "selected"
+          );
+
+
+          const value =
+            option.dataset.profile ||
+            option.innerText.trim();
+
+
+          if (
+            stepNumber === 1
+          ) {
+
+            answers.profile =
+              value;
+
+          }
+
+
+          if (
+            stepNumber === 2
+          ) {
+
+            answers.experience =
+              value;
+
+          }
+
+
+          if (
+            stepNumber === 3
+          ) {
+
+            answers.style =
+              value;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  nextButton.addEventListener(
+    "click",
+    () => {
+
+      /*
+         Não permite avançar
+         sem escolher uma resposta.
+      */
+
+      const current =
+        steps[currentStep];
+
+
+      const selected =
+        current.querySelector(
+          ".onboarding-option.selected"
+        );
+
+
+      if (
+        !selected &&
+        currentStep !== 3
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+         Última etapa:
+         finalizar onboarding.
+      */
+
+      if (
+        currentStep ===
+        steps.length - 1
+      ) {
+
+        localStorage.setItem(
+          "nexupProfile",
+          JSON.stringify(
+            answers
+          )
+        );
+
+
+        onboarding.style.display =
+          "none";
+
+
+        console.log(
+          "NEXUP — Perfil criado:",
+          answers
+        );
+
+
+        return;
+
+      }
+
+
+      currentStep++;
+
+      showStep(
+        currentStep
+      );
+
+    }
+  );
+
+
+  showStep(0);
+
+})();
