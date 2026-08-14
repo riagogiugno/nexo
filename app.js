@@ -1866,3 +1866,448 @@ renderGames();
 renderHistory();
 
 restoreActiveOperation();
+/* =========================================================
+   NEXUP — DASHBOARD DATA
+========================================================= */
+
+function updateDashboard() {
+
+  const operations = history.filter(
+    item =>
+      item &&
+      item.entryOdd !== undefined
+  );
+
+
+  /* =======================================================
+     OVERVIEW
+  ====================================================== */
+
+  const liveGames =
+    games.filter(
+      game =>
+        game.status === "LIVE"
+    ).length;
+
+
+  const readings =
+    operations.filter(
+      operation =>
+        operation.reading
+    ).length;
+
+
+  const active =
+    operations.filter(
+      operation =>
+        operation.status === "ATIVA"
+    ).length;
+
+
+  const profit =
+    operations.reduce(
+      (total, operation) =>
+        total +
+        Number(operation.profit || 0),
+      0
+    );
+
+
+  const overviewLive =
+    document.getElementById(
+      "overviewLive"
+    );
+
+  const overviewReadings =
+    document.getElementById(
+      "overviewReadings"
+    );
+
+  const overviewActive =
+    document.getElementById(
+      "overviewActive"
+    );
+
+  const overviewProfit =
+    document.getElementById(
+      "overviewProfit"
+    );
+
+
+  if (overviewLive) {
+
+    overviewLive.textContent =
+      liveGames;
+
+  }
+
+
+  if (overviewReadings) {
+
+    overviewReadings.textContent =
+      readings;
+
+  }
+
+
+  if (overviewActive) {
+
+    overviewActive.textContent =
+      active;
+
+  }
+
+
+  if (overviewProfit) {
+
+    overviewProfit.textContent =
+      `R$ ${formatMoney(profit)}`;
+
+    overviewProfit.style.color =
+      profit > 0
+        ? "var(--green)"
+        : profit < 0
+          ? "var(--red)"
+          : "var(--text)";
+
+  }
+
+
+  /* =======================================================
+     NEXUP SCORE NOS CARDS
+  ====================================================== */
+
+  const liveCards =
+    document.querySelectorAll(
+      "#liveGames .game-card"
+    );
+
+
+  const liveGamesList =
+    games.filter(
+      game =>
+        game.status === "LIVE"
+    );
+
+
+  liveCards.forEach(
+    (card, index) => {
+
+      const game =
+        liveGamesList[index];
+
+      if (!game) {
+        return;
+      }
+
+
+      const existing =
+        card.querySelector(
+          ".nexup-score"
+        );
+
+
+      if (existing) {
+        return;
+      }
+
+
+      const scoreBox =
+        document.createElement(
+          "div"
+        );
+
+      scoreBox.className =
+        "nexup-score";
+
+
+      scoreBox.innerHTML = `
+
+        <div>
+
+          <div class="nexup-score-label">
+            NEXUP SCORE
+          </div>
+
+          <div class="nexup-score-value">
+            ${game.nexupScore ?? "--"}
+          </div>
+
+        </div>
+
+        <div
+          class="nexup-score-label"
+          style="text-align:right;"
+        >
+          DECISION<br>
+          INTELLIGENCE
+        </div>
+
+      `;
+
+
+      const button =
+        card.querySelector(
+          ".select-game"
+        );
+
+
+      if (button) {
+
+        button.before(
+          scoreBox
+        );
+
+      } else {
+
+        card.appendChild(
+          scoreBox
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     MÉTRICAS
+  ====================================================== */
+
+  const metricDecisions =
+    document.getElementById(
+      "metricDecisions"
+    );
+
+  const metricGreens =
+    document.getElementById(
+      "metricGreens"
+    );
+
+  const metricLosses =
+    document.getElementById(
+      "metricLosses"
+    );
+
+  const metricWinRate =
+    document.getElementById(
+      "metricWinRate"
+    );
+
+
+  const greens =
+    operations.filter(
+      operation =>
+        operation.result === "GREEN"
+    ).length;
+
+
+  const losses =
+    operations.filter(
+      operation =>
+        operation.result === "LOSS"
+    ).length;
+
+
+  const finished =
+    greens + losses;
+
+
+  const winRate =
+    finished > 0
+      ? (
+          greens /
+          finished *
+          100
+        )
+          .toFixed(1)
+      : "0.0";
+
+
+  if (metricDecisions) {
+
+    metricDecisions.textContent =
+      operations.length;
+
+  }
+
+
+  if (metricGreens) {
+
+    metricGreens.textContent =
+      greens;
+
+  }
+
+
+  if (metricLosses) {
+
+    metricLosses.textContent =
+      losses;
+
+  }
+
+
+  if (metricWinRate) {
+
+    metricWinRate.textContent =
+      `${winRate}%`;
+
+  }
+
+
+  /* =======================================================
+     ATIVIDADE RECENTE
+  ====================================================== */
+
+  const activityContainer =
+    document.getElementById(
+      "recentActivityContainer"
+    );
+
+
+  if (!activityContainer) {
+    return;
+  }
+
+
+  if (operations.length === 0) {
+
+    activityContainer.innerHTML = `
+
+      <div class="activity-empty">
+
+        Nenhuma atividade registrada ainda.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const recent =
+    operations.slice(0, 5);
+
+
+  activityContainer.innerHTML =
+    recent.map(
+      operation => {
+
+        const resultClass =
+          operation.status === "ATIVA"
+            ? "upcoming"
+            : operation.result === "GREEN"
+              || operation.result === "CASHOUT"
+                ? "live"
+                : "upcoming";
+
+
+        const resultLabel =
+          operation.status === "ATIVA"
+            ? "🟡 ATIVA"
+            : operation.result;
+
+
+        return `
+
+          <div
+            class="game-card"
+            style="padding:15px;"
+          >
+
+            <div class="game-top">
+
+              <span class="competition">
+                ${escapeHTML(
+                  operation.date || ""
+                )}
+              </span>
+
+              <span class="${resultClass}">
+                ${escapeHTML(
+                  resultLabel
+                )}
+              </span>
+
+            </div>
+
+
+            <div class="teams">
+
+              ${escapeHTML(
+                operation.game || "Jogo"
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              ${escapeHTML(
+                operation.thesis || "-"
+              )}
+
+              ·
+
+              ${escapeHTML(
+                operation.market || "-"
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              ODD
+              ${Number(
+                operation.entryOdd || 0
+              ).toFixed(2)}
+
+              ·
+
+              STAKE
+              R$
+              ${formatMoney(
+                operation.stake
+              )}
+
+              ·
+
+              P&L
+              R$
+              ${formatMoney(
+                operation.profit
+              )}
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =========================================================
+   DASHBOARD INIT
+========================================================= */
+
+updateDashboard();
+
+
+/*
+  Mantém os indicadores sincronizados
+  caso uma operação seja registrada,
+  encerrada ou o histórico seja alterado.
+*/
+
+setInterval(
+  updateDashboard,
+  1000
+);
