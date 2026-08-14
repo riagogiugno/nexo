@@ -1,12 +1,6 @@
 /* =========================================================
-   NEXUP
-   O ponto entre a leitura e a decisão.
-   V0.8 — CORE ANALYTICAL TERMINAL
-========================================================= */
-
-
-/* =========================================================
-   JOGOS — MOCK DATA
+   NEXUP — CORE ENGINE
+   Decision Intelligence Terminal
 ========================================================= */
 
 const games = [
@@ -18,14 +12,8 @@ const games = [
     away: "Cerro Porteño",
     minute: "67'",
     score: "1 × 1",
-    nexupScore: 78,
-    temperature: "FORTE",
-    pressure: 82,
-    rhythm: 76,
-    dominance: 79,
-    danger: 74
+    nexupScore: 78
   },
-
   {
     id: 2,
     status: "LIVE",
@@ -34,14 +22,8 @@ const games = [
     away: "Flamengo",
     minute: "34'",
     score: "0 × 0",
-    nexupScore: 54,
-    temperature: "MORNO",
-    pressure: 51,
-    rhythm: 48,
-    dominance: 57,
-    danger: 43
+    nexupScore: 64
   },
-
   {
     id: 3,
     status: "LIVE",
@@ -50,40 +32,29 @@ const games = [
     away: "Internacional",
     minute: "71'",
     score: "2 × 0",
-    nexupScore: 86,
-    temperature: "FORTE",
-    pressure: 88,
-    rhythm: 84,
-    dominance: 91,
-    danger: 81
+    nexupScore: 86
   },
-
   {
     id: 4,
     status: "UPCOMING",
     competition: "Brasileirão",
     home: "São Paulo",
     away: "Santos",
-    time: "21:30",
-    nexupScore: 0,
-    temperature: "PRÉ-LIVE"
+    time: "21:30"
   },
-
   {
     id: 5,
     status: "UPCOMING",
     competition: "Libertadores",
     home: "River Plate",
     away: "Boca Juniors",
-    time: "22:00",
-    nexupScore: 0,
-    temperature: "PRÉ-LIVE"
+    time: "22:00"
   }
 ];
 
 
 /* =========================================================
-   ELEMENTOS
+   DOM
 ========================================================= */
 
 const liveContainer =
@@ -95,15 +66,9 @@ const upcomingContainer =
 const selectedGame =
   document.getElementById("selectedGame");
 
-const historyContainer =
-  document.getElementById("historyContainer");
-
-const metricsContainer =
-  document.getElementById("metricsContainer");
-
 
 /* =========================================================
-   ESTADO
+   STATE
 ========================================================= */
 
 let checkpoint = {
@@ -115,223 +80,181 @@ let checkpoint = {
   stake: 0
 };
 
+let history = loadHistory();
 
-let history = JSON.parse(
-  localStorage.getItem("nexoHistory") || "[]"
-);
-
-
-let activeOperationId = null;
+let activeOperationId =
+  Number(
+    localStorage.getItem("nexupActiveOperation")
+  ) || null;
 
 
 /* =========================================================
-   UTILITÁRIOS
+   STORAGE
 ========================================================= */
 
-function money(value) {
+function loadHistory() {
 
-  return Number(value || 0).toLocaleString(
-    "pt-BR",
-    {
-      style: "currency",
-      currency: "BRL"
+  try {
+
+    const stored =
+      localStorage.getItem("nexoHistory");
+
+    if (!stored) {
+      return [];
     }
+
+    const parsed =
+      JSON.parse(stored);
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao carregar histórico:",
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+function saveHistory() {
+
+  localStorage.setItem(
+    "nexoHistory",
+    JSON.stringify(history)
   );
+
+}
+
+
+function saveActiveOperation() {
+
+  if (activeOperationId) {
+
+    localStorage.setItem(
+      "nexupActiveOperation",
+      String(activeOperationId)
+    );
+
+  } else {
+
+    localStorage.removeItem(
+      "nexupActiveOperation"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function getGame(id) {
+
+  return games.find(
+    game => game.id === Number(id)
+  );
+
+}
+
+
+function getActiveOperation() {
+
+  if (!activeOperationId) {
+    return null;
+  }
+
+  return history.find(
+    operation =>
+      operation.id === activeOperationId &&
+      operation.status === "ATIVA"
+  ) || null;
+
+}
+
+
+function formatMoney(value) {
+
+  return Number(value || 0)
+    .toFixed(2)
+    .replace(".", ",");
 
 }
 
 
 function escapeHTML(value) {
 
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+  if (value === null ||
+      value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
 
 /* =========================================================
-   NAVEGAÇÃO
+   RESET CHECKPOINT
 ========================================================= */
 
-function showSection(sectionId, button) {
+function resetCheckpoint(gameId) {
 
-  const sections = [
-    "gamesSection",
-    "historySection",
-    "metricsSection"
-  ];
+  checkpoint = {
 
-  sections.forEach(id => {
+    gameId:
+      Number(gameId),
 
-    const section =
-      document.getElementById(id);
+    reading: "",
 
-    if (!section) {
-      return;
-    }
+    thesis: "",
 
-    section.classList.toggle(
-      "hidden",
-      id !== sectionId
-    );
+    market: "",
 
-  });
+    odd: 0,
 
+    stake: 0
 
-  document
-    .querySelectorAll(".nav button")
-    .forEach(item => {
-
-      item.classList.remove("active");
-
-    });
-
-
-  if (button) {
-    button.classList.add("active");
-  }
-
-
-  if (sectionId === "historySection") {
-    renderHistory();
-  }
-
-
-  if (sectionId === "metricsSection") {
-    renderMetrics();
-  }
+  };
 
 }
 
 
 /* =========================================================
-   DASHBOARD OVERVIEW
-========================================================= */
-
-function renderOverview() {
-
-  const live =
-    games.filter(
-      game => game.status === "LIVE"
-    ).length;
-
-
-  const readings =
-    history.filter(
-      item => item.reading
-    ).length;
-
-
-  const active =
-    history.filter(
-      item => item.status === "ATIVA"
-    ).length;
-
-
-  const pnl =
-    history.reduce(
-      (sum, item) =>
-        sum + Number(item.profit || 0),
-      0
-    );
-
-
-  const liveElement =
-    document.getElementById(
-      "overviewLive"
-    );
-
-  const readingsElement =
-    document.getElementById(
-      "overviewReadings"
-    );
-
-  const activeElement =
-    document.getElementById(
-      "overviewActive"
-    );
-
-  const pnlElement =
-    document.getElementById(
-      "overviewPnl"
-    );
-
-
-  if (liveElement) {
-    liveElement.textContent = live;
-  }
-
-
-  if (readingsElement) {
-    readingsElement.textContent = readings;
-  }
-
-
-  if (activeElement) {
-    activeElement.textContent = active;
-  }
-
-
-  if (pnlElement) {
-
-    pnlElement.textContent =
-      money(pnl);
-
-    pnlElement.classList.remove(
-      "positive",
-      "negative"
-    );
-
-
-    if (pnl > 0) {
-      pnlElement.classList.add(
-        "positive"
-      );
-    }
-
-
-    if (pnl < 0) {
-      pnlElement.classList.add(
-        "negative"
-      );
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   JOGOS
+   RENDER JOGOS
 ========================================================= */
 
 function renderGames() {
 
-  if (
-    !liveContainer ||
-    !upcomingContainer
-  ) {
+  if (!liveContainer ||
+      !upcomingContainer) {
     return;
   }
-
 
   liveContainer.innerHTML = "";
   upcomingContainer.innerHTML = "";
 
-
   games.forEach(game => {
 
     const card =
-      document.createElement("article");
-
+      document.createElement("div");
 
     card.className =
       "game-card";
-
 
     if (game.status === "LIVE") {
 
@@ -340,7 +263,7 @@ function renderGames() {
         <div class="game-top">
 
           <span class="live">
-            ● AO VIVO
+            🔴 AO VIVO
           </span>
 
           <span class="competition">
@@ -349,67 +272,39 @@ function renderGames() {
 
         </div>
 
-
         <div class="teams">
 
           ${escapeHTML(game.home)}
-
-          <span class="match-score">
-            ${escapeHTML(game.score)}
-          </span>
-
+          <br>
           ${escapeHTML(game.away)}
 
         </div>
 
-
         <div class="scoreline">
+
+          <span class="score">
+            ${escapeHTML(game.score)}
+          </span>
 
           <span class="minute">
             ${escapeHTML(game.minute)}
           </span>
 
-          <span
-            class="temperature
-              ${game.temperature === "FORTE"
-                ? "temperature-strong"
-                : "temperature-warm"}"
-          >
-            ${escapeHTML(game.temperature)}
-          </span>
-
         </div>
-
-
-        <div class="nexup-mini">
-
-          <span>
-            NEXUP SCORE
-          </span>
-
-          <strong>
-            ${game.nexupScore}
-          </strong>
-
-        </div>
-
 
         <button
           class="select-game"
-          onclick="selectGame(${game.id})"
-        >
+          onclick="selectGame(${game.id})">
+
           ANALISAR JOGO
+
         </button>
 
       `;
 
-
       liveContainer.appendChild(card);
 
-    }
-
-
-    else {
+    } else {
 
       card.innerHTML = `
 
@@ -425,19 +320,13 @@ function renderGames() {
 
         </div>
 
-
         <div class="teams">
 
           ${escapeHTML(game.home)}
-
-          <span class="vs">
-            ×
-          </span>
-
+          <br>
           ${escapeHTML(game.away)}
 
         </div>
-
 
         <div class="scoreline">
 
@@ -451,16 +340,15 @@ function renderGames() {
 
         </div>
 
-
         <button
           class="select-game"
-          onclick="selectGame(${game.id})"
-        >
-          VER PRÉ-LIVE
+          onclick="selectGame(${game.id})">
+
+          ANALISAR PRÉ-JOGO
+
         </button>
 
       `;
-
 
       upcomingContainer.appendChild(card);
 
@@ -477,453 +365,49 @@ function renderGames() {
 
 function selectGame(id) {
 
-  const game =
-    games.find(
-      item => item.id === id
-    );
-
+  const game = getGame(id);
 
   if (!game || !selectedGame) {
     return;
   }
 
+  resetCheckpoint(game.id);
 
-  checkpoint = {
-    gameId: id,
-    reading: "",
-    thesis: "",
-    market: "",
-    odd: 0,
-    stake: 0
-  };
+  selectedGame.classList.remove("hidden");
 
+  const activeOperation =
+    getActiveOperation();
 
-  selectedGame.classList.remove(
-    "hidden"
-  );
+  /*
+    Se existe uma operação ativa,
+    recuperamos ela.
+  */
 
+  if (
+    activeOperation &&
+    activeOperation.gameId === game.id
+  ) {
 
-  if (game.status !== "LIVE") {
+    checkpoint.gameId =
+      game.id;
 
-    selectedGame.innerHTML = `
+    showSelectedGame(
+      game,
+      true
+    );
 
-      <div class="analysis-panel">
+    showActiveOperation(
+      activeOperation
+    );
 
-        <div class="analysis-header">
+  } else {
 
-          <div>
+    showSelectedGame(
+      game,
+      false
+    );
 
-            <div class="eyebrow">
-              PRÉ-LIVE
-            </div>
-
-            <div class="selected-title">
-              ${escapeHTML(game.home)}
-              <span>×</span>
-              ${escapeHTML(game.away)}
-            </div>
-
-            <div class="selected-info">
-              ${escapeHTML(game.competition)}
-              ·
-              ${escapeHTML(game.time)}
-            </div>
-
-          </div>
-
-          <div class="upcoming">
-            ⏳ PRÓXIMO
-          </div>
-
-        </div>
-
-
-        <div class="prelive-message">
-
-          <strong>
-            ANÁLISE PRÉ-LIVE
-          </strong>
-
-          <p>
-            O jogo ainda não começou.
-            O NEXUP pode organizar a leitura
-            antes da partida, mas a decisão
-            continua sendo do trader.
-          </p>
-
-        </div>
-
-      </div>
-
-    `;
-
-
-    selectedGame.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-
-
-    return;
   }
-
-
-  selectedGame.innerHTML = `
-
-    <div class="analysis-panel">
-
-      <!-- HEADER -->
-
-      <div class="analysis-header">
-
-        <div>
-
-          <div class="eyebrow">
-            ${escapeHTML(game.competition)}
-            · AO VIVO
-          </div>
-
-          <div class="selected-title">
-
-            ${escapeHTML(game.home)}
-
-            <span>
-              ${escapeHTML(game.score)}
-            </span>
-
-            ${escapeHTML(game.away)}
-
-          </div>
-
-          <div class="selected-info">
-            ${escapeHTML(game.minute)}
-          </div>
-
-        </div>
-
-
-        <div class="live-indicator">
-          <span></span>
-          LIVE
-        </div>
-
-      </div>
-
-
-      <!-- SCORE -->
-
-      <div class="score-zone">
-
-        <div class="score-ring">
-
-          <div class="score-number">
-            ${game.nexupScore}
-          </div>
-
-          <div class="score-label">
-            NEXUP SCORE
-          </div>
-
-        </div>
-
-
-        <div class="temperature-box">
-
-          <div class="eyebrow">
-            ESTADO DO JOGO
-          </div>
-
-          <strong>
-            ${game.temperature}
-          </strong>
-
-          <p>
-            O NEXUP informa.
-            O trader interpreta.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- INDICADORES -->
-
-      <div class="indicators">
-
-        ${indicator(
-          "PRESSÃO",
-          game.pressure
-        )}
-
-        ${indicator(
-          "RITMO",
-          game.rhythm
-        )}
-
-        ${indicator(
-          "DOMÍNIO",
-          game.dominance
-        )}
-
-        ${indicator(
-          "PERIGO",
-          game.danger
-        )}
-
-      </div>
-
-
-      <!-- FLUXO -->
-
-      <div class="decision-flow">
-
-        <div class="flow-step active">
-          01<br>
-          <span>OBSERVAÇÃO</span>
-        </div>
-
-        <div class="flow-line"></div>
-
-        <div class="flow-step">
-          02<br>
-          <span>LEITURA</span>
-        </div>
-
-        <div class="flow-line"></div>
-
-        <div class="flow-step">
-          03<br>
-          <span>TESE</span>
-        </div>
-
-        <div class="flow-line"></div>
-
-        <div class="flow-step">
-          04<br>
-          <span>MERCADO</span>
-        </div>
-
-        <div class="flow-line"></div>
-
-        <div class="flow-step">
-          05<br>
-          <span>DECISÃO</span>
-        </div>
-
-      </div>
-
-
-      <!-- CHECKPOINT -->
-
-      <div class="panel">
-
-        <div class="eyebrow">
-          CHECKPOINT
-        </div>
-
-        <h2 class="section-title">
-          MINHA LEITURA
-        </h2>
-
-        <p class="section-subtitle">
-          Como você classifica este momento?
-        </p>
-
-
-        <div class="quick-grid">
-
-          <button
-            class="quick-button"
-            onclick="chooseReading('FORTE')"
-          >
-            FORTE
-          </button>
-
-          <button
-            class="quick-button"
-            onclick="chooseReading('NEUTRA')"
-          >
-            NEUTRA
-          </button>
-
-          <button
-            class="quick-button"
-            onclick="chooseReading('FRACA')"
-          >
-            FRACA
-          </button>
-
-        </div>
-
-
-        <div
-          id="checkpointStep2"
-          class="hidden"
-        >
-
-          <h2 class="section-title">
-            TESE
-          </h2>
-
-          <div class="quick-grid">
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('PRÓXIMO GOL')"
-            >
-              PRÓXIMO GOL
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('ESCANTEIO')"
-            >
-              ESCANTEIO
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('CARTÃO')"
-            >
-              CARTÃO
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('MOVIMENTO DE ODD')"
-            >
-              MOVIMENTO DE ODD
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseThesis('OUTRO')"
-            >
-              OUTRO
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div
-          id="checkpointStep3"
-          class="hidden"
-        >
-
-          <h2 class="section-title">
-            MERCADO
-          </h2>
-
-          <div class="quick-grid">
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('OVER / UNDER')"
-            >
-              OVER / UNDER
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('MATCH ODDS')"
-            >
-              MATCH ODDS
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('ESCANTEIOS')"
-            >
-              ESCANTEIOS
-            </button>
-
-            <button
-              class="quick-button"
-              onclick="chooseMarket('CARTÕES')"
-            >
-              CARTÕES
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div
-          id="checkpointStep4"
-          class="hidden"
-        >
-
-          <h2 class="section-title">
-            DECISÃO
-          </h2>
-
-          <p class="section-subtitle">
-            O NEXUP organiza.
-            O TRADER DECIDE.
-          </p>
-
-
-          <div class="operation-form">
-
-            <label>
-              ODD DE ENTRADA
-            </label>
-
-            <input
-              id="entryOdd"
-              type="number"
-              step="0.01"
-              min="1.01"
-              placeholder="1.50"
-            >
-
-
-            <label>
-              STAKE
-            </label>
-
-            <input
-              id="entryStake"
-              type="number"
-              step="0.01"
-              min="0.01"
-              placeholder="20.00"
-            >
-
-
-            <button
-              class="primary-action"
-              onclick="startOperation()"
-            >
-              REGISTRAR OPERAÇÃO
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div
-          id="operationPanel"
-          class="hidden"
-        ></div>
-
-
-        <div
-          id="checkpointResult"
-          class="hidden"
-        ></div>
-
-      </div>
-
-    </div>
-
-  `;
-
 
   selectedGame.scrollIntoView({
     behavior: "smooth",
@@ -934,34 +418,323 @@ function selectGame(id) {
 
 
 /* =========================================================
-   INDICADOR
+   TELA DO JOGO
 ========================================================= */
 
-function indicator(label, value) {
+function showSelectedGame(
+  game,
+  hasActiveOperation = false
+) {
 
-  return `
+  if (!selectedGame) {
+    return;
+  }
 
-    <div class="indicator">
+  if (game.status !== "LIVE") {
 
-      <div class="indicator-head">
+    selectedGame.innerHTML = `
 
-        <span>
-          ${label}
-        </span>
+      <div class="selected-game">
 
-        <strong>
-          ${value}
-        </strong>
+        <div>
+
+          <div class="selected-title">
+
+            ${escapeHTML(game.home)}
+            ×
+            ${escapeHTML(game.away)}
+
+          </div>
+
+          <div class="selected-info">
+
+            ${escapeHTML(game.competition)}
+            ·
+            ${escapeHTML(game.time)}
+            · PRÉ-JOGO
+
+          </div>
+
+        </div>
+
+        <div class="upcoming">
+          ⏳ PRÓXIMO
+        </div>
 
       </div>
 
-      <div class="indicator-track">
+    `;
 
-        <div
-          class="indicator-fill"
-          style="width:${value}%"
-        ></div>
+    return;
+  }
 
+
+  selectedGame.innerHTML = `
+
+    <div class="selected-game">
+
+      <div>
+
+        <div class="selected-title">
+
+          ${escapeHTML(game.home)}
+          &nbsp;
+          ${escapeHTML(game.score)}
+          &nbsp;
+          ${escapeHTML(game.away)}
+
+        </div>
+
+        <div class="selected-info">
+
+          ${escapeHTML(game.competition)}
+          ·
+          ${escapeHTML(game.minute)}
+          · AO VIVO
+
+        </div>
+
+      </div>
+
+      <div class="live">
+        🔴 LIVE
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <h2 class="section-title">
+        NEXUP SCORE
+      </h2>
+
+      <div
+        class="score"
+        style="font-size:48px; margin-bottom:6px;"
+      >
+        ${game.nexupScore || "--"}
+      </div>
+
+      <div class="section-subtitle">
+
+        Índice analítico do momento.
+        O NEXUP informa. O trader decide.
+
+      </div>
+
+      <h3 class="section-title">
+        CHECKPOINT
+      </h3>
+
+      <div class="section-subtitle">
+
+        OBSERVAÇÃO →
+        LEITURA →
+        TESE →
+        MERCADO →
+        DECISÃO
+
+      </div>
+
+      <h3 class="section-title">
+        1. MINHA LEITURA
+      </h3>
+
+      <div class="quick-grid">
+
+        <button
+          class="quick-button"
+          onclick="chooseReading('FORTE')">
+
+          🟢 FORTE
+
+        </button>
+
+        <button
+          class="quick-button"
+          onclick="chooseReading('NEUTRA')">
+
+          🟡 NEUTRA
+
+        </button>
+
+        <button
+          class="quick-button"
+          onclick="chooseReading('FRACA')">
+
+          🔴 FRACA
+
+        </button>
+
+      </div>
+
+
+      <div
+        id="checkpointStep2"
+        class="hidden">
+
+        <h3 class="section-title">
+          2. TESE
+        </h3>
+
+        <div class="quick-grid">
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('PRÓXIMO GOL')">
+
+            ⚽ PRÓXIMO GOL
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('ESCANTEIO')">
+
+            🚩 ESCANTEIO
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('CARTÃO')">
+
+            🟨 CARTÃO
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('MOVIMENTO DE ODD')">
+
+            📈 MOVIMENTO DE ODD
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseThesis('OUTRO')">
+
+            OUTRO
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="checkpointStep3"
+        class="hidden">
+
+        <h3 class="section-title">
+          3. MERCADO
+        </h3>
+
+        <div class="quick-grid">
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('OVER / UNDER')">
+
+            OVER / UNDER
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('MATCH ODDS')">
+
+            MATCH ODDS
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('CORRECT SCORE')">
+
+            CORRECT SCORE
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('ESCANTEIOS')">
+
+            ESCANTEIOS
+
+          </button>
+
+          <button
+            class="quick-button"
+            onclick="chooseMarket('CARTÕES')">
+
+            CARTÕES
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="checkpointStep4"
+        class="hidden">
+
+        <h3 class="section-title">
+          4. DECISÃO
+        </h3>
+
+        <div class="operation-form">
+
+          <label>
+            ODD DE ENTRADA
+          </label>
+
+          <input
+            id="entryOdd"
+            type="number"
+            step="0.01"
+            min="1.01"
+            placeholder="Ex: 1.50"
+          >
+
+          <label>
+            STAKE
+          </label>
+
+          <input
+            id="entryStake"
+            type="number"
+            step="0.01"
+            min="0.01"
+            placeholder="Ex: 5.00"
+          >
+
+          <button
+            class="select-game"
+            onclick="startOperation()">
+
+            REGISTRAR OPERAÇÃO
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="operationPanel"
+        class="hidden">
+      </div>
+
+
+      <div
+        id="checkpointResult"
+        class="hidden">
       </div>
 
     </div>
@@ -977,19 +750,16 @@ function indicator(label, value) {
 
 function chooseReading(value) {
 
-  checkpoint.reading = value;
-
+  checkpoint.reading =
+    value;
 
   const step =
     document.getElementById(
       "checkpointStep2"
     );
 
-
   if (step) {
-    step.classList.remove(
-      "hidden"
-    );
+    step.classList.remove("hidden");
   }
 
 }
@@ -1001,19 +771,16 @@ function chooseReading(value) {
 
 function chooseThesis(value) {
 
-  checkpoint.thesis = value;
-
+  checkpoint.thesis =
+    value;
 
   const step =
     document.getElementById(
       "checkpointStep3"
     );
 
-
   if (step) {
-    step.classList.remove(
-      "hidden"
-    );
+    step.classList.remove("hidden");
   }
 
 }
@@ -1025,19 +792,16 @@ function chooseThesis(value) {
 
 function chooseMarket(value) {
 
-  checkpoint.market = value;
-
+  checkpoint.market =
+    value;
 
   const step =
     document.getElementById(
       "checkpointStep4"
     );
 
-
   if (step) {
-    step.classList.remove(
-      "hidden"
-    );
+    step.classList.remove("hidden");
   }
 
 }
@@ -1048,6 +812,69 @@ function chooseMarket(value) {
 ========================================================= */
 
 function startOperation() {
+
+  /*
+    Não permitimos duas operações simultâneas
+    nesta primeira arquitetura.
+  */
+
+  const existing =
+    getActiveOperation();
+
+  if (existing) {
+
+    alert(
+      "Existe uma operação ativa no NEXUP."
+    );
+
+    return;
+
+  }
+
+
+  if (!checkpoint.gameId) {
+
+    alert(
+      "Selecione um jogo."
+    );
+
+    return;
+
+  }
+
+
+  if (!checkpoint.reading) {
+
+    alert(
+      "Registre sua leitura antes de continuar."
+    );
+
+    return;
+
+  }
+
+
+  if (!checkpoint.thesis) {
+
+    alert(
+      "Selecione uma tese."
+    );
+
+    return;
+
+  }
+
+
+  if (!checkpoint.market) {
+
+    alert(
+      "Selecione um mercado."
+    );
+
+    return;
+
+  }
+
 
   const oddInput =
     document.getElementById(
@@ -1060,8 +887,11 @@ function startOperation() {
     );
 
 
-  if (!oddInput || !stakeInput) {
+  if (!oddInput ||
+      !stakeInput) {
+
     return;
+
   }
 
 
@@ -1072,30 +902,33 @@ function startOperation() {
     Number(stakeInput.value);
 
 
-  if (!odd || odd <= 1) {
+  if (!Number.isFinite(odd) ||
+      odd <= 1) {
 
     alert(
       "Informe uma odd válida."
     );
 
     return;
+
   }
 
 
-  if (!stake || stake <= 0) {
+  if (!Number.isFinite(stake) ||
+      stake <= 0) {
 
     alert(
       "Informe uma stake válida."
     );
 
     return;
+
   }
 
 
   const game =
-    games.find(
-      item =>
-        item.id === checkpoint.gameId
+    getGame(
+      checkpoint.gameId
     );
 
 
@@ -1104,16 +937,10 @@ function startOperation() {
   }
 
 
-  checkpoint.odd =
-    odd;
-
-  checkpoint.stake =
-    stake;
-
-
   const operation = {
 
-    id: Date.now(),
+    id:
+      Date.now(),
 
     gameId:
       game.id,
@@ -1126,12 +953,6 @@ function startOperation() {
 
     minute:
       game.minute || "",
-
-    nexupScore:
-      game.nexupScore || 0,
-
-    temperature:
-      game.temperature || "",
 
     reading:
       checkpoint.reading,
@@ -1151,6 +972,11 @@ function startOperation() {
     stake:
       stake,
 
+    exposure:
+      Number(
+        (stake * odd).toFixed(2)
+      ),
+
     decision:
       "ENTRAR",
 
@@ -1168,8 +994,11 @@ function startOperation() {
         "pt-BR"
       ),
 
-    startedAt:
-      Date.now()
+    createdAt:
+      new Date().toISOString(),
+
+    closedAt:
+      null
 
   };
 
@@ -1178,20 +1007,17 @@ function startOperation() {
     operation
   );
 
-
   activeOperationId =
     operation.id;
 
 
   saveHistory();
+  saveActiveOperation();
 
 
   showActiveOperation(
     operation
   );
-
-
-  renderOverview();
 
   renderHistory();
 
@@ -1211,7 +1037,6 @@ function showActiveOperation(
       "operationPanel"
     );
 
-
   if (!operationPanel) {
     return;
   }
@@ -1224,87 +1049,107 @@ function showActiveOperation(
 
   operationPanel.innerHTML = `
 
-    <div class="active-operation">
+    <div class="panel">
 
-      <div class="eyebrow">
+      <h2 class="section-title">
         OPERAÇÃO ATIVA
+      </h2>
+
+      <div
+        class="upcoming"
+        style="margin-bottom:16px;"
+      >
+        🟡 EM OPERAÇÃO
       </div>
 
-      <div class="active-status">
-        <span></span>
-        EM OPERAÇÃO
-      </div>
+      <div class="selected-info">
 
-
-      <div class="active-grid">
-
-        <div>
-          <small>MATCH</small>
-          <strong>
-            ${escapeHTML(operation.game)}
-          </strong>
-        </div>
-
-        <div>
-          <small>ODD</small>
-          <strong>
-            ${operation.entryOdd.toFixed(2)}
-          </strong>
-        </div>
-
-        <div>
-          <small>STAKE</small>
-          <strong>
-            ${money(operation.stake)}
-          </strong>
-        </div>
-
-        <div>
-          <small>EXPOSIÇÃO</small>
-          <strong>
-            ${money(
-              operation.stake *
-              operation.entryOdd
-            )}
-          </strong>
-        </div>
+        JOGO:
+        ${escapeHTML(operation.game)}
 
       </div>
 
+      <div class="selected-info">
 
-      <div class="eyebrow operation-output-title">
+        LEITURA:
+        ${escapeHTML(operation.reading)}
+
+      </div>
+
+      <div class="selected-info">
+
+        TESE:
+        ${escapeHTML(operation.thesis)}
+
+      </div>
+
+      <div class="selected-info">
+
+        MERCADO:
+        ${escapeHTML(operation.market)}
+
+      </div>
+
+      <div class="selected-info">
+
+        ODD DE ENTRADA:
+        ${operation.entryOdd.toFixed(2)}
+
+      </div>
+
+      <div class="selected-info">
+
+        STAKE:
+        R$ ${formatMoney(operation.stake)}
+
+      </div>
+
+      <div class="selected-info">
+
+        EXPOSIÇÃO:
+        R$ ${formatMoney(operation.exposure)}
+
+      </div>
+
+      <h3
+        class="section-title"
+        style="margin-top:24px;"
+      >
         SAÍDA
-      </div>
-
+      </h3>
 
       <div class="quick-grid">
 
         <button
           class="quick-button"
-          onclick="cashout()"
-        >
-          CASHOUT
-        </button>
+          onclick="cashout()">
 
-        <button
-          class="quick-button success-button"
-          onclick="finishOperation('GREEN')"
-        >
-          GREEN
-        </button>
+          💰 CASHOUT
 
-        <button
-          class="quick-button danger-button"
-          onclick="finishOperation('LOSS')"
-        >
-          LOSS
         </button>
 
         <button
           class="quick-button"
-          onclick="finishOperation('VOID')"
-        >
-          VOID
+          onclick="finishOperation('GREEN')">
+
+          🟢 GREEN
+
+        </button>
+
+        <button
+          class="quick-button"
+          onclick="finishOperation('LOSS')">
+
+          🔴 LOSS
+
+        </button>
+
+        <button
+          class="quick-button"
+          onclick="finishOperation('VOID')">
+
+          ⚪ VOID
+
         </button>
 
       </div>
@@ -1322,14 +1167,17 @@ function showActiveOperation(
 
 function cashout() {
 
-  if (!activeOperationId) {
+  const operation =
+    getActiveOperation();
+
+  if (!operation) {
     return;
   }
 
 
   const output =
     prompt(
-      "Informe a odd de saída:"
+      "Informe a odd de saída no cashout:"
     );
 
 
@@ -1342,33 +1190,31 @@ function cashout() {
     Number(output);
 
 
-  if (!exitOdd || exitOdd <= 1) {
+  if (!Number.isFinite(exitOdd) ||
+      exitOdd <= 1) {
 
     alert(
       "Odd de saída inválida."
     );
 
     return;
+
   }
 
 
-  const operation =
-    history.find(
-      item =>
-        item.id === activeOperationId
-    );
+  /*
+    Em back exchange:
 
-
-  if (!operation) {
-    return;
-  }
-
+    lucro =
+    stake × (entrada / saída - 1)
+  */
 
   const profit =
     operation.stake *
     (
       operation.entryOdd /
-      exitOdd - 1
+      exitOdd -
+      1
     );
 
 
@@ -1383,22 +1229,15 @@ function cashout() {
 
 
 /* =========================================================
-   GREEN / LOSS / VOID
+   FINALIZAR
 ========================================================= */
 
-function finishOperation(result) {
-
-  if (!activeOperationId) {
-    return;
-  }
-
+function finishOperation(
+  result
+) {
 
   const operation =
-    history.find(
-      item =>
-        item.id === activeOperationId
-    );
-
+    getActiveOperation();
 
   if (!operation) {
     return;
@@ -1408,28 +1247,38 @@ function finishOperation(result) {
   let profit = 0;
 
 
-  if (result === "GREEN") {
+  switch (result) {
 
-    profit =
-      operation.stake *
-      (
-        operation.entryOdd - 1
-      );
+    case "GREEN":
 
-  }
+      profit =
+        operation.stake *
+        (
+          operation.entryOdd -
+          1
+        );
 
-
-  if (result === "LOSS") {
-
-    profit =
-      -operation.stake;
-
-  }
+      break;
 
 
-  if (result === "VOID") {
+    case "LOSS":
 
-    profit = 0;
+      profit =
+        -operation.stake;
+
+      break;
+
+
+    case "VOID":
+
+      profit = 0;
+
+      break;
+
+
+    default:
+
+      return;
 
   }
 
@@ -1445,7 +1294,7 @@ function finishOperation(result) {
 
 
 /* =========================================================
-   ENCERRAR OPERAÇÃO
+   ENCERRAR
 ========================================================= */
 
 function closeOperation(
@@ -1458,32 +1307,21 @@ function closeOperation(
   operation.status =
     "ENCERRADA";
 
-
   operation.result =
     result;
 
-
   operation.exitOdd =
     exitOdd;
-
 
   operation.profit =
     Number(
       profit.toFixed(2)
     );
 
-
   operation.closedAt =
     new Date().toLocaleString(
       "pt-BR"
     );
-
-
-  operation.duration =
-    operation.startedAt
-      ? Date.now() -
-        operation.startedAt
-      : 0;
 
 
   saveHistory();
@@ -1492,17 +1330,15 @@ function closeOperation(
   activeOperationId =
     null;
 
+  saveActiveOperation();
+
 
   showOperationResult(
     operation
   );
 
 
-  renderOverview();
-
   renderHistory();
-
-  renderMetrics();
 
 }
 
@@ -1515,81 +1351,89 @@ function showOperationResult(
   operation
 ) {
 
-  const container =
+  const resultContainer =
     document.getElementById(
       "checkpointResult"
     );
 
-
-  if (!container) {
+  if (!resultContainer) {
     return;
   }
 
 
-  container.classList.remove(
+  resultContainer.classList.remove(
     "hidden"
   );
 
 
-  const positive =
-    operation.profit >= 0;
+  const resultClass =
+    operation.result === "GREEN" ||
+    operation.result === "CASHOUT"
+      ? "live"
+      : "upcoming";
 
 
-  container.innerHTML = `
+  resultContainer.innerHTML = `
 
-    <div class="operation-result">
+    <div class="panel">
 
-      <div class="eyebrow">
+      <h2 class="section-title">
         OPERAÇÃO ENCERRADA
+      </h2>
+
+      <div class="${resultClass}">
+        ✓ ${escapeHTML(operation.result)}
       </div>
-
-      <div class="
-        result-value
-        ${positive
-          ? "positive"
-          : "negative"}
-      ">
-
-        ${operation.profit >= 0
-          ? "+"
-          : ""}
-
-        ${money(
-          operation.profit
-        )}
-
-      </div>
-
 
       <div class="selected-info">
 
-        RESULTADO:
-        ${escapeHTML(
-          operation.result
-        )}
-
-      </div>
-
-
-      <div class="selected-info">
-
-        ODD:
+        ODD DE ENTRADA:
         ${operation.entryOdd.toFixed(2)}
 
       </div>
 
+      ${
+        operation.exitOdd !== null
+          ? `
+
+            <div class="selected-info">
+
+              ODD DE SAÍDA:
+              ${operation.exitOdd.toFixed(2)}
+
+            </div>
+
+          `
+          : ""
+      }
 
       <div class="selected-info">
 
         STAKE:
-        ${money(
-          operation.stake
-        )}
+        R$ ${formatMoney(operation.stake)}
 
       </div>
 
+      <div
+        class="selected-info"
+        style="margin-top:10px;"
+      >
 
-      <div class="success-message">
+        P&L:
+
+        <strong>
+
+          R$
+          ${formatMoney(operation.profit)}
+
+        </strong>
+
+      </div>
+
+      <div
+        class="live"
+        style="margin-top:16px;"
+      >
 
         ✓ OPERAÇÃO REGISTRADA
 
@@ -1608,6 +1452,11 @@ function showOperationResult(
 
 function renderHistory() {
 
+  const historyContainer =
+    document.getElementById(
+      "historyContainer"
+    );
+
   if (!historyContainer) {
     return;
   }
@@ -1621,32 +1470,30 @@ function renderHistory() {
     );
 
 
-  if (
-    operations.length === 0
-  ) {
+  if (!operations.length) {
 
     historyContainer.innerHTML = `
 
-      <div class="empty-state">
+      <div class="section-subtitle">
 
-        <strong>
-          NENHUMA OPERAÇÃO
-        </strong>
-
-        <span>
-          O histórico aparecerá aqui.
-        </span>
+        Nenhuma operação registrada ainda.
 
       </div>
 
     `;
 
     return;
+
   }
 
 
-  const total =
-    operations.length;
+  const totalProfit =
+    operations.reduce(
+      (sum, item) =>
+        sum +
+        Number(item.profit || 0),
+      0
+    );
 
 
   const active =
@@ -1684,71 +1531,262 @@ function renderHistory() {
     ).length;
 
 
-  const pnl =
-    operations.reduce(
-      (sum, item) =>
-        sum +
-        Number(
-          item.profit || 0
-        ),
-      0
-    );
-
-
   historyContainer.innerHTML = `
 
-    <div class="history-summary">
+    <div class="games-grid">
 
-      ${summaryCard(
-        "OPERAÇÕES",
-        total
-      )}
+      <div class="game-card">
 
-      ${summaryCard(
-        "ATIVAS",
-        active
-      )}
+        <div class="competition">
+          OPERAÇÕES
+        </div>
 
-      ${summaryCard(
-        "GREEN",
-        greens
-      )}
+        <div class="score">
+          ${operations.length}
+        </div>
 
-      ${summaryCard(
-        "LOSS",
-        losses
-      )}
+      </div>
 
-      ${summaryCard(
-        "CASHOUT",
-        cashouts
-      )}
 
-      ${summaryCard(
-        "VOID",
-        voids
-      )}
+      <div class="game-card">
 
-      ${summaryCard(
-        "P&L",
-        money(pnl),
-        pnl > 0
-          ? "positive"
-          : pnl < 0
-            ? "negative"
-            : ""
-      )}
+        <div class="competition">
+          ATIVAS
+        </div>
+
+        <div class="score">
+          ${active}
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="competition">
+          GREEN
+        </div>
+
+        <div class="score">
+          ${greens}
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="competition">
+          CASHOUT
+        </div>
+
+        <div class="score">
+          ${cashouts}
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="competition">
+          LOSS
+        </div>
+
+        <div class="score">
+          ${losses}
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="competition">
+          VOID
+        </div>
+
+        <div class="score">
+          ${voids}
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="competition">
+          P&L
+        </div>
+
+        <div class="score">
+
+          R$
+          ${formatMoney(totalProfit)}
+
+        </div>
+
+      </div>
 
     </div>
 
 
-    <div class="history-list">
+    <div style="margin-top:20px;">
 
       ${operations.map(
-        operation =>
-          historyRow(
-            operation
-          )
+        item => `
+
+          <div
+            class="game-card"
+            style="margin-bottom:12px;"
+          >
+
+            <div class="game-top">
+
+              <span class="competition">
+
+                ${escapeHTML(
+                  item.date || ""
+                )}
+
+              </span>
+
+              <span
+                class="${
+                  item.status === "ATIVA"
+                    ? "upcoming"
+                    : (
+                        item.result === "GREEN" ||
+                        item.result === "CASHOUT"
+                      )
+                        ? "live"
+                        : "upcoming"
+                }"
+              >
+
+                ${
+                  item.status === "ATIVA"
+                    ? "🟡 ATIVA"
+                    : escapeHTML(
+                        item.result
+                      )
+                }
+
+              </span>
+
+            </div>
+
+
+            <div class="teams">
+
+              ${escapeHTML(
+                item.game || "Jogo"
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              ${escapeHTML(
+                item.competition || ""
+              )}
+
+              ${
+                item.minute
+                  ? " · " +
+                    escapeHTML(
+                      item.minute
+                    )
+                  : ""
+              }
+
+            </div>
+
+
+            <div class="selected-info">
+
+              LEITURA:
+              ${escapeHTML(
+                item.reading || "-"
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              TESE:
+              ${escapeHTML(
+                item.thesis || "-"
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              MERCADO:
+              ${escapeHTML(
+                item.market || "-"
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              ODD DE ENTRADA:
+              ${Number(
+                item.entryOdd
+              ).toFixed(2)}
+
+            </div>
+
+
+            ${
+              item.exitOdd !== null &&
+              item.exitOdd !== undefined
+                ? `
+
+                  <div class="selected-info">
+
+                    ODD DE SAÍDA:
+                    ${Number(
+                      item.exitOdd
+                    ).toFixed(2)}
+
+                  </div>
+
+                `
+                : ""
+            }
+
+
+            <div class="selected-info">
+
+              STAKE:
+              R$
+              ${formatMoney(
+                item.stake
+              )}
+
+            </div>
+
+
+            <div class="selected-info">
+
+              P&L:
+              R$
+              ${formatMoney(
+                item.profit
+              )}
+
+            </div>
+
+          </div>
+
+        `
       ).join("")}
 
     </div>
@@ -1759,645 +1797,72 @@ function renderHistory() {
 
 
 /* =========================================================
-   CARD RESUMO
-========================================================= */
-
-function summaryCard(
-  label,
-  value,
-  className = ""
-) {
-
-  return `
-
-    <div class="summary-card">
-
-      <span>
-        ${label}
-      </span>
-
-      <strong
-        class="${className}"
-      >
-        ${value}
-      </strong>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   LINHA HISTÓRICO
-========================================================= */
-
-function historyRow(
-  operation
-) {
-
-  const resultClass =
-    operation.result === "GREEN"
-      || operation.result === "CASHOUT"
-        ? "positive"
-        : operation.result === "LOSS"
-          ? "negative"
-          : "";
-
-
-  return `
-
-    <div class="history-row">
-
-      <div class="history-main">
-
-        <div class="eyebrow">
-          ${escapeHTML(
-            operation.date || ""
-          )}
-        </div>
-
-        <strong>
-          ${escapeHTML(
-            operation.game || "Jogo"
-          )}
-        </strong>
-
-        <span>
-          ${escapeHTML(
-            operation.competition || ""
-          )}
-
-          ${
-            operation.minute
-              ? " · " +
-                escapeHTML(
-                  operation.minute
-                )
-              : ""
-          }
-
-        </span>
-
-      </div>
-
-
-      <div class="history-data">
-
-        <span>
-          LEITURA
-          <b>
-            ${escapeHTML(
-              operation.reading || "-"
-            )}
-          </b>
-        </span>
-
-        <span>
-          TESE
-          <b>
-            ${escapeHTML(
-              operation.thesis || "-"
-            )}
-          </b>
-        </span>
-
-        <span>
-          MERCADO
-          <b>
-            ${escapeHTML(
-              operation.market || "-"
-            )}
-          </b>
-        </span>
-
-        <span>
-          ODD
-          <b>
-            ${Number(
-              operation.entryOdd
-            ).toFixed(2)}
-          </b>
-        </span>
-
-        <span>
-          STAKE
-          <b>
-            ${money(
-              operation.stake
-            )}
-          </b>
-        </span>
-
-      </div>
-
-
-      <div class="history-result">
-
-        <span
-          class="${resultClass}"
-        >
-          ${
-            operation.status === "ATIVA"
-              ? "ATIVA"
-              : operation.result
-          }
-        </span>
-
-        <strong
-          class="${resultClass}"
-        >
-          ${
-            operation.profit >= 0
-              ? "+"
-              : ""
-          }
-
-          ${money(
-            operation.profit
-          )}
-
-        </strong>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   MÉTRICAS
-========================================================= */
-
-function renderMetrics() {
-
-  if (!metricsContainer) {
-    return;
-  }
-
-
-  const operations =
-    history.filter(
-      item =>
-        item &&
-        item.entryOdd !== undefined
-    );
-
-
-  const closed =
-    operations.filter(
-      item =>
-        item.status === "ENCERRADA"
-    );
-
-
-  const greens =
-    closed.filter(
-      item =>
-        item.result === "GREEN"
-        ||
-        item.result === "CASHOUT"
-          && Number(item.profit) > 0
-    ).length;
-
-
-  const pnl =
-    closed.reduce(
-      (sum, item) =>
-        sum +
-        Number(
-          item.profit || 0
-        ),
-      0
-    );
-
-
-  const winRate =
-    closed.length
-      ? (
-          greens /
-          closed.length *
-          100
-        )
-      : 0;
-
-
-  const avgOdd =
-    operations.length
-      ? operations.reduce(
-          (sum, item) =>
-            sum +
-            Number(
-              item.entryOdd || 0
-            ),
-          0
-        ) /
-        operations.length
-      : 0;
-
-
-  const avgStake =
-    operations.length
-      ? operations.reduce(
-          (sum, item) =>
-            sum +
-            Number(
-              item.stake || 0
-            ),
-          0
-        ) /
-        operations.length
-      : 0;
-
-
-  metricsContainer.innerHTML = `
-
-    <div class="metrics-grid">
-
-      ${metricCard(
-        "P&L TOTAL",
-        money(pnl),
-        pnl >= 0
-          ? "positive"
-          : "negative"
-      )}
-
-      ${metricCard(
-        "WIN RATE",
-        `${winRate.toFixed(1)}%`
-      )}
-
-      ${metricCard(
-        "DECISÕES",
-        operations.length
-      )}
-
-      ${metricCard(
-        "ODD MÉDIA",
-        avgOdd
-          ? avgOdd.toFixed(2)
-          : "—"
-      )}
-
-      ${metricCard(
-        "STAKE MÉDIA",
-        money(avgStake)
-      )}
-
-      ${metricCard(
-        "OPERAÇÕES FECHADAS",
-        closed.length
-      )}
-
-    </div>
-
-
-    <div class="metrics-panel">
-
-      <div class="eyebrow">
-        QUALIDADE DA DECISÃO
-      </div>
-
-      <h2 class="section-title">
-        NEXUP Decision Intelligence
-      </h2>
-
-      <p class="section-subtitle">
-        A métrica não deve olhar apenas
-        para o resultado financeiro.
-        O objetivo é entender a qualidade
-        do processo que levou à decisão.
-      </p>
-
-
-      <div class="quality-grid">
-
-        ${qualityMetric(
-          "LEITURAS FORTES",
-          percentageByField(
-            operations,
-            "reading",
-            "FORTE"
-          )
-        )}
-
-        ${qualityMetric(
-          "LEITURAS NEUTRAS",
-          percentageByField(
-            operations,
-            "reading",
-            "NEUTRA"
-          )
-        )}
-
-        ${qualityMetric(
-          "LEITURAS FRACAS",
-          percentageByField(
-            operations,
-            "reading",
-            "FRACA"
-          )
-        )}
-
-      </div>
-
-    </div>
-
-
-    <div class="metrics-panel">
-
-      <div class="eyebrow">
-        P&L EVOLUTION
-      </div>
-
-      <div class="pnl-list">
-
-        ${
-          closed.length === 0
-            ? `
-              <div class="empty-state">
-                Ainda não existem dados
-                suficientes para o gráfico.
-              </div>
-            `
-            : buildPnlBars(
-                closed
-              )
-        }
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   MÉTRICA
-========================================================= */
-
-function metricCard(
-  label,
-  value,
-  className = ""
-) {
-
-  return `
-
-    <div class="metric-card">
-
-      <span>
-        ${label}
-      </span>
-
-      <strong
-        class="${className}"
-      >
-        ${value}
-      </strong>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   QUALIDADE
-========================================================= */
-
-function qualityMetric(
-  label,
-  value
-) {
-
-  return `
-
-    <div class="quality-item">
-
-      <div>
-
-        <span>
-          ${label}
-        </span>
-
-        <strong>
-          ${value.toFixed(1)}%
-        </strong>
-
-      </div>
-
-      <div class="indicator-track">
-
-        <div
-          class="indicator-fill"
-          style="width:${value}%"
-        ></div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   PERCENTUAL POR CAMPO
-========================================================= */
-
-function percentageByField(
-  operations,
-  field,
-  value
-) {
-
-  if (!operations.length) {
-    return 0;
-  }
-
-
-  const count =
-    operations.filter(
-      item =>
-        item[field] === value
-    ).length;
-
-
-  return (
-    count /
-    operations.length *
-    100
-  );
-
-}
-
-
-/* =========================================================
-   P&L BARS
-========================================================= */
-
-function buildPnlBars(
-  operations
-) {
-
-  let cumulative = 0;
-
-
-  return operations
-    .slice()
-    .reverse()
-    .map(operation => {
-
-      cumulative +=
-        Number(
-          operation.profit || 0
-        );
-
-
-      const width =
-        Math.min(
-          Math.abs(cumulative) * 5,
-          100
-        );
-
-
-      return `
-
-        <div class="pnl-row">
-
-          <span>
-            ${escapeHTML(
-              operation.result
-            )}
-          </span>
-
-          <div class="pnl-track">
-
-            <div
-              class="
-                pnl-bar
-                ${
-                  cumulative >= 0
-                    ? "positive-bar"
-                    : "negative-bar"
-                }
-              "
-              style="
-                width:
-                ${Math.max(
-                  width,
-                  3
-                )}%;
-              "
-            ></div>
-
-          </div>
-
-          <strong>
-            ${money(
-              cumulative
-            )}
-          </strong>
-
-        </div>
-
-      `;
-
-    })
-    .join("");
-
-}
-
-
-/* =========================================================
-   SALVAR
-========================================================= */
-
-function saveHistory() {
-
-  localStorage.setItem(
-    "nexoHistory",
-    JSON.stringify(
-      history
-    )
-  );
-
-}
-
-
-/* =========================================================
-   RECUPERAR OPERAÇÃO ATIVA
+   RESTAURAR OPERAÇÃO APÓS RELOAD
 ========================================================= */
 
 function restoreActiveOperation() {
 
-  const active =
-    history.find(
-      item =>
-        item.status === "ATIVA"
+  const operation =
+    getActiveOperation();
+
+  if (!operation) {
+
+    activeOperationId =
+      null;
+
+    saveActiveOperation();
+
+    return;
+
+  }
+
+
+  const game =
+    getGame(
+      operation.gameId
     );
 
 
-  if (!active) {
+  if (!game) {
     return;
   }
 
 
-  activeOperationId =
-    active.id;
+  checkpoint.gameId =
+    game.id;
+
+
+  if (selectedGame) {
+
+    selectedGame.classList.remove(
+      "hidden"
+    );
+
+    showSelectedGame(
+      game,
+      true
+    );
+
+    showActiveOperation(
+      operation
+    );
+
+    selectedGame.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
 
 }
 
 
 /* =========================================================
-   INICIALIZAÇÃO
+   INIT
 ========================================================= */
-
-restoreActiveOperation();
 
 renderGames();
 
-renderOverview();
-
 renderHistory();
 
-renderMetrics();
-
-
-/* =========================================================
-   EXPOSIÇÃO GLOBAL
-   Necessário porque os botões usam onclick.
-========================================================= */
-
-window.showSection =
-  showSection;
-
-window.selectGame =
-  selectGame;
-
-window.chooseReading =
-  chooseReading;
-
-window.chooseThesis =
-  chooseThesis;
-
-window.chooseMarket =
-  chooseMarket;
-
-window.startOperation =
-  startOperation;
-
-window.cashout =
-  cashout;
-
-window.finishOperation =
-  finishOperation;
+restoreActiveOperation();
