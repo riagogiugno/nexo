@@ -35,10 +35,6 @@
 
 <!-- =====================================================
      NEXUP — ONBOARDING / QUESTIONÁRIO
-
-     O questionário começa ESCONDIDO.
-     Ele só aparece quando o usuário clicar
-     em "MEU PERFIL".
 ====================================================== -->
 
 <div
@@ -103,14 +99,14 @@
         <button
           type="button"
           class="onboarding-option"
-          data-profile="APOSTADOR"
+          data-profile="PUNTER"
         >
           <strong>
-            APOSTADOR
+            PUNTER
           </strong>
 
           <span>
-            Acompanho jogos e faço algumas entradas.
+            Acompanho jogos e busco oportunidades.
           </span>
         </button>
 
@@ -133,7 +129,7 @@
         <button
           type="button"
           class="onboarding-option"
-          data-profile="EXPERIENTE"
+          data-profile="TRADER EXPERIENTE"
         >
           <strong>
             TRADER EXPERIENTE
@@ -1088,6 +1084,7 @@
           <button
             type="button"
             class="quick-button"
+            onclick="openPath('beginnerPath')"
           >
             🧭 INICIANTE
           </button>
@@ -1096,6 +1093,7 @@
           <button
             type="button"
             class="quick-button"
+            onclick="openPath('punterPath')"
           >
             🎯 PUNTER
           </button>
@@ -1104,6 +1102,7 @@
           <button
             type="button"
             class="quick-button"
+            onclick="openPath('traderPath')"
           >
             📈 TRADER
           </button>
@@ -1112,6 +1111,7 @@
           <button
             type="button"
             class="quick-button"
+            onclick="openPath('prelivePath')"
           >
             ⏱️ PRÉ-LIVE
           </button>
@@ -1120,6 +1120,7 @@
           <button
             type="button"
             class="quick-button"
+            onclick="openPath('livePath')"
           >
             🔴 LIVE
           </button>
@@ -1128,6 +1129,7 @@
           <button
             type="button"
             class="quick-button"
+            onclick="openPath('methodPath')"
           >
             🧠 MÉTODO & LEITURA
           </button>
@@ -1172,6 +1174,734 @@
             Novos conteúdos, guias, ferramentas,
             conceitos e áreas serão adicionados
             progressivamente.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CAMINHO — INICIANTE
+    ================================================== -->
+
+    <section
+      id="beginnerPath"
+      class="nexup-path hidden"
+    >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToExplore()"
+      >
+        ← VOLTAR PARA EXPLORAR
+      </button>
+
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="onboarding-eyebrow">
+            CAMINHO 01
+          </div>
+
+          <h1 class="section-title">
+            🧭 INICIANTE
+          </h1>
+
+          <div class="section-subtitle">
+            Antes de procurar uma entrada,
+            aprenda a entender o jogo.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          START HERE
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          O PRIMEIRO PASSO É LER.
+        </h2>
+
+        <div class="section-subtitle">
+
+          O NEXUP não começa ensinando você
+          a clicar em uma operação.
+
+          <br><br>
+
+          Começa ensinando a observar:
+          contexto, momento da partida,
+          comportamento das equipes,
+          mercado e risco.
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📚 FUNDAMENTOS
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          ⚽ COMO LER UM JOGO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📊 ENTENDENDO MERCADOS
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🧠 PROCESSO DE DECISÃO
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            PRÓXIMO PASSO
+          </div>
+
+          <div class="metrics-placeholder-text">
+            O conteúdo educacional do caminho
+            Iniciante será construído aqui.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CAMINHO — PUNTER
+    ================================================== -->
+
+    <section
+      id="punterPath"
+      class="nexup-path hidden"
+    >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToExplore()"
+      >
+        ← VOLTAR PARA EXPLORAR
+      </button>
+
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="onboarding-eyebrow">
+            CAMINHO 02
+          </div>
+
+          <h1 class="section-title">
+            🎯 PUNTER
+          </h1>
+
+          <div class="section-subtitle">
+            Encontrar valor antes de decidir.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          VALUE
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          NÃO É SOBRE APOSTAR MAIS.
+        </h2>
+
+        <div class="section-subtitle">
+
+          É sobre entender quando uma oportunidade
+          realmente existe.
+
+          <br><br>
+
+          O caminho Punter organiza análise,
+          contexto, mercado, preço e disciplina
+          antes da entrada.
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🔎 ENCONTRAR VALOR
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📊 ANÁLISE PRÉ-JOGO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🎯 MERCADOS
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🛡️ GESTÃO & DISCIPLINA
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            PUNTER INTELLIGENCE
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Ferramentas de análise e acompanhamento
+            serão conectadas progressivamente.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CAMINHO — TRADER
+    ================================================== -->
+
+    <section
+      id="traderPath"
+      class="nexup-path hidden"
+    >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToExplore()"
+      >
+        ← VOLTAR PARA EXPLORAR
+      </button>
+
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="onboarding-eyebrow">
+            CAMINHO 03
+          </div>
+
+          <h1 class="section-title">
+            📈 TRADER
+          </h1>
+
+          <div class="section-subtitle">
+            O mercado muda. Sua decisão precisa
+            ter um processo.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          MARKET
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          LEIA O MOVIMENTO. NÃO PERSIGA O MOVIMENTO.
+        </h2>
+
+        <div class="section-subtitle">
+
+          O caminho Trader será construído em torno
+          de contexto, timing, entrada, saída,
+          gestão e qualidade da decisão.
+
+          <br><br>
+
+          O objetivo não é prever tudo.
+          É construir decisões melhores.
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📈 MERCADO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          ⏱️ TIMING
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🎯 ENTRADA & SAÍDA
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🧠 PSICOLOGIA
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            TRADER INTELLIGENCE
+          </div>
+
+          <div class="metrics-placeholder-text">
+            O histórico de operações será usado
+            para construir inteligência sobre seu
+            processo de decisão.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CAMINHO — PRÉ-LIVE
+    ================================================== -->
+
+    <section
+      id="prelivePath"
+      class="nexup-path hidden"
+    >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToExplore()"
+      >
+        ← VOLTAR PARA EXPLORAR
+      </button>
+
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="onboarding-eyebrow">
+            CAMINHO 04
+          </div>
+
+          <h1 class="section-title">
+            ⏱️ PRÉ-LIVE
+          </h1>
+
+          <div class="section-subtitle">
+            Tudo começa antes da bola rolar.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          PRE-MATCH
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          CHEGUE AO JOGO JÁ SABENDO O QUE PROCURAR.
+        </h2>
+
+        <div class="section-subtitle">
+
+          O Pré-Live organiza o contexto anterior
+          à partida para que você não entre no jogo
+          sem uma tese.
+
+          <br><br>
+
+          Escalações, forma, contexto, histórico,
+          mercado e possíveis cenários fazem parte
+          dessa leitura.
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📝 CHECKLIST PRÉ-JOGO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          👥 ESCALAÇÕES
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📊 CONTEXTO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🎯 TESE DO JOGO
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            PRÉ-LIVE INTELLIGENCE
+          </div>
+
+          <div class="metrics-placeholder-text">
+            O NEXUP poderá transformar sua leitura
+            pré-jogo em um checklist estruturado.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CAMINHO — LIVE
+    ================================================== -->
+
+    <section
+      id="livePath"
+      class="nexup-path hidden"
+    >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToExplore()"
+      >
+        ← VOLTAR PARA EXPLORAR
+      </button>
+
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="onboarding-eyebrow">
+            CAMINHO 05
+          </div>
+
+          <h1 class="section-title">
+            🔴 LIVE
+          </h1>
+
+          <div class="section-subtitle">
+            O jogo mudou. Sua leitura também precisa mudar.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          LIVE MONITOR
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          LEIA O QUE ESTÁ ACONTECENDO AGORA.
+        </h2>
+
+        <div class="section-subtitle">
+
+          O Live é onde contexto e velocidade
+          encontram a decisão.
+
+          <br><br>
+
+          Placar, tempo, dinâmica, pressão,
+          comportamento e mercado precisam
+          ser observados em conjunto.
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🔴 MONITORAR JOGO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          ⚡ MOMENTO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📊 MERCADO LIVE
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🧠 LEITURA EM TEMPO REAL
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            LIVE INTELLIGENCE
+          </div>
+
+          <div class="metrics-placeholder-text">
+            O monitor de jogos será conectado aos
+            dados em tempo real nesta etapa.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CAMINHO — MÉTODO & LEITURA
+    ================================================== -->
+
+    <section
+      id="methodPath"
+      class="nexup-path hidden"
+    >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToExplore()"
+      >
+        ← VOLTAR PARA EXPLORAR
+      </button>
+
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="onboarding-eyebrow">
+            CAMINHO 06
+          </div>
+
+          <h1 class="section-title">
+            🧠 MÉTODO & LEITURA
+          </h1>
+
+          <div class="section-subtitle">
+            Transforme experiência em processo.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          DECISION INTELLIGENCE
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          SUA DECISÃO COMEÇA ANTES DO CLIQUE.
+        </h2>
+
+        <div class="section-subtitle">
+
+          Método é a forma como você organiza
+          aquilo que observa.
+
+          <br><br>
+
+          Leitura é a capacidade de transformar
+          informação em contexto.
+
+          <br><br>
+
+          Decisão é o resultado desse processo.
+
+          <br><br>
+
+          O NEXUP existe exatamente nesse ponto
+          entre a leitura e a decisão.
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🧠 CONSTRUINDO UM MÉTODO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          🔎 LEITURA DE JOGO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📋 CHECKLIST DE DECISÃO
+        </button>
+
+        <button
+          type="button"
+          class="quick-button"
+        >
+          📊 ANÁLISE DO HISTÓRICO
+        </button>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            NEXUP DECISION ENGINE
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Esta será uma das áreas centrais do NEXUP:
+            transformar suas decisões registradas
+            em inteligência sobre seu próprio método.
           </div>
 
         </div>
@@ -1465,7 +2195,13 @@
       "exploreSection",
       "historySection",
       "metricsSection",
-      "decisionsSection"
+      "decisionsSection",
+      "beginnerPath",
+      "punterPath",
+      "traderPath",
+      "prelivePath",
+      "livePath",
+      "methodPath"
     ];
 
 
@@ -1554,6 +2290,153 @@
 
 
   /* =====================================================
+     ABRIR CAMINHO
+  ====================================================== */
+
+  function openPath(pathId) {
+
+    const sections = [
+      "gamesSection",
+      "exploreSection",
+      "historySection",
+      "metricsSection",
+      "decisionsSection",
+      "beginnerPath",
+      "punterPath",
+      "traderPath",
+      "prelivePath",
+      "livePath",
+      "methodPath"
+    ];
+
+
+    sections.forEach(function(id) {
+
+      const section =
+        document.getElementById(id);
+
+      if (section) {
+        section.classList.add("hidden");
+      }
+
+    });
+
+
+    const selected =
+      document.getElementById(pathId);
+
+    if (selected) {
+      selected.classList.remove("hidden");
+    }
+
+
+    const home =
+      document.getElementById("homeSection");
+
+    if (home) {
+      home.classList.add("hidden");
+    }
+
+
+    const navigation =
+      document.getElementById("mainNavigation");
+
+    if (navigation) {
+      navigation.classList.add("hidden");
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+
+  /* =====================================================
+     VOLTAR PARA EXPLORAR
+  ====================================================== */
+
+  function returnToExplore() {
+
+    const pathSections = [
+      "beginnerPath",
+      "punterPath",
+      "traderPath",
+      "prelivePath",
+      "livePath",
+      "methodPath"
+    ];
+
+
+    pathSections.forEach(function(id) {
+
+      const section =
+        document.getElementById(id);
+
+      if (section) {
+        section.classList.add("hidden");
+      }
+
+    });
+
+
+    const explore =
+      document.getElementById("exploreSection");
+
+    if (explore) {
+      explore.classList.remove("hidden");
+    }
+
+
+    const home =
+      document.getElementById("homeSection");
+
+    if (home) {
+      home.classList.add("hidden");
+    }
+
+
+    const navigation =
+      document.getElementById("mainNavigation");
+
+    if (navigation) {
+      navigation.classList.remove("hidden");
+    }
+
+
+    document
+      .querySelectorAll("#mainNavigation button")
+      .forEach(function(navButton) {
+
+        navButton.classList.remove("active");
+
+      });
+
+
+    const exploreButton =
+      document.querySelector(
+        '#mainNavigation button[data-section="exploreSection"]'
+      );
+
+
+    if (exploreButton) {
+      exploreButton.classList.add("active");
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+
+  /* =====================================================
      VOLTAR PARA HOME
   ====================================================== */
 
@@ -1564,7 +2447,13 @@
       "exploreSection",
       "historySection",
       "metricsSection",
-      "decisionsSection"
+      "decisionsSection",
+      "beginnerPath",
+      "punterPath",
+      "traderPath",
+      "prelivePath",
+      "livePath",
+      "methodPath"
     ];
 
 
@@ -1604,6 +2493,12 @@
 
       });
 
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
   }
 
 </script>
@@ -1612,8 +2507,6 @@
 
 <!-- =====================================================
      NEXUP — QUESTIONÁRIO
-
-     Cada resposta avança automaticamente.
 ====================================================== -->
 
 <script>
@@ -1704,8 +2597,6 @@
 
     updateQuestionnaire();
 
-    /* Depois do questionário, volta para HOME. */
-
     returnToHome();
 
   }
@@ -1751,6 +2642,11 @@
         updateQuestionnaire();
 
       } else {
+
+        localStorage.setItem(
+          "nexupOnboarding",
+          JSON.stringify(answers)
+        );
 
         closeOnboarding();
 
