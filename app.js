@@ -1,7 +1,7 @@
 /* =====================================================
    NEXUP — APPLICATION
-   APP.JS — COMPATÍVEL COM O INDEX.HTML ATUAL
-===================================================== */
+   APP.JS
+   ===================================================== */
 
 
 /* =====================================================
@@ -13,6 +13,8 @@ let currentOnboardingStep = 1;
 let onboardingAnswers = {};
 
 let currentPage = "homeSection";
+
+let currentExplorePath = null;
 
 
 /* =====================================================
@@ -42,7 +44,6 @@ const navButtons =
 function showOnboardingStep(step) {
 
   currentOnboardingStep = step;
-
 
   onboardingSteps.forEach(function(element) {
 
@@ -154,11 +155,6 @@ onboardingSteps.forEach(function(stepElement) {
         ] = value;
 
 
-        /*
-         * O NEXUP avança automaticamente
-         * após a escolha.
-         */
-
         setTimeout(function() {
 
           option.classList.remove(
@@ -245,10 +241,6 @@ function closeOnboarding() {
 
 function finishOnboarding() {
 
-  /*
-   * Salva as respostas no navegador.
-   */
-
   localStorage.setItem(
     "nexupOnboarding",
     JSON.stringify(
@@ -269,12 +261,6 @@ function finishOnboarding() {
   currentOnboardingStep = 1;
 
   showOnboardingStep(1);
-
-
-  /*
-   * Depois do questionário,
-   * o usuário volta para a HOME.
-   */
 
   returnToHome();
 
@@ -327,10 +313,6 @@ function showSection(sectionId, button) {
   ];
 
 
-  /*
-   * Esconde todas as páginas internas.
-   */
-
   sections.forEach(function(id) {
 
     const section =
@@ -347,10 +329,6 @@ function showSection(sectionId, button) {
   });
 
 
-  /*
-   * Mostra a página escolhida.
-   */
-
   const selected =
     document.getElementById(sectionId);
 
@@ -363,10 +341,6 @@ function showSection(sectionId, button) {
 
   }
 
-
-  /*
-   * Esconde a HOME.
-   */
 
   const home =
     document.getElementById(
@@ -383,10 +357,6 @@ function showSection(sectionId, button) {
   }
 
 
-  /*
-   * Mostra a navegação interna.
-   */
-
   const navigation =
     document.getElementById(
       "mainNavigation"
@@ -401,10 +371,6 @@ function showSection(sectionId, button) {
 
   }
 
-
-  /*
-   * Atualiza botão ativo.
-   */
 
   navButtons.forEach(function(navButton) {
 
@@ -469,11 +435,6 @@ window.openHomeSection = function(
   );
 
 
-  /*
-   * O botão correspondente da navegação
-   * fica ativo.
-   */
-
   const navButton =
     document.querySelector(
       '#mainNavigation button[data-section="' +
@@ -521,10 +482,6 @@ window.returnToHome = function() {
   ];
 
 
-  /*
-   * Esconde todas as páginas internas.
-   */
-
   sections.forEach(function(id) {
 
     const section =
@@ -541,10 +498,6 @@ window.returnToHome = function() {
   });
 
 
-  /*
-   * Mostra a HOME.
-   */
-
   const home =
     document.getElementById(
       "homeSection"
@@ -559,10 +512,6 @@ window.returnToHome = function() {
 
   }
 
-
-  /*
-   * Esconde a navegação interna.
-   */
 
   const navigation =
     document.getElementById(
@@ -579,10 +528,6 @@ window.returnToHome = function() {
   }
 
 
-  /*
-   * Remove estado ativo dos botões.
-   */
-
   navButtons.forEach(function(navButton) {
 
     navButton.classList.remove(
@@ -594,6 +539,10 @@ window.returnToHome = function() {
 
   currentPage =
     "homeSection";
+
+
+  currentExplorePath =
+    null;
 
 
   window.scrollTo({
@@ -616,6 +565,659 @@ window.returnToGames = function() {
   );
 
 };
+
+
+/* =====================================================
+   =====================================================
+   NEXUP — 6 CAMINHOS
+   =====================================================
+===================================================== */
+
+
+/*
+   Cada caminho possui:
+
+   - título
+   - subtítulo
+   - proposta
+   - fundamentos
+   - direção
+
+   O conteúdo está estruturado para crescer
+   depois sem precisar refazer a navegação.
+*/
+
+
+const nexupPaths = {
+
+  iniciante: {
+
+    icon: "🧭",
+
+    title: "INICIANTE",
+
+    subtitle:
+      "COMECE PELO ENTENDIMENTO.",
+
+    intro:
+      "Antes de pensar em entrada, você precisa entender o jogo, o mercado e o motivo de uma decisão.",
+
+    description:
+      "O caminho INICIANTE foi criado para quem ainda está construindo sua base. Aqui, o objetivo não é acelerar sua operação. É construir uma leitura mais consciente.",
+
+    topics: [
+      "Como funciona o universo das apostas e do trading esportivo.",
+      "Diferença entre aposta, trading e investimento.",
+      "Mercado, odd, probabilidade e valor.",
+      "Contexto de uma partida antes da entrada.",
+      "Risco, banca e controle emocional.",
+      "Como evitar decisões impulsivas."
+    ],
+
+    focus:
+      "ENTENDER ANTES DE OPERAR."
+
+  },
+
+
+  punter: {
+
+    icon: "🎯",
+
+    title: "PUNTER",
+
+    subtitle:
+      "ENCONTRE VALOR ANTES DO JOGO.",
+
+    intro:
+      "O punter trabalha principalmente com a leitura pré-jogo e procura situações em que sua análise encontra valor.",
+
+    description:
+      "O caminho PUNTER organiza o pensamento antes da partida: contexto, estatísticas, escalações, mercado, preço e tese.",
+
+    topics: [
+      "Leitura pré-jogo.",
+      "Análise de contexto.",
+      "Forma recente e desempenho.",
+      "Mandante e visitante.",
+      "Desfalques e escalações.",
+      "Mercados e precificação.",
+      "Construção de uma tese.",
+      "Registro da decisão."
+    ],
+
+    focus:
+      "TESE ANTES DA ENTRADA."
+
+  },
+
+
+  trader: {
+
+    icon: "📈",
+
+    title: "TRADER",
+
+    subtitle:
+      "LEIA O MERCADO EM MOVIMENTO.",
+
+    intro:
+      "Trading exige acompanhar a relação entre jogo, mercado, preço e comportamento.",
+
+    description:
+      "O caminho TRADER é voltado para quem toma decisões durante o movimento do mercado e precisa separar leitura de impulso.",
+
+    topics: [
+      "Mercado pré-live e live.",
+      "Movimento de odds.",
+      "Momento do jogo.",
+      "Pressão e domínio.",
+      "Entrada e saída.",
+      "Gestão da posição.",
+      "Risco por operação.",
+      "Registro da tese e do resultado."
+    ],
+
+    focus:
+      "MOVIMENTO + CONTEXTO + DECISÃO."
+
+  },
+
+
+  prelive: {
+
+    icon: "⏱️",
+
+    title: "PRÉ-LIVE",
+
+    subtitle:
+      "PREPARE A LEITURA ANTES DO JOGO.",
+
+    intro:
+      "O jogo ainda não começou. É justamente nesse momento que você pode organizar a informação sem a pressão do movimento ao vivo.",
+
+    description:
+      "O caminho PRÉ-LIVE transforma a preparação em processo: selecionar partidas, estudar contexto e construir hipóteses.",
+
+    topics: [
+      "Seleção de jogos.",
+      "Contexto da partida.",
+      "Escalações prováveis.",
+      "Forma e desempenho.",
+      "Histórico relevante.",
+      "Mercados disponíveis.",
+      "Preço e probabilidade.",
+      "Plano para o início do jogo."
+    ],
+
+    focus:
+      "PREPARAÇÃO ANTES DA PRESSÃO."
+
+  },
+
+
+  live: {
+
+    icon: "🔴",
+
+    title: "LIVE",
+
+    subtitle:
+      "O JOGO MUDA. SUA LEITURA TAMBÉM.",
+
+    intro:
+      "No live, informação chega a todo momento. O desafio é distinguir mudança real de simples movimento.",
+
+    description:
+      "O caminho LIVE trabalha a leitura dinâmica: o que aconteceu, como o jogo respondeu e se a nova informação muda realmente a tese.",
+
+    topics: [
+      "Leitura de momento.",
+      "Pressão e intensidade.",
+      "Finalizações e oportunidades.",
+      "Domínio territorial.",
+      "Mudanças táticas.",
+      "Eventos que alteram o jogo.",
+      "Movimento do mercado.",
+      "Entrada, saída ou espera."
+    ],
+
+    focus:
+      "INFORMAÇÃO NOVA → NOVA DECISÃO."
+
+  },
+
+
+  metodo: {
+
+    icon: "🧠",
+
+    title: "MÉTODO & LEITURA",
+
+    subtitle:
+      "TRANSFORME EXPERIÊNCIA EM PROCESSO.",
+
+    intro:
+      "Método não é encontrar uma fórmula perfeita. É criar critérios que tornam suas decisões mais consistentes.",
+
+    description:
+      "Este é o caminho central do NEXUP: observar como você decide, registrar o processo e transformar histórico em aprendizado.",
+
+    topics: [
+      "Construção de critérios.",
+      "Hipótese e tese.",
+      "Confiança na leitura.",
+      "Gestão de risco.",
+      "Diário de decisões.",
+      "Análise de resultados.",
+      "Identificação de padrões.",
+      "Evolução contínua."
+    ],
+
+    focus:
+      "DECISÃO → REGISTRO → ANÁLISE → EVOLUÇÃO."
+
+  }
+
+};
+
+
+/* =====================================================
+   PATH — HTML
+===================================================== */
+
+function buildExplorePathHTML(path) {
+
+  const topicsHTML =
+    path.topics.map(function(topic) {
+
+      return `
+        <div class="metrics-placeholder">
+          <div class="metrics-placeholder-title">
+            ${escapeHtml(topic)}
+          </div>
+        </div>
+      `;
+
+    }).join("");
+
+
+  return `
+
+    <button
+      type="button"
+      class="back-home"
+      onclick="returnToExplore()"
+    >
+      ← VOLTAR PARA EXPLORAR
+    </button>
+
+
+    <div class="section-heading-row">
+
+      <div>
+
+        <div class="onboarding-eyebrow">
+          CAMINHO NEXUP
+        </div>
+
+        <h1 class="section-title">
+          ${path.icon} ${escapeHtml(path.title)}
+        </h1>
+
+        <div class="section-subtitle">
+          ${escapeHtml(path.subtitle)}
+        </div>
+
+      </div>
+
+      <div class="section-kicker">
+        NEXUP PATH
+      </div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="onboarding-eyebrow">
+        ${escapeHtml(path.focus)}
+      </div>
+
+      <h2 class="section-title">
+        ${escapeHtml(path.intro)}
+      </h2>
+
+      <div class="section-subtitle">
+
+        ${escapeHtml(path.description)}
+
+      </div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h2 class="section-title">
+            O QUE VOCÊ VAI ENCONTRAR
+          </h2>
+
+          <div class="section-subtitle">
+            Uma estrutura construída para transformar
+            informação em processo.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          CONTEÚDO
+        </div>
+
+      </div>
+
+
+      <div class="quick-grid">
+
+        ${topicsHTML}
+
+      </div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="section-title">
+        PRÓXIMO PASSO
+      </div>
+
+      <div class="section-subtitle">
+
+        Este caminho será expandido progressivamente
+        com conteúdos, ferramentas, exemplos e
+        experiências interativas do NEXUP.
+
+        <br><br>
+
+        O objetivo não é apenas mostrar informação.
+        É ajudar você a construir uma forma melhor
+        de tomar decisões.
+
+      </div>
+
+
+      <div class="metrics-placeholder">
+
+        <div class="metrics-placeholder-title">
+          NEXUP — DECISION INTELLIGENCE
+        </div>
+
+        <div class="metrics-placeholder-text">
+          ESTE CAMINHO ESTÁ CONECTADO À EVOLUÇÃO
+          DO SEU PERFIL E AO SEU HISTÓRICO.
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+   OPEN PATH
+===================================================== */
+
+window.openExplorePath = function(pathKey) {
+
+  const path =
+    nexupPaths[pathKey];
+
+
+  if (!path) {
+    return;
+  }
+
+
+  const explore =
+    document.getElementById(
+      "exploreSection"
+    );
+
+
+  if (!explore) {
+    return;
+  }
+
+
+  currentExplorePath =
+    pathKey;
+
+
+  /*
+   * Guardamos o HTML original da página
+   * de exploração apenas uma vez.
+   */
+
+  if (
+    !explore.dataset.originalContent
+  ) {
+
+    explore.dataset.originalContent =
+      explore.innerHTML;
+
+  }
+
+
+  explore.innerHTML =
+    buildExplorePathHTML(path);
+
+
+  /*
+   * A navegação interna continua dentro
+   * de EXPLORAR.
+   */
+
+  showSection(
+    "exploreSection",
+    null
+  );
+
+
+  /*
+   * O botão EXPLORAR permanece ativo.
+   */
+
+  const exploreButton =
+    document.querySelector(
+      '#mainNavigation button[data-section="exploreSection"]'
+    );
+
+
+  navButtons.forEach(function(item) {
+
+    item.classList.remove(
+      "active"
+    );
+
+  });
+
+
+  if (exploreButton) {
+
+    exploreButton.classList.add(
+      "active"
+    );
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+};
+
+
+/* =====================================================
+   RETURN TO EXPLORE
+===================================================== */
+
+window.returnToExplore = function() {
+
+  const explore =
+    document.getElementById(
+      "exploreSection"
+    );
+
+
+  if (!explore) {
+    return;
+  }
+
+
+  /*
+   * Restaura o EXPLORAR original.
+   */
+
+  if (
+    explore.dataset.originalContent
+  ) {
+
+    explore.innerHTML =
+      explore.dataset.originalContent;
+
+  }
+
+
+  currentExplorePath =
+    null;
+
+
+  /*
+   * Reativa os caminhos.
+   */
+
+  bindExplorePaths();
+
+
+  showSection(
+    "exploreSection",
+    null
+  );
+
+
+  const exploreButton =
+    document.querySelector(
+      '#mainNavigation button[data-section="exploreSection"]'
+    );
+
+
+  navButtons.forEach(function(item) {
+
+    item.classList.remove(
+      "active"
+    );
+
+  });
+
+
+  if (exploreButton) {
+
+    exploreButton.classList.add(
+      "active"
+    );
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+};
+
+
+/* =====================================================
+   BIND 6 PATH BUTTONS
+===================================================== */
+
+function bindExplorePaths() {
+
+  const buttons =
+    document.querySelectorAll(
+      "#exploreSection .quick-button"
+    );
+
+
+  if (!buttons.length) {
+    return;
+  }
+
+
+  buttons.forEach(function(button) {
+
+    /*
+     * Evita duplicar listeners quando
+     * o conteúdo é restaurado.
+     */
+
+    if (
+      button.dataset.nexupBound === "true"
+    ) {
+
+      return;
+
+    }
+
+
+    button.dataset.nexupBound =
+      "true";
+
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        const text =
+          button.innerText
+            .toUpperCase()
+            .trim();
+
+
+        let pathKey = null;
+
+
+        if (
+          text.includes("INICIANTE")
+        ) {
+
+          pathKey =
+            "iniciante";
+
+        } else if (
+          text.includes("PUNTER")
+        ) {
+
+          pathKey =
+            "punter";
+
+        } else if (
+          text.includes("TRADER")
+        ) {
+
+          pathKey =
+            "trader";
+
+        } else if (
+          text.includes("PRÉ-LIVE") ||
+          text.includes("PRE-LIVE")
+        ) {
+
+          pathKey =
+            "prelive";
+
+        } else if (
+          text.includes("LIVE")
+        ) {
+
+          pathKey =
+            "live";
+
+        } else if (
+          text.includes("MÉTODO") ||
+          text.includes("METODO")
+        ) {
+
+          pathKey =
+            "metodo";
+
+        }
+
+
+        if (pathKey) {
+
+          openExplorePath(
+            pathKey
+          );
+
+        }
+
+      }
+    );
+
+  });
+
+}
 
 
 /* =====================================================
@@ -884,11 +1486,6 @@ function updateDashboardOverview() {
       );
 
 
-    /*
-     * Por enquanto existe apenas
-     * o placeholder de dados.
-     */
-
     if (
       liveCards.length === 1 &&
       liveCards[0].innerText.includes(
@@ -1110,10 +1707,18 @@ function initializeApp() {
   updateMetrics();
 
   /*
-   * A aplicação começa na HOME.
+   * Começa na HOME.
    */
 
   returnToHome();
+
+
+  /*
+   * Conecta os seis caminhos
+   * do EXPLORAR.
+   */
+
+  bindExplorePaths();
 
 }
 
