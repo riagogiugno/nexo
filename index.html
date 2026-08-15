@@ -35,11 +35,10 @@
 
 <!-- =====================================================
      NEXUP — ONBOARDING / QUESTIONÁRIO
-     
-     IMPORTANTE:
+
      O questionário começa ESCONDIDO.
      Ele só aparece quando o usuário clicar
-     em "CONHECER MEU PERFIL".
+     em "MEU PERFIL".
 ====================================================== -->
 
 <div
@@ -48,11 +47,6 @@
 >
 
   <div class="onboarding-card">
-
-
-    <!-- =================================================
-         BRAND
-    ================================================== -->
 
     <div class="onboarding-brand">
 
@@ -67,9 +61,7 @@
     </div>
 
 
-    <!-- =================================================
-         PASSO 1
-    ================================================== -->
+    <!-- PASSO 1 -->
 
     <div
       class="onboarding-step active"
@@ -172,9 +164,7 @@
     </div>
 
 
-    <!-- =================================================
-         PASSO 2
-    ================================================== -->
+    <!-- PASSO 2 -->
 
     <div
       class="onboarding-step"
@@ -244,9 +234,7 @@
     </div>
 
 
-    <!-- =================================================
-         PASSO 3
-    ================================================== -->
+    <!-- PASSO 3 -->
 
     <div
       class="onboarding-step"
@@ -323,9 +311,7 @@
     </div>
 
 
-    <!-- =================================================
-         PASSO 4
-    ================================================== -->
+    <!-- PASSO 4 -->
 
     <div
       class="onboarding-step"
@@ -406,9 +392,7 @@
     </div>
 
 
-    <!-- =================================================
-         ÚNICO FOOTER DO QUESTIONÁRIO
-    ================================================== -->
+    <!-- FOOTER DO QUESTIONÁRIO -->
 
     <div class="onboarding-footer">
 
@@ -424,11 +408,8 @@
       <div class="onboarding-progress">
 
         <span class="progress-dot active"></span>
-
         <span class="progress-dot"></span>
-
         <span class="progress-dot"></span>
-
         <span class="progress-dot"></span>
 
       </div>
@@ -448,9 +429,7 @@
 <div class="container">
 
 
-  <!-- =================================================
-       HEADER
-  ================================================== -->
+  <!-- HEADER -->
 
   <header class="header">
 
@@ -477,16 +456,12 @@
 
   <!-- =================================================
        HOME
-       
-       Esta é a primeira tela.
-       O usuário NÃO entra direto na pesquisa.
   ================================================== -->
 
   <section
     id="homeSection"
     class="nexup-home"
   >
-
 
     <div class="home-intro">
 
@@ -546,27 +521,27 @@
 
 
 
-      <!-- PESQUISA -->
+      <!-- EXPLORAR -->
 
       <button
         type="button"
         class="home-module"
-        onclick="openHomeSection('researchSection', this)"
+        onclick="openHomeSection('exploreSection', this)"
       >
 
         <div class="home-module-icon">
-          🔎
+          ◈
         </div>
 
         <div class="home-module-content">
 
           <div class="home-module-title">
-            PESQUISA
+            EXPLORAR
           </div>
 
           <div class="home-module-description">
-            Encontre informações para construir
-            uma leitura melhor.
+            Conheça o universo NEXUP, seus conceitos,
+            perfis e formas de operar.
           </div>
 
         </div>
@@ -644,7 +619,7 @@
 
 
 
-      <!-- PERFIL -->
+      <!-- MEU PERFIL -->
 
       <button
         type="button"
@@ -712,9 +687,7 @@
 
 
     <div class="home-footer">
-
       NEXUP — DECISION INTELLIGENCE
-
     </div>
 
   </section>
@@ -740,10 +713,10 @@
 
 
     <button
-      data-section="researchSection"
-      onclick="showSection('researchSection', this)"
+      data-section="exploreSection"
+      onclick="showSection('exploreSection', this)"
     >
-      🔎 PESQUISA
+      ◈ EXPLORAR
     </button>
 
 
@@ -790,9 +763,7 @@
       class="hidden"
     >
 
-
       <section class="dashboard-overview">
-
 
         <div class="overview-card">
 
@@ -1004,14 +975,14 @@
 
 
     <!-- =================================================
-         PESQUISA
-         
-         A pesquisa agora é uma seção.
-         Não aparece automaticamente.
+         EXPLORAR
+
+         Substitui PESQUISA.
+         É a porta de entrada para o universo NEXUP.
     ================================================== -->
 
     <section
-      id="researchSection"
+      id="exploreSection"
       class="hidden"
     >
 
@@ -1020,52 +991,175 @@
         <div>
 
           <h1 class="section-title">
-            🔎 PESQUISA
+            ◈ EXPLORAR
           </h1>
 
           <div class="section-subtitle">
-            Consulte informações antes de tomar uma decisão.
+            Entenda o universo NEXUP e encontre
+            o caminho que mais combina com você.
           </div>
 
         </div>
 
         <div class="section-kicker">
-          RESEARCH
+          NEXUP UNIVERSE
         </div>
 
       </div>
 
 
+
+      <!-- POR QUE EXISTIMOS -->
+
       <div class="panel">
 
-        <div class="section-title">
-          BUSCAR INFORMAÇÃO
+        <div class="onboarding-eyebrow">
+          POR QUE EXISTIMOS?
         </div>
+
+        <h2 class="section-title">
+          DECIDIR MELHOR É MAIS IMPORTANTE
+          DO QUE APENAS OPERAR.
+        </h2>
 
         <div class="section-subtitle">
-          A pesquisa é uma ferramenta do NEXUP,
-          não a porta de entrada da plataforma.
+
+          O NEXUP nasceu para transformar informação,
+          leitura e histórico em uma experiência
+          mais inteligente de decisão.
+
+          <br><br>
+
+          Não somos contra apostas.
+          Não somos contra trading.
+
+          Estamos aqui para quem participa desse
+          universo e quer entender melhor o que faz,
+          por que faz e como evolui.
+
+        </div>
+
+      </div>
+
+
+
+      <!-- UNIVERSO NEXUP -->
+
+      <div class="panel">
+
+        <div class="section-heading-row">
+
+          <div>
+
+            <h2 class="section-title">
+              ENCONTRE SEU CAMINHO
+            </h2>
+
+            <div class="section-subtitle">
+              Conteúdo e ferramentas para diferentes
+              perfis dentro do universo esportivo.
+            </div>
+
+          </div>
+
+          <div class="section-kicker">
+            EXPLORE
+          </div>
+
         </div>
 
 
-        <div class="operation-form">
+        <div class="quick-grid">
 
-          <label for="nexupSearch">
-            PESQUISA
-          </label>
-
-          <input
-            id="nexupSearch"
-            type="text"
-            placeholder="Digite o que deseja pesquisar..."
-          >
 
           <button
             type="button"
-            class="select-game"
+            class="quick-button"
           >
-            PESQUISAR
+            🧭 INICIANTE
           </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🎯 PUNTER
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            📈 TRADER
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            ⏱️ PRÉ-LIVE
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🔴 LIVE
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🧠 MÉTODO & LEITURA
+          </button>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- CONCEITO -->
+
+      <div class="panel">
+
+        <div class="section-title">
+          LEITURA ANTES DA DECISÃO
+        </div>
+
+        <div class="section-subtitle">
+
+          O NEXUP organiza o caminho entre aquilo
+          que acontece no jogo e aquilo que você
+          decide fazer com essa informação.
+
+          <br><br>
+
+          Jogos, contexto, mercados, histórico,
+          comportamento e resultado fazem parte
+          da mesma experiência.
+
+        </div>
+
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            UNIVERSO NEXUP
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Novos conteúdos, guias, ferramentas,
+            conceitos e áreas serão adicionados
+            progressivamente.
+          </div>
 
         </div>
 
@@ -1142,7 +1236,6 @@
 
 
       <div class="metrics-overview">
-
 
         <div class="metric-card">
 
@@ -1306,9 +1399,7 @@
 
 
 
-  <!-- =================================================
-       FOOTER ÚNICO DA APLICAÇÃO
-  ================================================== -->
+  <!-- FOOTER -->
 
   <footer class="footer">
 
@@ -1331,7 +1422,7 @@
 
     const sections = [
       "gamesSection",
-      "researchSection",
+      "exploreSection",
       "historySection",
       "metricsSection",
       "decisionsSection"
@@ -1405,6 +1496,7 @@
 
 
     if (navButton) {
+
       document
         .querySelectorAll("#mainNavigation button")
         .forEach(function(item) {
@@ -1414,6 +1506,7 @@
         });
 
       navButton.classList.add("active");
+
     }
 
   }
@@ -1443,8 +1536,7 @@
 
 <!-- =====================================================
      NEXUP — QUESTIONÁRIO
-     
-     Sem botão CONTINUAR.
+
      Cada resposta avança automaticamente.
 ====================================================== -->
 
@@ -1536,11 +1628,6 @@
 
     updateQuestionnaire();
 
-    /*
-      Depois da última resposta,
-      o usuário volta para JOGOS.
-    */
-
     returnToGames();
 
   }
@@ -1571,18 +1658,8 @@
       value;
 
 
-    /*
-      Feedback visual rápido.
-    */
-
     button.classList.add("selected");
 
-
-    /*
-      Pequeno atraso para o clique
-      parecer uma escolha real antes
-      da transição.
-    */
 
     setTimeout(function() {
 
