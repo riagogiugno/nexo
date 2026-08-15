@@ -1,5 +1,6 @@
 /* =====================================================
    NEXUP — APPLICATION
+   APP.JS — COMPATÍVEL COM O INDEX.HTML ATUAL
 ===================================================== */
 
 
@@ -21,9 +22,6 @@ let currentPage = "homeSection";
 const onboarding =
   document.getElementById("nexupOnboarding");
 
-const nexupApp =
-  document.getElementById("nexupApp");
-
 const onboardingBack =
   document.getElementById("onboardingBack");
 
@@ -33,11 +31,8 @@ const onboardingSteps =
 const progressDots =
   document.querySelectorAll(".progress-dot");
 
-const homeButtons =
-  document.querySelectorAll(".home-card");
-
 const navButtons =
-  document.querySelectorAll(".nav button");
+  document.querySelectorAll("#mainNavigation button");
 
 
 /* =====================================================
@@ -72,15 +67,19 @@ function showOnboardingStep(step) {
   });
 
 
-  if (step === 1) {
+  if (onboardingBack) {
 
-    onboardingBack.style.visibility =
-      "hidden";
+    if (step === 1) {
 
-  } else {
+      onboardingBack.style.visibility =
+        "hidden";
 
-    onboardingBack.style.visibility =
-      "visible";
+    } else {
+
+      onboardingBack.style.visibility =
+        "visible";
+
+    }
 
   }
 
@@ -88,7 +87,28 @@ function showOnboardingStep(step) {
 
 
 /* =====================================================
-   ONBOARDING OPTION
+   OPEN ONBOARDING
+===================================================== */
+
+window.openOnboarding = function() {
+
+  currentOnboardingStep = 1;
+
+  showOnboardingStep(1);
+
+  if (onboarding) {
+
+    onboarding.classList.remove(
+      "hidden"
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   ONBOARDING OPTIONS
 ===================================================== */
 
 onboardingSteps.forEach(function(stepElement) {
@@ -123,20 +143,28 @@ onboardingSteps.forEach(function(stepElement) {
           Number(stepElement.dataset.step);
 
 
-        onboardingAnswers[step] =
+        const value =
+          option.dataset.profile ||
+          option.dataset.answer ||
           option.innerText.trim();
 
 
+        onboardingAnswers[
+          "step" + step
+        ] = value;
+
+
         /*
-         * AQUI ESTÁ A MUDANÇA PRINCIPAL:
-         *
-         * Não existe mais CONTINUAR.
-         *
-         * O clique na resposta avança
-         * automaticamente.
+         * O NEXUP avança automaticamente
+         * após a escolha.
          */
 
         setTimeout(function() {
+
+          option.classList.remove(
+            "selected"
+          );
+
 
           if (step < 4) {
 
@@ -161,23 +189,54 @@ onboardingSteps.forEach(function(stepElement) {
 
 
 /* =====================================================
-   BACK
+   ONBOARDING BACK
 ===================================================== */
 
-onboardingBack.addEventListener(
-  "click",
-  function() {
+if (onboardingBack) {
 
-    if (currentOnboardingStep > 1) {
+  onboardingBack.addEventListener(
+    "click",
+    function() {
 
-      showOnboardingStep(
-        currentOnboardingStep - 1
-      );
+      if (currentOnboardingStep > 1) {
+
+        showOnboardingStep(
+          currentOnboardingStep - 1
+        );
+
+      } else {
+
+        closeOnboarding();
+
+      }
 
     }
+  );
+
+}
+
+
+/* =====================================================
+   CLOSE ONBOARDING
+===================================================== */
+
+function closeOnboarding() {
+
+  if (onboarding) {
+
+    onboarding.classList.add(
+      "hidden"
+    );
 
   }
-);
+
+  currentOnboardingStep = 1;
+
+  showOnboardingStep(1);
+
+  returnToHome();
+
+}
 
 
 /* =====================================================
@@ -187,9 +246,7 @@ onboardingBack.addEventListener(
 function finishOnboarding() {
 
   /*
-   * Guardamos as respostas localmente.
-   * Depois podemos utilizar isso para
-   * personalização real do NEXUP.
+   * Salva as respostas no navegador.
    */
 
   localStorage.setItem(
@@ -200,22 +257,57 @@ function finishOnboarding() {
   );
 
 
-  onboarding.classList.add(
-    "hidden"
-  );
+  if (onboarding) {
+
+    onboarding.classList.add(
+      "hidden"
+    );
+
+  }
 
 
-  nexupApp.classList.remove(
-    "hidden"
-  );
+  currentOnboardingStep = 1;
+
+  showOnboardingStep(1);
 
 
   /*
-   * A última resposta agora leva
-   * para a HOME.
+   * Depois do questionário,
+   * o usuário volta para a HOME.
    */
 
-  showPage("homeSection");
+  returnToHome();
+
+}
+
+
+/* =====================================================
+   LOAD SAVED ONBOARDING
+===================================================== */
+
+function loadSavedOnboarding() {
+
+  const saved =
+    localStorage.getItem(
+      "nexupOnboarding"
+    );
+
+
+  if (!saved) {
+    return;
+  }
+
+
+  try {
+
+    onboardingAnswers =
+      JSON.parse(saved);
+
+  } catch (error) {
+
+    onboardingAnswers = {};
+
+  }
 
 }
 
@@ -224,25 +316,43 @@ function finishOnboarding() {
    PAGE NAVIGATION
 ===================================================== */
 
-function showPage(pageId) {
+function showSection(sectionId, button) {
 
-  const pages =
-    document.querySelectorAll(
-      ".app-page, #homeSection"
-    );
+  const sections = [
+    "gamesSection",
+    "exploreSection",
+    "historySection",
+    "metricsSection",
+    "decisionsSection"
+  ];
 
 
-  pages.forEach(function(page) {
+  /*
+   * Esconde todas as páginas internas.
+   */
 
-    page.classList.add(
-      "hidden"
-    );
+  sections.forEach(function(id) {
+
+    const section =
+      document.getElementById(id);
+
+    if (section) {
+
+      section.classList.add(
+        "hidden"
+      );
+
+    }
 
   });
 
 
+  /*
+   * Mostra a página escolhida.
+   */
+
   const selected =
-    document.getElementById(pageId);
+    document.getElementById(sectionId);
 
 
   if (selected) {
@@ -254,104 +364,258 @@ function showPage(pageId) {
   }
 
 
-  currentPage =
-    pageId;
+  /*
+   * Esconde a HOME.
+   */
+
+  const home =
+    document.getElementById(
+      "homeSection"
+    );
+
+
+  if (home) {
+
+    home.classList.add(
+      "hidden"
+    );
+
+  }
 
 
   /*
-   * Atualiza a navegação superior.
+   * Mostra a navegação interna.
    */
 
-  navButtons.forEach(function(button) {
+  const navigation =
+    document.getElementById(
+      "mainNavigation"
+    );
 
-    button.classList.toggle(
-      "active",
-      button.dataset.page === pageId
+
+  if (navigation) {
+
+    navigation.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  /*
+   * Atualiza botão ativo.
+   */
+
+  navButtons.forEach(function(navButton) {
+
+    navButton.classList.remove(
+      "active"
     );
 
   });
 
 
-  /*
-   * Na Home não precisamos da barra
-   * de navegação interna destacando nada.
-   */
+  if (button) {
 
-  if (pageId === "homeSection") {
+    button.classList.add(
+      "active"
+    );
 
-    navButtons.forEach(function(button) {
+  } else {
 
-      button.classList.remove(
+    const matchingButton =
+      document.querySelector(
+        '#mainNavigation button[data-section="' +
+        sectionId +
+        '"]'
+      );
+
+
+    if (matchingButton) {
+
+      matchingButton.classList.add(
         "active"
       );
 
-    });
+    }
 
   }
+
+
+  currentPage =
+    sectionId;
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
 }
 
 
 /* =====================================================
-   HOME BUTTONS
+   OPEN HOME SECTION
 ===================================================== */
 
-homeButtons.forEach(function(button) {
+window.openHomeSection = function(
+  sectionId,
+  button
+) {
 
-  button.addEventListener(
-    "click",
-    function() {
-
-      const page =
-        button.dataset.page;
-
-
-      if (page) {
-
-        showPage(page);
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-      }
-
-    }
+  showSection(
+    sectionId,
+    null
   );
 
-});
+
+  /*
+   * O botão correspondente da navegação
+   * fica ativo.
+   */
+
+  const navButton =
+    document.querySelector(
+      '#mainNavigation button[data-section="' +
+      sectionId +
+      '"]'
+    );
+
+
+  navButtons.forEach(function(item) {
+
+    item.classList.remove(
+      "active"
+    );
+
+  });
+
+
+  if (navButton) {
+
+    navButton.classList.add(
+      "active"
+    );
+
+  }
+
+
+  currentPage =
+    sectionId;
+
+};
 
 
 /* =====================================================
-   NAV BUTTONS
+   RETURN TO HOME
 ===================================================== */
 
-navButtons.forEach(function(button) {
+window.returnToHome = function() {
 
-  button.addEventListener(
-    "click",
-    function() {
+  const sections = [
+    "gamesSection",
+    "exploreSection",
+    "historySection",
+    "metricsSection",
+    "decisionsSection"
+  ];
 
-      const page =
-        button.dataset.page;
 
+  /*
+   * Esconde todas as páginas internas.
+   */
 
-      if (page) {
+  sections.forEach(function(id) {
 
-        showPage(page);
+    const section =
+      document.getElementById(id);
 
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
+    if (section) {
 
-      }
+      section.classList.add(
+        "hidden"
+      );
 
     }
+
+  });
+
+
+  /*
+   * Mostra a HOME.
+   */
+
+  const home =
+    document.getElementById(
+      "homeSection"
+    );
+
+
+  if (home) {
+
+    home.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  /*
+   * Esconde a navegação interna.
+   */
+
+  const navigation =
+    document.getElementById(
+      "mainNavigation"
+    );
+
+
+  if (navigation) {
+
+    navigation.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  /*
+   * Remove estado ativo dos botões.
+   */
+
+  navButtons.forEach(function(navButton) {
+
+    navButton.classList.remove(
+      "active"
+    );
+
+  });
+
+
+  currentPage =
+    "homeSection";
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+};
+
+
+/* =====================================================
+   RETURN TO GAMES
+===================================================== */
+
+window.returnToGames = function() {
+
+  showSection(
+    "gamesSection",
+    null
   );
 
-});
+};
 
 
 /* =====================================================
@@ -404,6 +668,11 @@ if (searchInput) {
 
 function performSearch() {
 
+  if (!searchInput || !searchResults) {
+    return;
+  }
+
+
   const query =
     searchInput.value.trim();
 
@@ -412,7 +681,7 @@ function performSearch() {
 
     searchResults.innerHTML = `
       <div class="search-empty">
-        Digite um jogo, time ou campeonato.
+        DIGITE UM JOGO, TIME OU CAMPEONATO.
       </div>
     `;
 
@@ -420,12 +689,6 @@ function performSearch() {
 
   }
 
-
-  /*
-   * Por enquanto é apenas a interface.
-   *
-   * A API de jogos entra aqui depois.
-   */
 
   searchResults.innerHTML = `
 
@@ -439,8 +702,12 @@ function performSearch() {
 
       <br><br>
 
-      Nenhum resultado conectado ainda.
-      A integração dos dados entra nesta etapa.
+      NENHUM RESULTADO CONECTADO AINDA.
+
+      <br><br>
+
+      A INTEGRAÇÃO DOS DADOS
+      ENTRA NESTA ETAPA.
 
     </div>
 
@@ -456,10 +723,14 @@ function performSearch() {
 function escapeHtml(text) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   div.textContent =
     text;
+
 
   return div.innerHTML;
 
@@ -467,7 +738,7 @@ function escapeHtml(text) {
 
 
 /* =====================================================
-   INITIAL GAMES PLACEHOLDER
+   INITIAL GAMES
 ===================================================== */
 
 function renderInitialGames() {
@@ -482,6 +753,10 @@ function renderInitialGames() {
       "upcomingGames"
     );
 
+
+  /*
+   * LIVE
+   */
 
   if (liveGames) {
 
@@ -501,9 +776,11 @@ function renderInitialGames() {
 
         </div>
 
+
         <div class="teams">
           NEXUP DATA
         </div>
+
 
         <div class="scoreline">
 
@@ -516,6 +793,7 @@ function renderInitialGames() {
           </span>
 
         </div>
+
 
         <button
           class="select-game"
@@ -530,6 +808,10 @@ function renderInitialGames() {
 
   }
 
+
+  /*
+   * PRÓXIMOS
+   */
 
   if (upcomingGames) {
 
@@ -549,9 +831,11 @@ function renderInitialGames() {
 
         </div>
 
+
         <div class="teams">
-          Os jogos aparecerão aqui.
+          OS JOGOS APARECERÃO AQUI.
         </div>
+
 
         <div class="scoreline">
 
@@ -575,14 +859,261 @@ function renderInitialGames() {
 
 
 /* =====================================================
+   UPDATE DASHBOARD OVERVIEW
+===================================================== */
+
+function updateDashboardOverview() {
+
+  const liveGames =
+    document.getElementById(
+      "liveGames"
+    );
+
+
+  const overviewLive =
+    document.getElementById(
+      "overviewLive"
+    );
+
+
+  if (overviewLive && liveGames) {
+
+    const liveCards =
+      liveGames.querySelectorAll(
+        ".game-card"
+      );
+
+
+    /*
+     * Por enquanto existe apenas
+     * o placeholder de dados.
+     */
+
+    if (
+      liveCards.length === 1 &&
+      liveCards[0].innerText.includes(
+        "AGUARDANDO DADOS"
+      )
+    ) {
+
+      overviewLive.innerText =
+        "0";
+
+    } else {
+
+      overviewLive.innerText =
+        liveCards.length;
+
+    }
+
+  }
+
+
+  const overviewReadings =
+    document.getElementById(
+      "overviewReadings"
+    );
+
+
+  if (overviewReadings) {
+
+    overviewReadings.innerText =
+      "0";
+
+  }
+
+
+  const overviewActive =
+    document.getElementById(
+      "overviewActive"
+    );
+
+
+  if (overviewActive) {
+
+    overviewActive.innerText =
+      "0";
+
+  }
+
+
+  const overviewProfit =
+    document.getElementById(
+      "overviewProfit"
+    );
+
+
+  if (overviewProfit) {
+
+    overviewProfit.innerText =
+      "R$ 0,00";
+
+  }
+
+}
+
+
+/* =====================================================
+   UPDATE METRICS
+===================================================== */
+
+function updateMetrics() {
+
+  const saved =
+    localStorage.getItem(
+      "nexupHistory"
+    );
+
+
+  let history = [];
+
+
+  if (saved) {
+
+    try {
+
+      history =
+        JSON.parse(saved);
+
+    } catch (error) {
+
+      history = [];
+
+    }
+
+  }
+
+
+  const decisions =
+    document.getElementById(
+      "metricDecisions"
+    );
+
+
+  const greens =
+    document.getElementById(
+      "metricGreens"
+    );
+
+
+  const losses =
+    document.getElementById(
+      "metricLosses"
+    );
+
+
+  const winRate =
+    document.getElementById(
+      "metricWinRate"
+    );
+
+
+  if (decisions) {
+
+    decisions.innerText =
+      history.length;
+
+  }
+
+
+  if (greens) {
+
+    const greenCount =
+      history.filter(function(item) {
+
+        return (
+          item.result === "GREEN" ||
+          item.status === "GREEN"
+        );
+
+      }).length;
+
+
+    greens.innerText =
+      greenCount;
+
+  }
+
+
+  if (losses) {
+
+    const lossCount =
+      history.filter(function(item) {
+
+        return (
+          item.result === "LOSS" ||
+          item.status === "LOSS" ||
+          item.result === "RED" ||
+          item.status === "RED"
+        );
+
+      }).length;
+
+
+    losses.innerText =
+      lossCount;
+
+  }
+
+
+  if (winRate) {
+
+    if (history.length === 0) {
+
+      winRate.innerText =
+        "—";
+
+    } else {
+
+      const greenCount =
+        history.filter(function(item) {
+
+          return (
+            item.result === "GREEN" ||
+            item.status === "GREEN"
+          );
+
+        }).length;
+
+
+      const rate =
+        (
+          greenCount /
+          history.length
+        ) * 100;
+
+
+      winRate.innerText =
+        rate.toFixed(1) + "%";
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
    INITIALIZE
 ===================================================== */
 
 function initializeApp() {
 
+  loadSavedOnboarding();
+
   showOnboardingStep(1);
 
   renderInitialGames();
+
+  updateDashboardOverview();
+
+  updateMetrics();
+
+  /*
+   * A aplicação começa na HOME.
+   */
+
+  returnToHome();
 
 }
 
