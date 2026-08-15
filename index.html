@@ -481,9 +481,7 @@
     </div>
 
 
-    <!-- =================================================
-         HOME MODULES
-    ================================================== -->
+    <!-- HOME MODULES -->
 
     <div class="home-grid">
 
@@ -763,6 +761,15 @@
       class="hidden"
     >
 
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToHome()"
+      >
+        ← VOLTAR PARA HOME
+      </button>
+
+
       <section class="dashboard-overview">
 
         <div class="overview-card">
@@ -976,15 +983,21 @@
 
     <!-- =================================================
          EXPLORAR
-
-         Substitui PESQUISA.
-         É a porta de entrada para o universo NEXUP.
     ================================================== -->
 
     <section
       id="exploreSection"
       class="hidden"
     >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToHome()"
+      >
+        ← VOLTAR PARA HOME
+      </button>
+
 
       <div class="section-heading-row">
 
@@ -1178,6 +1191,15 @@
       class="hidden"
     >
 
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToHome()"
+      >
+        ← VOLTAR PARA HOME
+      </button>
+
+
       <div class="section-heading-row">
 
         <div>
@@ -1213,6 +1235,15 @@
       id="metricsSection"
       class="hidden"
     >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToHome()"
+      >
+        ← VOLTAR PARA HOME
+      </button>
+
 
       <div class="section-heading-row">
 
@@ -1343,6 +1374,15 @@
       id="decisionsSection"
       class="hidden"
     >
+
+      <button
+        type="button"
+        class="back-home"
+        onclick="returnToHome()"
+      >
+        ← VOLTAR PARA HOME
+      </button>
+
 
       <div class="section-heading-row">
 
@@ -1513,20 +1553,56 @@
 
 
 
-  function returnToGames() {
+  /* =====================================================
+     VOLTAR PARA HOME
+  ====================================================== */
 
-    showSection("gamesSection", null);
+  function returnToHome() {
+
+    const sections = [
+      "gamesSection",
+      "exploreSection",
+      "historySection",
+      "metricsSection",
+      "decisionsSection"
+    ];
 
 
-    const navButton =
-      document.querySelector(
-        '#mainNavigation button[data-section="gamesSection"]'
-      );
+    sections.forEach(function(id) {
+
+      const section =
+        document.getElementById(id);
+
+      if (section) {
+        section.classList.add("hidden");
+      }
+
+    });
 
 
-    if (navButton) {
-      navButton.classList.add("active");
+    const home =
+      document.getElementById("homeSection");
+
+    if (home) {
+      home.classList.remove("hidden");
     }
+
+
+    const navigation =
+      document.getElementById("mainNavigation");
+
+    if (navigation) {
+      navigation.classList.add("hidden");
+    }
+
+
+    document
+      .querySelectorAll("#mainNavigation button")
+      .forEach(function(navButton) {
+
+        navButton.classList.remove("active");
+
+      });
 
   }
 
@@ -1628,7 +1704,9 @@
 
     updateQuestionnaire();
 
-    returnToGames();
+    /* Depois do questionário, volta para HOME. */
+
+    returnToHome();
 
   }
 
@@ -1714,6 +1792,8 @@
         } else {
 
           overlay.classList.add("hidden");
+
+          returnToHome();
 
         }
 
