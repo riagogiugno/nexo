@@ -1,47 +1,1743 @@
-/* =====================================================
-   NEXUP — BACK TO HOME
-====================================================== */
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-.back-home {
-  display: inline-flex;
+<head>
 
-  align-items: center;
+  <meta charset="UTF-8">
 
-  margin-bottom: 22px;
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  padding: 8px 11px;
+  <meta
+    name="theme-color"
+    content="#08080A"
+  >
 
-  background: transparent;
+  <meta
+    name="description"
+    content="NEXUP — O ponto entre a leitura e a decisão."
+  >
 
-  color: var(--text-muted);
+  <title>NEXUP — Decision Intelligence</title>
 
-  border: 1px solid var(--border);
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
-  border-radius: 7px;
+</head>
 
-  font-size: 9px;
-  font-weight: 800;
 
-  letter-spacing: 0.7px;
+<body>
 
-  transition:
-    color 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease,
-    transform 0.18s ease;
-}
 
-.back-home:hover {
-  color: var(--text);
+<!-- =====================================================
+     NEXUP — ONBOARDING / QUESTIONÁRIO
 
-  border-color: var(--border-hover);
+     O questionário começa ESCONDIDO.
+     Ele só aparece quando o usuário clicar
+     em "MEU PERFIL".
+====================================================== -->
 
-  background:
-    rgba(255, 255, 255, 0.025);
+<div
+  id="nexupOnboarding"
+  class="onboarding-overlay hidden"
+>
 
-  transform: translateX(-2px);
-}
+  <div class="onboarding-card">
 
-.back-home:active {
-  transform: scale(0.98);
-}
+    <div class="onboarding-brand">
+
+      <div class="onboarding-logo">
+        NEXUP
+      </div>
+
+      <div class="onboarding-tagline">
+        O ponto entre a leitura e a decisão.
+      </div>
+
+    </div>
+
+
+    <!-- PASSO 1 -->
+
+    <div
+      class="onboarding-step active"
+      data-step="1"
+    >
+
+      <div class="onboarding-eyebrow">
+        BEM-VINDO AO NEXUP
+      </div>
+
+      <h1>
+        COMO VOCÊ SE DEFINE HOJE?
+      </h1>
+
+      <p>
+        Não existe resposta certa.
+        O NEXUP vai usar suas respostas para
+        adaptar sua experiência.
+      </p>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="INICIANTE"
+        >
+          <strong>
+            ESTOU COMEÇANDO
+          </strong>
+
+          <span>
+            Quero aprender e entender melhor.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="APOSTADOR"
+        >
+          <strong>
+            APOSTADOR
+          </strong>
+
+          <span>
+            Acompanho jogos e faço algumas entradas.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="TRADER"
+        >
+          <strong>
+            TRADER
+          </strong>
+
+          <span>
+            Faço operações e acompanho o mercado.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="EXPERIENTE"
+        >
+          <strong>
+            TRADER EXPERIENTE
+          </strong>
+
+          <span>
+            Já tenho método e experiência.
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-profile="APRENDIZ"
+        >
+          <strong>
+            QUERO APRENDER
+          </strong>
+
+          <span>
+            Quero evoluir antes de operar.
+          </span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- PASSO 2 -->
+
+    <div
+      class="onboarding-step"
+      data-step="2"
+    >
+
+      <div class="onboarding-eyebrow">
+        EXPERIÊNCIA
+      </div>
+
+      <h1>
+        HÁ QUANTO TEMPO VOCÊ ACOMPANHA?
+      </h1>
+
+      <p>
+        Isso ajuda o NEXUP a calibrar sua experiência.
+      </p>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MENOS DE 6 MESES"
+        >
+          <strong>
+            MENOS DE 6 MESES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="6 MESES — 2 ANOS"
+        >
+          <strong>
+            6 MESES — 2 ANOS
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="2 — 5 ANOS"
+        >
+          <strong>
+            2 — 5 ANOS
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MAIS DE 5 ANOS"
+        >
+          <strong>
+            MAIS DE 5 ANOS
+          </strong>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- PASSO 3 -->
+
+    <div
+      class="onboarding-step"
+      data-step="3"
+    >
+
+      <div class="onboarding-eyebrow">
+        SEU ESTILO
+      </div>
+
+      <h1>
+        QUAL FRASE MAIS PARECE COM VOCÊ?
+      </h1>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="OPORTUNIDADE CLARA"
+        >
+          <strong>
+            ESPERO UMA OPORTUNIDADE MUITO CLARA.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="OPORTUNIDADES DURANTE O JOGO"
+        >
+          <strong>
+            GOSTO DE ENCONTRAR OPORTUNIDADES DURANTE O JOGO.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MAIS RISCO"
+        >
+          <strong>
+            NÃO TENHO PROBLEMA EM ASSUMIR MAIS RISCO.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="POUCAS OPERACOES"
+        >
+          <strong>
+            PREFIRO POUCAS OPERAÇÕES.
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="DESCOBRINDO METODO"
+        >
+          <strong>
+            AINDA ESTOU DESCOBRINDO MEU MÉTODO.
+          </strong>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- PASSO 4 -->
+
+    <div
+      class="onboarding-step"
+      data-step="4"
+    >
+
+      <div class="onboarding-eyebrow">
+        SEU OBJETIVO
+      </div>
+
+      <h1>
+        O QUE VOCÊ QUER DO NEXUP?
+      </h1>
+
+      <p>
+        Escolha o que melhor representa o que você procura.
+      </p>
+
+
+      <div class="onboarding-options">
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="APRENDER"
+        >
+          <strong>
+            📚 APRENDER
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="ORGANIZAR OPERACOES"
+        >
+          <strong>
+            📊 ORGANIZAR MINHAS OPERAÇÕES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="MELHORAR DECISOES"
+        >
+          <strong>
+            🧠 MELHORAR MINHAS DECISÕES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="ENCONTRAR OPORTUNIDADES"
+        >
+          <strong>
+            🔎 ENCONTRAR OPORTUNIDADES
+          </strong>
+        </button>
+
+
+        <button
+          type="button"
+          class="onboarding-option"
+          data-answer="EVOLUIR COMO TRADER"
+        >
+          <strong>
+            ⚡ EVOLUIR COMO TRADER
+          </strong>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- FOOTER DO QUESTIONÁRIO -->
+
+    <div class="onboarding-footer">
+
+      <button
+        id="onboardingBack"
+        class="onboarding-back"
+        type="button"
+      >
+        ← VOLTAR
+      </button>
+
+
+      <div class="onboarding-progress">
+
+        <span class="progress-dot active"></span>
+        <span class="progress-dot"></span>
+        <span class="progress-dot"></span>
+        <span class="progress-dot"></span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     APLICAÇÃO PRINCIPAL
+====================================================== -->
+
+<div class="container">
+
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div>
+
+      <div class="logo">
+        NEXUP
+      </div>
+
+      <div class="section-subtitle">
+        O ponto entre a leitura e a decisão.
+      </div>
+
+    </div>
+
+
+    <div class="user">
+      TRADER
+    </div>
+
+  </header>
+
+
+
+  <!-- =================================================
+       HOME
+  ================================================== -->
+
+  <section
+    id="homeSection"
+    class="nexup-home"
+  >
+
+    <div class="home-intro">
+
+      <div class="onboarding-eyebrow">
+        NEXUP TERMINAL
+      </div>
+
+      <h1 class="home-title">
+        DECISÃO ANTES DA OPERAÇÃO.
+      </h1>
+
+      <p class="home-description">
+        Leia o jogo. Organize sua informação.
+        Entenda sua decisão.
+      </p>
+
+    </div>
+
+
+    <!-- =================================================
+         HOME MODULES
+    ================================================== -->
+
+    <div class="home-grid">
+
+
+      <!-- JOGOS -->
+
+      <button
+        type="button"
+        class="home-module featured"
+        onclick="openHomeSection('gamesSection', this)"
+      >
+
+        <div class="home-module-icon">
+          🏟️
+        </div>
+
+        <div class="home-module-content">
+
+          <div class="home-module-title">
+            JOGOS
+          </div>
+
+          <div class="home-module-description">
+            Acompanhe partidas, mercados e leituras
+            em tempo real.
+          </div>
+
+        </div>
+
+        <div class="home-module-arrow">
+          →
+        </div>
+
+      </button>
+
+
+
+      <!-- EXPLORAR -->
+
+      <button
+        type="button"
+        class="home-module"
+        onclick="openHomeSection('exploreSection', this)"
+      >
+
+        <div class="home-module-icon">
+          ◈
+        </div>
+
+        <div class="home-module-content">
+
+          <div class="home-module-title">
+            EXPLORAR
+          </div>
+
+          <div class="home-module-description">
+            Conheça o universo NEXUP, seus conceitos,
+            perfis e formas de operar.
+          </div>
+
+        </div>
+
+        <div class="home-module-arrow">
+          →
+        </div>
+
+      </button>
+
+
+
+      <!-- HISTÓRICO -->
+
+      <button
+        type="button"
+        class="home-module"
+        onclick="openHomeSection('historySection', this)"
+      >
+
+        <div class="home-module-icon">
+          📊
+        </div>
+
+        <div class="home-module-content">
+
+          <div class="home-module-title">
+            HISTÓRICO
+          </div>
+
+          <div class="home-module-description">
+            Revise suas leituras e decisões anteriores.
+          </div>
+
+        </div>
+
+        <div class="home-module-arrow">
+          →
+        </div>
+
+      </button>
+
+
+
+      <!-- MÉTRICAS -->
+
+      <button
+        type="button"
+        class="home-module"
+        onclick="openHomeSection('metricsSection', this)"
+      >
+
+        <div class="home-module-icon">
+          📈
+        </div>
+
+        <div class="home-module-content">
+
+          <div class="home-module-title">
+            MÉTRICAS
+          </div>
+
+          <div class="home-module-description">
+            Transforme seu histórico em inteligência
+            sobre seu processo.
+          </div>
+
+        </div>
+
+        <div class="home-module-arrow">
+          →
+        </div>
+
+      </button>
+
+
+
+      <!-- MEU PERFIL -->
+
+      <button
+        type="button"
+        class="home-module"
+        onclick="openOnboarding()"
+      >
+
+        <div class="home-module-icon">
+          🧠
+        </div>
+
+        <div class="home-module-content">
+
+          <div class="home-module-title">
+            MEU PERFIL
+          </div>
+
+          <div class="home-module-description">
+            Conheça seu perfil e calibre a experiência
+            do NEXUP.
+          </div>
+
+        </div>
+
+        <div class="home-module-arrow">
+          →
+        </div>
+
+      </button>
+
+
+
+      <!-- DECISÕES -->
+
+      <button
+        type="button"
+        class="home-module"
+        onclick="openHomeSection('decisionsSection', this)"
+      >
+
+        <div class="home-module-icon">
+          ⚡
+        </div>
+
+        <div class="home-module-content">
+
+          <div class="home-module-title">
+            DECISÕES
+          </div>
+
+          <div class="home-module-description">
+            Registre e acompanhe o processo por trás
+            de cada operação.
+          </div>
+
+        </div>
+
+        <div class="home-module-arrow">
+          →
+        </div>
+
+      </button>
+
+    </div>
+
+
+    <div class="home-footer">
+      NEXUP — DECISION INTELLIGENCE
+    </div>
+
+  </section>
+
+
+
+  <!-- =================================================
+       NAVEGAÇÃO INTERNA
+  ================================================== -->
+
+  <nav
+    id="mainNavigation"
+    class="nav hidden"
+  >
+
+    <button
+      class="active"
+      data-section="gamesSection"
+      onclick="showSection('gamesSection', this)"
+    >
+      🏟️ JOGOS
+    </button>
+
+
+    <button
+      data-section="exploreSection"
+      onclick="showSection('exploreSection', this)"
+    >
+      ◈ EXPLORAR
+    </button>
+
+
+    <button
+      data-section="historySection"
+      onclick="showSection('historySection', this)"
+    >
+      📊 HISTÓRICO
+    </button>
+
+
+    <button
+      data-section="metricsSection"
+      onclick="showSection('metricsSection', this)"
+    >
+      📈 MÉTRICAS
+    </button>
+
+
+    <button
+      data-section="decisionsSection"
+      onclick="showSection('decisionsSection', this)"
+    >
+      ⚡ DECISÕES
+    </button>
+
+  </nav>
+
+
+
+  <!-- =================================================
+       MAIN
+  ================================================== -->
+
+  <main>
+
+
+    <!-- =================================================
+         GAMES
+    ================================================== -->
+
+    <section
+      id="gamesSection"
+      class="hidden"
+    >
+
+      <section class="dashboard-overview">
+
+        <div class="overview-card">
+
+          <div class="overview-label">
+            JOGOS LIVE
+          </div>
+
+          <div
+            id="overviewLive"
+            class="overview-value"
+          >
+            —
+          </div>
+
+          <div class="overview-meta">
+            acontecendo agora
+          </div>
+
+        </div>
+
+
+        <div class="overview-card">
+
+          <div class="overview-label">
+            LEITURAS
+          </div>
+
+          <div
+            id="overviewReadings"
+            class="overview-value"
+          >
+            —
+          </div>
+
+          <div class="overview-meta">
+            registradas
+          </div>
+
+        </div>
+
+
+        <div class="overview-card">
+
+          <div class="overview-label">
+            OPERAÇÕES ATIVAS
+          </div>
+
+          <div
+            id="overviewActive"
+            class="overview-value"
+          >
+            —
+          </div>
+
+          <div class="overview-meta">
+            em operação
+          </div>
+
+        </div>
+
+
+        <div class="overview-card">
+
+          <div class="overview-label">
+            P&L
+          </div>
+
+          <div
+            id="overviewProfit"
+            class="overview-value"
+          >
+            R$ 0,00
+          </div>
+
+          <div class="overview-meta">
+            resultado registrado
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- LIVE -->
+
+      <section class="games-section">
+
+        <div class="section-heading-row">
+
+          <div>
+
+            <h1 class="section-title">
+
+              <span class="status-dot live-dot"></span>
+
+              LIVE
+
+            </h1>
+
+            <div class="section-subtitle">
+              Jogos acontecendo agora
+            </div>
+
+          </div>
+
+          <div class="section-kicker">
+            NEXUP MONITOR
+          </div>
+
+        </div>
+
+
+        <div
+          id="liveGames"
+          class="games-grid"
+        ></div>
+
+      </section>
+
+
+
+      <!-- UPCOMING -->
+
+      <section class="games-section">
+
+        <div class="section-heading-row">
+
+          <div>
+
+            <h1 class="section-title">
+
+              <span class="status-dot upcoming-dot"></span>
+
+              PRÓXIMOS
+
+            </h1>
+
+            <div class="section-subtitle">
+              Partidas que ainda não começaram
+            </div>
+
+          </div>
+
+          <div class="section-kicker">
+            PRÓXIMOS EVENTOS
+          </div>
+
+        </div>
+
+
+        <div
+          id="upcomingGames"
+          class="games-grid"
+        ></div>
+
+      </section>
+
+
+
+      <!-- SELECTED GAME -->
+
+      <section
+        id="selectedGame"
+        class="panel hidden"
+      ></section>
+
+
+
+      <!-- RECENT ACTIVITY -->
+
+      <section
+        id="recentActivity"
+        class="dashboard-activity"
+      >
+
+        <div class="section-heading-row">
+
+          <div>
+
+            <h2 class="section-title">
+              ATIVIDADE RECENTE
+            </h2>
+
+            <div class="section-subtitle">
+              Últimas leituras e decisões registradas.
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="recentActivityContainer"
+          class="activity-list"
+        >
+
+          <div class="activity-empty">
+            Nenhuma atividade registrada ainda.
+          </div>
+
+        </div>
+
+      </section>
+
+    </section>
+
+
+
+    <!-- =================================================
+         EXPLORAR
+
+         Substitui PESQUISA.
+         É a porta de entrada para o universo NEXUP.
+    ================================================== -->
+
+    <section
+      id="exploreSection"
+      class="hidden"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h1 class="section-title">
+            ◈ EXPLORAR
+          </h1>
+
+          <div class="section-subtitle">
+            Entenda o universo NEXUP e encontre
+            o caminho que mais combina com você.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          NEXUP UNIVERSE
+        </div>
+
+      </div>
+
+
+
+      <!-- POR QUE EXISTIMOS -->
+
+      <div class="panel">
+
+        <div class="onboarding-eyebrow">
+          POR QUE EXISTIMOS?
+        </div>
+
+        <h2 class="section-title">
+          DECIDIR MELHOR É MAIS IMPORTANTE
+          DO QUE APENAS OPERAR.
+        </h2>
+
+        <div class="section-subtitle">
+
+          O NEXUP nasceu para transformar informação,
+          leitura e histórico em uma experiência
+          mais inteligente de decisão.
+
+          <br><br>
+
+          Não somos contra apostas.
+          Não somos contra trading.
+
+          Estamos aqui para quem participa desse
+          universo e quer entender melhor o que faz,
+          por que faz e como evolui.
+
+        </div>
+
+      </div>
+
+
+
+      <!-- UNIVERSO NEXUP -->
+
+      <div class="panel">
+
+        <div class="section-heading-row">
+
+          <div>
+
+            <h2 class="section-title">
+              ENCONTRE SEU CAMINHO
+            </h2>
+
+            <div class="section-subtitle">
+              Conteúdo e ferramentas para diferentes
+              perfis dentro do universo esportivo.
+            </div>
+
+          </div>
+
+          <div class="section-kicker">
+            EXPLORE
+          </div>
+
+        </div>
+
+
+        <div class="quick-grid">
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🧭 INICIANTE
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🎯 PUNTER
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            📈 TRADER
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            ⏱️ PRÉ-LIVE
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🔴 LIVE
+          </button>
+
+
+          <button
+            type="button"
+            class="quick-button"
+          >
+            🧠 MÉTODO & LEITURA
+          </button>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- CONCEITO -->
+
+      <div class="panel">
+
+        <div class="section-title">
+          LEITURA ANTES DA DECISÃO
+        </div>
+
+        <div class="section-subtitle">
+
+          O NEXUP organiza o caminho entre aquilo
+          que acontece no jogo e aquilo que você
+          decide fazer com essa informação.
+
+          <br><br>
+
+          Jogos, contexto, mercados, histórico,
+          comportamento e resultado fazem parte
+          da mesma experiência.
+
+        </div>
+
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            UNIVERSO NEXUP
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Novos conteúdos, guias, ferramentas,
+            conceitos e áreas serão adicionados
+            progressivamente.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         HISTORY
+    ================================================== -->
+
+    <section
+      id="historySection"
+      class="hidden"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h1 class="section-title">
+            📊 HISTÓRICO
+          </h1>
+
+          <div class="section-subtitle">
+            Suas decisões registradas pelo NEXUP.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          TRADING JOURNAL
+        </div>
+
+      </div>
+
+
+      <div id="historyContainer"></div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         METRICS
+    ================================================== -->
+
+    <section
+      id="metricsSection"
+      class="hidden"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h1 class="section-title">
+            📈 MÉTRICAS
+          </h1>
+
+          <div class="section-subtitle">
+            Inteligência sobre seu processo de decisão.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          DECISION INTELLIGENCE
+        </div>
+
+      </div>
+
+
+      <div class="metrics-overview">
+
+        <div class="metric-card">
+
+          <div class="overview-label">
+            DECISÕES
+          </div>
+
+          <div
+            id="metricDecisions"
+            class="metric-value"
+          >
+            —
+          </div>
+
+        </div>
+
+
+        <div class="metric-card">
+
+          <div class="overview-label">
+            GREEN
+          </div>
+
+          <div
+            id="metricGreens"
+            class="metric-value"
+          >
+            —
+          </div>
+
+        </div>
+
+
+        <div class="metric-card">
+
+          <div class="overview-label">
+            LOSS
+          </div>
+
+          <div
+            id="metricLosses"
+            class="metric-value"
+          >
+            —
+          </div>
+
+        </div>
+
+
+        <div class="metric-card">
+
+          <div class="overview-label">
+            WIN RATE
+          </div>
+
+          <div
+            id="metricWinRate"
+            class="metric-value"
+          >
+            —
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          DECISION INTELLIGENCE
+        </h2>
+
+        <div class="section-subtitle">
+          O NEXUP começará a analisar seus padrões
+          de decisão conforme o histórico crescer.
+        </div>
+
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            EM DESENVOLVIMENTO
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Performance por mercado, tese, força da
+            leitura, sequência de resultados e evolução
+            do P&L serão apresentados aqui.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         DECISIONS
+    ================================================== -->
+
+    <section
+      id="decisionsSection"
+      class="hidden"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <h1 class="section-title">
+            ⚡ DECISÕES
+          </h1>
+
+          <div class="section-subtitle">
+            O processo por trás de cada operação.
+          </div>
+
+        </div>
+
+        <div class="section-kicker">
+          DECISION LOG
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          DECISION INTELLIGENCE
+        </h2>
+
+        <div class="section-subtitle">
+          Aqui ficará o registro estruturado das
+          decisões tomadas durante sua operação.
+        </div>
+
+
+        <div class="metrics-placeholder">
+
+          <div class="metrics-placeholder-title">
+            EM DESENVOLVIMENTO
+          </div>
+
+          <div class="metrics-placeholder-text">
+            Teses, contexto, confiança, entrada,
+            resultado e qualidade da decisão serão
+            organizados nesta área.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+
+    NEXUP — Decision Intelligence Terminal
+
+  </footer>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     NAVIGATION SCRIPT
+====================================================== -->
+
+<script>
+
+  function showSection(sectionId, button) {
+
+    const sections = [
+      "gamesSection",
+      "exploreSection",
+      "historySection",
+      "metricsSection",
+      "decisionsSection"
+    ];
+
+
+    sections.forEach(function(id) {
+
+      const section =
+        document.getElementById(id);
+
+      if (section) {
+        section.classList.add("hidden");
+      }
+
+    });
+
+
+    const selected =
+      document.getElementById(sectionId);
+
+    if (selected) {
+      selected.classList.remove("hidden");
+    }
+
+
+    document
+      .querySelectorAll("#mainNavigation button")
+      .forEach(function(navButton) {
+
+        navButton.classList.remove("active");
+
+      });
+
+
+    if (button) {
+      button.classList.add("active");
+    }
+
+
+    const home =
+      document.getElementById("homeSection");
+
+    if (home) {
+      home.classList.add("hidden");
+    }
+
+
+    const navigation =
+      document.getElementById("mainNavigation");
+
+    if (navigation) {
+      navigation.classList.remove("hidden");
+    }
+
+  }
+
+
+
+  function openHomeSection(sectionId, button) {
+
+    showSection(sectionId, null);
+
+
+    const navButton =
+      document.querySelector(
+        '#mainNavigation button[data-section="' +
+        sectionId +
+        '"]'
+      );
+
+
+    if (navButton) {
+
+      document
+        .querySelectorAll("#mainNavigation button")
+        .forEach(function(item) {
+
+          item.classList.remove("active");
+
+        });
+
+      navButton.classList.add("active");
+
+    }
+
+  }
+
+
+
+  function returnToGames() {
+
+    showSection("gamesSection", null);
+
+
+    const navButton =
+      document.querySelector(
+        '#mainNavigation button[data-section="gamesSection"]'
+      );
+
+
+    if (navButton) {
+      navButton.classList.add("active");
+    }
+
+  }
+
+</script>
+
+
+
+<!-- =====================================================
+     NEXUP — QUESTIONÁRIO
+
+     Cada resposta avança automaticamente.
+====================================================== -->
+
+<script>
+
+(function() {
+
+  let currentStep = 1;
+
+  const totalSteps = 4;
+
+  const answers = {};
+
+
+  const overlay =
+    document.getElementById("nexupOnboarding");
+
+
+  const backButton =
+    document.getElementById("onboardingBack");
+
+
+  const steps =
+    document.querySelectorAll(".onboarding-step");
+
+
+  const dots =
+    document.querySelectorAll(".progress-dot");
+
+
+  function updateQuestionnaire() {
+
+    steps.forEach(function(step) {
+
+      const stepNumber =
+        Number(step.dataset.step);
+
+      step.classList.toggle(
+        "active",
+        stepNumber === currentStep
+      );
+
+    });
+
+
+    dots.forEach(function(dot, index) {
+
+      dot.classList.toggle(
+        "active",
+        index + 1 === currentStep
+      );
+
+    });
+
+
+    if (backButton) {
+
+      if (currentStep === 1) {
+
+        backButton.style.visibility = "hidden";
+
+      } else {
+
+        backButton.style.visibility = "visible";
+
+      }
+
+    }
+
+  }
+
+
+  window.openOnboarding = function() {
+
+    currentStep = 1;
+
+    updateQuestionnaire();
+
+    overlay.classList.remove("hidden");
+
+  };
+
+
+  function closeOnboarding() {
+
+    overlay.classList.add("hidden");
+
+    currentStep = 1;
+
+    updateQuestionnaire();
+
+    returnToGames();
+
+  }
+
+
+  function selectAnswer(button) {
+
+    const step =
+      button.closest(".onboarding-step");
+
+
+    if (!step) {
+      return;
+    }
+
+
+    const stepNumber =
+      Number(step.dataset.step);
+
+
+    const value =
+      button.dataset.profile ||
+      button.dataset.answer ||
+      button.innerText.trim();
+
+
+    answers["step" + stepNumber] =
+      value;
+
+
+    button.classList.add("selected");
+
+
+    setTimeout(function() {
+
+      button.classList.remove("selected");
+
+
+      if (currentStep < totalSteps) {
+
+        currentStep++;
+
+        updateQuestionnaire();
+
+      } else {
+
+        closeOnboarding();
+
+      }
+
+    }, 160);
+
+  }
+
+
+  document
+    .querySelectorAll(".onboarding-option")
+    .forEach(function(button) {
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          selectAnswer(button);
+
+        }
+      );
+
+    });
+
+
+  if (backButton) {
+
+    backButton.addEventListener(
+      "click",
+      function() {
+
+        if (currentStep > 1) {
+
+          currentStep--;
+
+          updateQuestionnaire();
+
+        } else {
+
+          overlay.classList.add("hidden");
+
+        }
+
+      }
+    );
+
+  }
+
+
+  updateQuestionnaire();
+
+})();
+
+</script>
+
+
+
+<!-- =====================================================
+     APPLICATION
+====================================================== -->
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>
