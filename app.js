@@ -2512,8 +2512,6 @@ function showOnboardingStep(step) {
 
   }
 
-}
-
 
 /* =====================================================
    OPEN ONBOARDING
