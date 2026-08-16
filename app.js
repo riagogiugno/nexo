@@ -1391,7 +1391,7 @@ function getSections() {
     "exploreSection",
     "historySection",
     "metricsSection",
-    "decisionsSection"
+    "decisionsSection",
      "profileSection"
 
   ];
@@ -1530,6 +1530,132 @@ window.showNexUpProfile = function() {
   if (!profileSection) {
     return;
   }
+
+  getSections().forEach(function(id) {
+
+    const section =
+      document.getElementById(id);
+
+    if (section) {
+      section.classList.add("hidden");
+    }
+
+  });
+
+  const home =
+    document.getElementById("homeSection");
+
+  if (home) {
+    home.classList.add("hidden");
+  }
+
+  profileSection.classList.remove("hidden");
+
+  const nav =
+    document.getElementById("mainNavigation");
+
+  if (nav) {
+    nav.classList.remove("hidden");
+  }
+
+  profileSection.innerHTML = `
+
+    <button
+      type="button"
+      class="back-home"
+      onclick="returnToHome()"
+    >
+      ← VOLTAR PARA HOME
+    </button>
+
+
+    <div class="section-heading-row">
+
+      <div>
+
+        <div class="section-kicker">
+          NEXUP · MEU PERFIL
+        </div>
+
+        <h1 class="section-title">
+          SEU PERFIL NEXUP
+        </h1>
+
+        <div class="section-subtitle">
+          Seu perfil foi definido a partir das respostas do seu questionário.
+        </div>
+
+      </div>
+
+      <div class="section-kicker">
+        PERSONALIZAÇÃO
+      </div>
+
+    </div>
+
+
+    <div
+      class="panel"
+      style="
+        margin-top:18px;
+        text-align:center;
+        padding:30px 20px;
+      "
+    >
+
+      <div
+        style="
+          font-size:28px;
+          margin-bottom:12px;
+        "
+      >
+        ⚡
+      </div>
+
+      <div
+        style="
+          font-size:11px;
+          color:var(--text-muted);
+          letter-spacing:1px;
+          font-weight:800;
+        "
+      >
+        SEU PERFIL
+      </div>
+
+      <div
+        style="
+          margin-top:8px;
+          font-size:24px;
+          font-weight:900;
+          letter-spacing:.5px;
+        "
+      >
+        ${escapeHtml(profile)}
+      </div>
+
+      <div
+        style="
+          margin-top:12px;
+          color:var(--text-soft);
+          font-size:11px;
+        "
+      >
+        Pontuação: ${score}/16
+      </div>
+
+    </div>
+
+  `;
+
+  currentPage = "profileSection";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+};
 
   getSections().forEach(function(id) {
 
