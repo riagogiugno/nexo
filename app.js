@@ -1515,7 +1515,119 @@ window.openHomeSection = function(sectionId) {
 
 };
 
+window.showNexUpProfile = function() {
 
+  const profile =
+    onboardingAnswers.nexupProfile || "EQUILIBRADO";
+
+  const score =
+    onboardingAnswers.nexupProfileScore || 0;
+
+  const profileSection =
+    document.getElementById("profileSection");
+
+  if (!profileSection) {
+    return;
+  }
+
+  getSections().forEach(function(id) {
+
+    const section =
+      document.getElementById(id);
+
+    if (section) {
+      section.classList.add("hidden");
+    }
+
+  });
+
+  profileSection.classList.remove("hidden");
+
+  profileSection.innerHTML = `
+
+    <div class="section-heading-row">
+
+      <div>
+
+        <div class="section-kicker">
+          NEXUP · MEU PERFIL
+        </div>
+
+        <h2 class="section-title">
+          SEU PERFIL NEXUP
+        </h2>
+
+        <div class="section-subtitle">
+          Seu perfil foi definido a partir das respostas do seu questionário.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="panel"
+      style="
+        margin-top:18px;
+        text-align:center;
+        padding:30px 20px;
+      "
+    >
+
+      <div
+        style="
+          font-size:28px;
+          margin-bottom:12px;
+        "
+      >
+        ⚡
+      </div>
+
+      <div
+        style="
+          font-size:11px;
+          color:var(--text-muted);
+          letter-spacing:1px;
+          font-weight:800;
+        "
+      >
+        SEU PERFIL
+      </div>
+
+      <div
+        style="
+          margin-top:8px;
+          font-size:24px;
+          font-weight:900;
+          letter-spacing:.5px;
+        "
+      >
+        ${profile}
+      </div>
+
+      <div
+        style="
+          margin-top:12px;
+          color:var(--text-soft);
+          font-size:11px;
+        "
+      >
+        Pontuação: ${score}/16
+      </div>
+
+    </div>
+
+  `;
+
+  currentPage = "profileSection";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+};
 window.returnToHome = function() {
 
   getSections().forEach(function(id) {
