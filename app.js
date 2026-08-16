@@ -2576,7 +2576,68 @@ function closeOnboarding() {
 /* =====================================================
    FINISH ONBOARDING
 ===================================================== */
+function calculateNexUpProfile() {
 
+  let score = 0;
+
+  const scores = {
+
+    step1: {
+      "INICIANTE": 1,
+      "APRENDIZ": 1,
+      "PUNTER": 2,
+      "TRADER": 3,
+      "TRADER EXPERIENTE": 4
+    },
+
+    step2: {
+      "MENOS DE 6 MESES": 1,
+      "6 MESES — 2 ANOS": 2,
+      "2 — 5 ANOS": 3,
+      "MAIS DE 5 ANOS": 4
+    },
+
+    step3: {
+      "POUCAS OPERACOES": 1,
+      "OPORTUNIDADE CLARA": 1,
+      "DESCOBRINDO METODO": 2,
+      "OPORTUNIDADES DURANTE O JOGO": 3,
+      "MAIS RISCO": 4
+    },
+
+    step4: {
+      "APRENDER": 1,
+      "ORGANIZAR OPERACOES": 2,
+      "MELHORAR DECISOES": 3,
+      "EVOLUIR COMO TRADER": 3,
+      "ENCONTRAR OPORTUNIDADES": 4
+    }
+
+  };
+
+  score += scores.step1[onboardingAnswers.step1] || 0;
+  score += scores.step2[onboardingAnswers.step2] || 0;
+  score += scores.step3[onboardingAnswers.step3] || 0;
+  score += scores.step4[onboardingAnswers.step4] || 0;
+
+  let profile = "EQUILIBRADO";
+
+  if (score <= 6) {
+    profile = "CONSERVADOR";
+  } else if (score <= 10) {
+    profile = "EQUILIBRADO";
+  } else if (score <= 13) {
+    profile = "ARROJADO";
+  } else {
+    profile = "AGRESSIVO";
+  }
+
+  return {
+    profile: profile,
+    score: score
+  };
+
+}
 function finishOnboarding() {
      const nexupProfile = calculateNexUpProfile();
 
