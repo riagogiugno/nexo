@@ -2578,6 +2578,10 @@ function closeOnboarding() {
 ===================================================== */
 
 function finishOnboarding() {
+     const nexupProfile = calculateNexUpProfile();
+
+  onboardingAnswers.nexupProfile = nexupProfile.profile;
+  onboardingAnswers.nexupProfileScore = nexupProfile.score;
 
   localStorage.setItem(
 
