@@ -1392,6 +1392,7 @@ function getSections() {
     "historySection",
     "metricsSection",
     "decisionsSection"
+     "profileSection"
 
   ];
 
