@@ -2766,6 +2766,7 @@ function finishOnboarding() {
 
   );
 
+  window.showNexUpProfile();
 
   const overlay =
     document.getElementById(
