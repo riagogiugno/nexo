@@ -2782,12 +2782,6 @@ function finishOnboarding() {
 
   }
 
-
-  showOnboardingStep(1);
-
-
-  window.returnToHome();
-
 }
 
 
