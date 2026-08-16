@@ -2313,7 +2313,6 @@ function renderModule(
           font-weight:800;
           cursor:pointer;
         "
-        ${moduleIndex === 0 ? "disabled" : ""}
       >
         ← ANTERIOR
       </button>
@@ -2388,30 +2387,36 @@ function renderModule(
   }
 
 
-  const previous =
-    document.getElementById(
-      "nexupPrevModule"
-    );
+const previous =
+  document.getElementById(
+    "nexupPrevModule"
+  );
 
+if (previous) {
 
-  if (
-    previous &&
-    moduleIndex > 0
-  ) {
+  previous.addEventListener(
+    "click",
+    function() {
 
-    previous.addEventListener(
-      "click",
-      function() {
+      if (moduleIndex > 0) {
 
         renderModule(
           pathKey,
           moduleIndex - 1
         );
 
-      }
-    );
+      } else {
 
-  }
+        window.openExplorePath(
+          pathKey
+        );
+
+      }
+
+    }
+  );
+
+}
 
 
   const next =
