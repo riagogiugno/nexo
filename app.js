@@ -2499,12 +2499,16 @@ function showOnboardingStep(step) {
     );
 
 
-  if (back) {
+ if (back) {
 
-    back.style.visibility =
-      step === 1
-        ? "hidden"
-        : "visible";
+  back.style.visibility = "visible";
+
+  back.innerText =
+    step === 1
+      ? "✕ FECHAR"
+      : "← VOLTAR";
+
+}
 
   }
 
