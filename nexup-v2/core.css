@@ -194,15 +194,14 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: -78px;
+    margin-top: -88px;
 }
 .brand-copy strong {
     display: none;
 }
 
 .brand-copy span {
-    color: var(--text-muted);
-
+color: #aab8bd;
     font-size: 8px;
     letter-spacing: 0.15em;
 }
