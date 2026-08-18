@@ -154,13 +154,15 @@
 
                 <section class="hero-section">
 
-                 <video
+             <video
     class="hero-background"
     id="heroBackground"
     autoplay
     muted
     playsinline
-    loop
+>
+    <source src="assets/slide1%20prot%C3%B3tipo.mp4" type="video/mp4">
+</video>
 >
     <source src="assets/slide1%20prot%C3%B3tipo.mp4" type="video/mp4">
 </video>
@@ -897,6 +899,33 @@
     <script src="js/news.js"></script>
     <script src="js/radar.js"></script>
     <script src="js/ai.js"></script>
+    <script>
+(function () {
+    const hero = document.getElementById("heroBackground");
+
+    if (!hero) return;
+
+    const slides = [
+        "assets/slide1%20prot%C3%B3tipo.mp4",
+        "assets/card2.mp4"
+    ];
+
+    let currentSlide = 0;
+
+    function playSlide() {
+        hero.src = slides[currentSlide];
+        hero.load();
+        hero.play().catch(() => {});
+    }
+
+    hero.addEventListener("ended", function () {
+        currentSlide = (currentSlide + 1) % slides.length;
+        playSlide();
+    });
+
+    playSlide();
+})();
+</script>
     <script src="js/profile.js"></script>
     <script src="js/app.js"></script>
 
