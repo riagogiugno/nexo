@@ -156,23 +156,35 @@ a {
     min-width: 190px;
 }
 
+/* =========================================================
+   NEXUP — BRAND LOGO
+========================================================= */
+
 .brand-mark {
-    width: 42px;
-    height: 42px;
+    width: 138px;
+    height: 44px;
 
-    display: grid;
-    place-items: center;
+    flex: 0 0 138px;
 
-    border: 1px solid var(--accent);
-    border-radius: 12px;
+    display: block;
 
-    color: var(--accent);
+    background-image:
+        url("assets/nextup-logo-preto.jpg");
 
-    font-size: 20px;
-    font-weight: 800;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 
-    box-shadow:
-        0 0 25px rgba(72, 214, 196, 0.08);
+    border: 0;
+    border-radius: 0;
+
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+
+    box-shadow: none;
+
+    overflow: hidden;
 }
 
 .brand-copy {
