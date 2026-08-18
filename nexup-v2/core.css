@@ -187,6 +187,7 @@ a {
     box-shadow: none;
 
     overflow: hidden;
+   transform: translateY(-20px);
 }
 
 .brand-copy {
