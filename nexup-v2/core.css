@@ -193,8 +193,7 @@ a {
 }
 
 .brand-copy strong {
-    font-size: 18px;
-    letter-spacing: 0.12em;
+    display: none;
 }
 
 .brand-copy span {
