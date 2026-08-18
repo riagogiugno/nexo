@@ -172,8 +172,8 @@ a {
     display: block;
 
     background-image:
-        url("assets/AwnTG.png");
-
+    url("assets/logo-cropped.png");
+   
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
