@@ -193,6 +193,7 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: -8px;
 }
 
 .brand-copy strong {
