@@ -22,6 +22,24 @@
         height: 100%;
         object-fit: cover;
     }
+        <style>
+    .hero-video-stack {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .hero-video {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: none;
+    }
+
+    .hero-video.active {
+        opacity: 1;
+    }
+</style>
 </style>
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/markets.css">
@@ -154,18 +172,24 @@
 
                 <section class="hero-section">
 
-             <video
-    class="hero-background"
-    id="heroBackground"
-    autoplay
-    muted
-    playsinline
->
-    <source src="assets/slide1%20prot%C3%B3tipo.mp4" type="video/mp4">
-</video>
->
-    <source src="assets/slide1%20prot%C3%B3tipo.mp4" type="video/mp4">
-</video>
+      <div class="hero-video-stack">
+
+    <video
+        class="hero-background hero-video active"
+        id="heroVideo1"
+        autoplay
+        muted
+        playsinline
+    ></video>
+
+    <video
+        class="hero-background hero-video"
+        id="heroVideo2"
+        muted
+        playsinline
+    ></video>
+
+</div>
 
                     <div class="hero-overlay"></div>
 
@@ -899,23 +923,64 @@
     <script src="js/news.js"></script>
     <script src="js/radar.js"></script>
     <script src="js/ai.js"></script>
-    <script>
+  <script>
 (function () {
-    const hero = document.getElementById("heroBackground");
 
-    if (!hero) return;
+    const videos = [
+        document.getElementById("heroVideo1"),
+        document.getElementById("heroVideo2")
+    ];
 
     const slides = [
         "assets/slide1%20prot%C3%B3tipo.mp4",
         "assets/card2.mp4"
     ];
 
-    let currentSlide = 0;
+    let current = 0;
+    let playing = 0;
 
-    function playSlide() {
-        hero.src = slides[currentSlide];
-        hero.load();
-        hero.play().catch(() => {});
+    function prepare(video, src) {
+        video.src = src;
+        video.load();
+    }
+
+    function start() {
+
+        prepare(videos[0], slides[0]);
+        prepare(videos[1], slides[1]);
+
+        videos[0].play().catch(() => {});
+        videos[1].pause();
+
+        videos[0].addEventListener("ended", next);
+    }
+
+    function next() {
+
+        const currentVideo = videos[playing];
+        const nextIndex = (playing + 1) % 2;
+        const nextVideo = videos[nextIndex];
+
+        nextVideo.currentTime = 0;
+        nextVideo.play().catch(() => {});
+
+        videos[nextIndex].classList.add("active");
+        currentVideo.classList.remove("active");
+
+        playing = nextIndex;
+
+        const followingSlide = (current + 2) % slides.length;
+        prepare(currentVideo, slides[followingSlide]);
+
+        current = (current + 1) % slides.length;
+
+        currentVideo.addEventListener("ended", next, { once: true });
+    }
+
+    start();
+
+})();
+</script>
     }
 
     hero.addEventListener("ended", function () {
