@@ -922,7 +922,7 @@
     <script src="js/news.js"></script>
     <script src="js/radar.js"></script>
     <script src="js/ai.js"></script>
-  <script>
+<script>
 (function () {
 
     const videos = [
@@ -930,58 +930,80 @@
         document.getElementById("heroVideo2")
     ];
 
-  const slides = [
-    "assets/card1.mp4",
-    "assets/card2(1).mp4",
-    "assets/card3.mp4",
-      "assets/card4(2).mp4",
-      "assets/card5.mp4",
-       "assets/card6.mp4"
-      
-];
+    const slides = [
+        "assets/card1.mp4",
+        "assets/card2(1).mp4",
+        "assets/card3.mp4",
+        "assets/card4(2).mp4",
+        "assets/card5.mp4",
+        "assets/card6.mp4"
+    ];
 
-    let current = 0;
-    let playing = 0;
+    let currentSlide = 0;
+    let activeVideo = 0;
 
     function prepare(video, src) {
+        video.pause();
         video.src = src;
         video.load();
     }
 
-    function start() {
+    function showVideo(index) {
 
-        prepare(videos[0], slides[0]);
-        prepare(videos[1], slides[1]);
+        videos.forEach((video, i) => {
+            video.classList.toggle("active", i === index);
+        });
 
-        videos[0].play().catch(() => {});
-        videos[1].pause();
+    }
 
-videos[0].addEventListener("ended", next);    
+    function playVideo(index) {
+
+        videos[index].currentTime = 0;
+
+        videos[index]
+            .play()
+            .catch(() => {});
+
     }
 
     function next() {
 
-        const currentVideo = videos[playing];
-        const nextIndex = (playing + 1) % 2;
-        const nextVideo = videos[nextIndex];
+        const oldVideo = activeVideo;
+        const newVideo = (activeVideo + 1) % videos.length;
 
-        nextVideo.currentTime = 0;
-        nextVideo.play().catch(() => {});
+        currentSlide =
+            (currentSlide + 1) % slides.length;
 
-        videos[nextIndex].classList.add("active");
-        currentVideo.classList.remove("active");
+        const nextSlide =
+            (currentSlide + 1) % slides.length;
 
-        playing = nextIndex;
+        activeVideo = newVideo;
 
-        const followingSlide = (current + 2) % slides.length;
-        prepare(currentVideo, slides[followingSlide]);
+        showVideo(newVideo);
 
-        current = (current + 1) % slides.length;
+        playVideo(newVideo);
 
-        currentVideo.addEventListener("ended", next, { once: true });
+        prepare(
+            videos[oldVideo],
+            slides[nextSlide]
+        );
+
     }
 
-    start();
+    videos.forEach(video => {
+
+        video.addEventListener(
+            "ended",
+            next
+        );
+
+    });
+
+    prepare(videos[0], slides[0]);
+    prepare(videos[1], slides[1]);
+
+    showVideo(0);
+    playVideo(0);
 
 })();
 </script>
