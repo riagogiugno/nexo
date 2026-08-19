@@ -943,7 +943,6 @@ let current = 0;
 let playing = 0;
 
 function prepare(video, src) {
-    video.pause();
     video.src = src;
     video.load();
 }
@@ -956,7 +955,7 @@ function start() {
     videos[0].play().catch(() => {});
     videos[1].pause();
 
-    videos[0].addEventListener("ended", next, { once: true });
+    videos[0].addEventListener("ended", next, { once: true });   
 }
 
 function next() {
@@ -974,7 +973,6 @@ function next() {
     playing = nextIndex;
 
     const followingSlide = (current + 2) % slides.length;
-
     prepare(currentVideo, slides[followingSlide]);
 
     current = (current + 1) % slides.length;
