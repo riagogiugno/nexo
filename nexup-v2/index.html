@@ -930,57 +930,57 @@
         document.getElementById("heroVideo2")
     ];
 
-  const slides = [
+const slides = [
     "assets/card1.mp4",
     "assets/card2(1).mp4",
     "assets/card3.mp4",
-      "assets/card4(2).mp4",
-      "assets/card5.mp4",
-       "assets/card6.mp4"
-      
+    "assets/card4(2).mp4",
+    "assets/card5.mp4",
+    "assets/card6.mp4"
 ];
 
-    let current = 0;
-    let playing = 0;
+let current = 0;
+let playing = 0;
 
-    function prepare(video, src) {
-        video.src = src;
-        video.load();
-    }
+function prepare(video, src) {
+    video.pause();
+    video.src = src;
+    video.load();
+}
 
-    function start() {
+function start() {
 
-        prepare(videos[0], slides[0]);
-        prepare(videos[1], slides[1]);
+    prepare(videos[0], slides[0]);
+    prepare(videos[1], slides[1]);
 
-        videos[0].play().catch(() => {});
-        videos[1].pause();
+    videos[0].play().catch(() => {});
+    videos[1].pause();
 
-videos[0].addEventListener("ended", next, { once: true });   
-    
-    }
+    videos[0].addEventListener("ended", next, { once: true });
+}
 
-    function next() {
+function next() {
 
-        const currentVideo = videos[playing];
-        const nextIndex = (playing + 1) % 2;
-        const nextVideo = videos[nextIndex];
+    const currentVideo = videos[playing];
+    const nextIndex = (playing + 1) % 2;
+    const nextVideo = videos[nextIndex];
 
-        nextVideo.currentTime = 0;
-        nextVideo.play().catch(() => {});
+    nextVideo.currentTime = 0;
+    nextVideo.play().catch(() => {});
 
-        videos[nextIndex].classList.add("active");
-        currentVideo.classList.remove("active");
+    videos[nextIndex].classList.add("active");
+    currentVideo.classList.remove("active");
 
-        playing = nextIndex;
+    playing = nextIndex;
 
-        const followingSlide = (current + 2) % slides.length;
-        prepare(currentVideo, slides[followingSlide]);
+    const followingSlide = (current + 2) % slides.length;
 
-        current = (current + 1) % slides.length;
+    prepare(currentVideo, slides[followingSlide]);
 
-        currentVideo.addEventListener("ended", next, { once: true });
-    }
+    current = (current + 1) % slides.length;
+
+    currentVideo.addEventListener("ended", next, { once: true });
+}
 
     start();
 
