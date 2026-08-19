@@ -956,7 +956,8 @@
         videos[0].play().catch(() => {});
         videos[1].pause();
 
-videos[0].addEventListener("ended", next);    
+videos[0].addEventListener("ended", next, { once: true });   
+    
     }
 
     function next() {
