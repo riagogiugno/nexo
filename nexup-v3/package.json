@@ -1,0 +1,15 @@
+{
+  "name": "nexup-v3",
+  "private": true,
+  "version": "0.0.0",
+  "description": "NexUp V3 foundation",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "modules/*"
+  ],
+  "scripts": {
+    "test:vitrine": "node --test modules/vitrine/src/vitrine-engine.test.ts"
+  }
+}

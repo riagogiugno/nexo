@@ -1,0 +1,10 @@
+{
+  "name": "@nexup/web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "preview": "node scripts/preview-server.mjs",
+    "test": "node --test src/vitrine/vitrine-playback-controller.test.ts"
+  }
+}
